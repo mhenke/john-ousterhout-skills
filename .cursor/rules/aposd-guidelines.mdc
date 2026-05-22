@@ -1,0 +1,102 @@
+---
+description: Behavioral guidelines for strategic software design based on "A Philosophy of Software Design" by John Ousterhout. Use when writing, reviewing, or refactoring code to apply deep modules, information hiding, strategic programming, and complexity-driven design.
+alwaysApply: true
+---
+
+# APOSD behavioral guidelines
+
+Behavioral guidelines for strategic software design from "A Philosophy of Software Design, 2nd Edition" by John Ousterhout. Merge with project-specific instructions as needed.
+
+**Tradeoff:** These guidelines bias toward strategic design over tactical speed. For trivial tasks, use judgment.
+
+## 1. Strategic Over Tactical
+
+*Working code isn't enough. Invest in design.*
+
+- Every task gets a small design investment: at least one improvement in the surrounding code.
+- Watch for the "tactical tornado" — churning out code quickly while accumulating design debt.
+- Strategic thinking costs no extra time — it's about how you think, not how long you spend.
+- If asked for a "quick fix," flag the tradeoff: "Here's the tactical path. The strategic alternative reduces [complexity symptom]."
+
+## 2. Design Deep Modules
+
+*Simple interface, powerful implementation.*
+
+- Module depth = benefit provided / interface complexity. The ratio should be high.
+- If the interface is as complex as the implementation, it's shallow — merge or redesign.
+- Diagnostic questions: "How many use cases will this serve?" (if one, too special-purpose). "Is this easy to use for my current need?" (if not, redesign).
+
+## 3. Information Hiding
+
+*Expose only what callers need.*
+
+- If implementation details leak into the interface, stop and redesign.
+- If the same design decision appears in multiple modules, that's information leakage — consolidate.
+- Don't expose internal state unless callers genuinely need it.
+
+## 4. Pull Complexity Downward
+
+*Handle complexity in the implementation, not the interface.*
+
+- The common case must be trivial for the caller.
+- When a feature is inherently complex, push that complexity into the module so callers don't see it.
+- Don't let the module grow into a god class — if it knows about everything, the interface is simple but the implementation is a tangled mess.
+
+## 5. Comments First
+
+*Describe what's not obvious. If it's hard to write, the design is wrong.*
+
+- Draft the interface comment before writing the body.
+- Interface comments: what the method does for callers, not how.
+- Implementation comments: why this approach, not what the code does.
+- If a comment is hard to write, or long, the design is wrong — redesign.
+
+## 6. Design for Reading
+
+*If someone needs to think hard to understand it, it's not obvious.*
+
+- Run the obviousness check before marking code complete.
+- Names should create an image — precise, consistent, no extra words.
+- If you can't find an intuitive name, you don't understand the concept well enough.
+- Eliminate special cases.
+
+## 7. Define Errors Out of Existence
+
+*Design interfaces so common errors can't happen.*
+
+- Can you change the interface contract to eliminate the error case?
+- If not: mask the exception at the right level, aggregate related exceptions, or crash if recovery is meaningless.
+- Red flag: complex error-handling that mirrors the happy path — the interface should be redesigned.
+
+## 8. Better Together or Better Apart
+
+*Merge shared concerns. Split different abstractions.*
+
+- Merge modules that share information, would simplify the interface together, or duplicate each other.
+- Split when one is general-purpose and the other is special-purpose.
+- Split methods only if the child is independently understandable and could be useful elsewhere.
+- Red flag: conjoined methods — if you can't understand one without the other, they shouldn't have been split.
+
+## 9. Design It Twice
+
+*Never accept the first design for non-trivial work.*
+
+- Create 2+ alternative designs, list their tradeoffs, pick the best.
+- The second design is often better.
+- For each alternative: interface sketch, key complexity tradeoffs, which complexity symptom it addresses best.
+
+## 10. Modify Strategically
+
+*Leave every module cleaner than you found it.*
+
+- Stay strategic even during bug fixes or maintenance.
+- Comments stay near the code they describe — not in commit messages.
+- If your change invalidates a comment, update it.
+- Higher-level comments (design rationale, module purpose) are easier to maintain than line-by-line explanations.
+
+---
+
+**Three commands for deeper analysis:**
+- `aposd review [target]` — Scan code for red flags.
+- `aposd critique [target]` — Evaluate design against principles. Includes tactical vs strategic assessment.
+- `aposd audit [target]` — Comprehensive design audit with severity scoring and tactical tornado detection.

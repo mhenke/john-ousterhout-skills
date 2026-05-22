@@ -1,0 +1,30 @@
+{
+  "name": "aposd-skills",
+  "id": "aposd-skills",
+  "owner": {
+    "name": "john-ousterhout-skills"
+  },
+  "metadata": {
+    "description": "Strategic software design guidelines for AI coding agents, based on A Philosophy of Software Design by John Ousterhout",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "john-ousterhout-skills",
+      "source": "./",
+      "description": "Strategic software design guidelines: Deep Modules, Information Hiding, Pull Complexity Downward, Comments First, Define Errors Out of Existence",
+      "version": "1.0.0",
+      "author": {
+        "name": "john-ousterhout-skills"
+      },
+      "keywords": [
+        "design",
+        "software-design",
+        "complexity",
+        "ousterhout",
+        "aposd"
+      ],
+      "category": "workflow"
+    }
+  ]
+}

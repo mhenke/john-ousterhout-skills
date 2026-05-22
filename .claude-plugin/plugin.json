@@ -1,0 +1,16 @@
+{
+  "name": "john-ousterhout-skills",
+  "description": "Strategic software design guidelines for AI coding agents, based on A Philosophy of Software Design, 2nd Edition by John Ousterhout",
+  "version": "1.0.0",
+  "author": {
+    "name": "john-ousterhout-skills"
+  },
+  "license": "MIT",
+  "keywords": ["design", "software-design", "complexity", "ousterhout", "aposd"],
+  "skills": [
+    "./skills/aposd",
+    "./skills/aposd-review",
+    "./skills/aposd-critique",
+    "./skills/aposd-audit"
+  ]
+}
