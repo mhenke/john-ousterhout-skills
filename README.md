@@ -52,20 +52,20 @@ The 10 behavioral rules in a single file. No command skills or reference docs.
 
 New project:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/[org]/john-ousterhout-skills/main/CLAUDE.md
+curl -o CLAUDE.md https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/main/CLAUDE.md
 ```
 
 Existing project (append):
 ```bash
 echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/[org]/john-ousterhout-skills/main/CLAUDE.md >> CLAUDE.md
+curl https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
 **Option B: Claude Code Plugin**
 
 From within Claude Code, add the marketplace and install:
 ```
-/plugin marketplace add [org]/john-ousterhout-skills
+/plugin marketplace add mhenke/john-ousterhout-skills
 /plugin install john-ousterhout-skills@aposd-skills
 ```
 
@@ -76,7 +76,7 @@ This installs the main skill and all command skills.
 Clone the repo and symlink into your agent's skill directories:
 
 ```bash
-git clone https://github.com/[org]/john-ousterhout-skills.git
+git clone https://github.com/mhenke/john-ousterhout-skills.git
 cd john-ousterhout-skills
 
 # OpenCode
