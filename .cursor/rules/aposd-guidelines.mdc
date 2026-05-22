@@ -1,5 +1,5 @@
 ---
-description: Behavioral guidelines for strategic software design based on "A Philosophy of Software Design" by John Ousterhout. Use when writing, reviewing, or refactoring code to apply deep modules, information hiding, strategic programming, and complexity-driven design.
+description: Behavioral guidelines for strategic software design based on "A Philosophy of Software Design" by John Ousterhout. Use when code has shallow modules, information leakage, or tactical shortcuts, and you want to apply complexity-driven design principles.
 alwaysApply: true
 ---
 

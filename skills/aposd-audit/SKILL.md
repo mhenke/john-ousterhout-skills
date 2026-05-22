@@ -1,6 +1,6 @@
 ---
 name: aposd-audit
-description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Also use before major refactoring to identify which areas need the most attention.
+description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Also use before major refactoring to identify which areas need the most attention, or when code shows red flags like shallow modules, information leakage, and pass-through methods.
 license: MIT
 ---
 
@@ -9,6 +9,17 @@ license: MIT
 Run systematic design quality checks and generate a comprehensive report. Don't fix issues; document them for review.
 
 This is a code-level design audit, not a feature review. Check what's measurable and verifiable in the implementation.
+
+**Scoring rubric:** See `reference/scoring.md` for full dimension definitions, per-score meanings, and rating bands.
+
+**Example output for a shallow class:**
+```
+Module Design: 2/4 — shallow pass-through
+Information Hiding: 3/4 — schema leaked through methods
+Tactical Tornado Risk: High
+Total: 9/20 (Needs work)
+Action: Consolidate find_by_* into find(**filters)
+```
 
 ## Diagnostic Scan
 
@@ -133,6 +144,15 @@ After presenting the summary, tell the user:
 > Re-run `aposd audit` after fixes to see your score improve.
 
 **IMPORTANT**: Be thorough but actionable. Too many Minor issues creates noise. Focus on what actually matters.
+
+### Common Mistakes
+
+| Mistake | Why It's Wrong | Fix |
+|---------|---------------|-----|
+| Scoring dimensions without evidence | A score with no key finding is meaningless | Every score must be justified by at least one specific finding |
+| Only finding problems, never strengths | A one-sided report loses credibility | Always include 1-2 positive findings (What's Working) |
+| Tagging everything as Critical | Everything being Critical means nothing is | Use the severity rubric: Critical = redesign required, Major = should fix, Minor = worth fixing when in the area |
+| Treating audit like a code review | Bug hunting and design evaluation are different concerns | Audit evaluates design quality (depth, hiding, boundaries). Don't list typos or style issues. |
 
 **NEVER**:
 - Report issues without explaining complexity impact (which symptom does this cause?)

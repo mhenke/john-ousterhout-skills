@@ -10,6 +10,18 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 **Usage:** `aposd critique [module, class, or subsystem]`
 
+**Example output for a shallow `UserService` class:**
+```
+Tactical Tornado Verdict: CONFIRMED. 4 red flags.
+- Information Leakage: table/column names in every method
+- Shallow Module: 6 one-liner methods
+- Pass-Through: all methods just delegate to self.db
+- Repetition: self.db.query(...) appears 5 times
+
+Design Health Score: 6/20 (Needs refactoring)
+Strategic Thinker: Consolidate into UserRepository.find(**filters)
+```
+
 ## Setup
 
 Before gathering assessments, resolve the target to a concrete file path or module name. The goal is a stable identifier that can be critiqued again after fixes.
@@ -70,9 +82,17 @@ Evaluate the code as the Tactical Tornado persona would produce it. Look for:
 
 Return: red flags found (ordered by severity), tactical tornado risk (low/medium/high), specific examples of each pattern found.
 
+### Raw Assessment Output
+
+Before combining, present the raw findings from each assessment separately so the reader can see each perspective clearly.
+
+**Assessment A output:** [Strategic Thinker findings]
+
+**Assessment B output:** [Tactical Tornado findings]
+
 ### Generate Combined Critique Report
 
-Synthesize both assessments into a single report. Do NOT simply concatenate. Weave the findings together, noting where both assessments agree, where the Strategic Thinker found strengths the Tactical Tornado scan missed, and where the Tactical Tornado scan caught issues the Strategic Thinker overlooked.
+Synthesize both assessments into a single report. Weave the findings together, noting where both assessments agree, where the Strategic Thinker found strengths the Tactical Tornado scan missed, and where the Tactical Tornado scan caught issues the Strategic Thinker overlooked.
 
 #### Design Health Score
 
@@ -108,15 +128,13 @@ The 3-5 most impactful design problems, ordered by importance. For each issue:
 - **Why it matters**: How this hurts future development
 - **Fix**: What to do about it (be concrete)
 
-#### Persona Red Flags
+#### Persona Walkthrough
 
-Consult `reference/personas.md`. Run both personas against the code:
+Consult `reference/personas.md`. Walk through each persona explicitly:
 
-**Tactical Tornado red flags detected:**
-List specific patterns found. Be specific — name the exact file, function, and pattern.
+**Tactical Tornado walkthrough:** "If the Tactical Tornado wrote this code, what patterns would appear?" List the specific red flags found — name the exact function, line, and pattern. Do not write generic descriptions; write specific findings.
 
-**Strategic Thinker recommendations:**
-Identify the single most impactful change the Strategic Thinker would make.
+**Strategic Thinker walkthrough:** "If the Strategic Thinker were to redesign this, what is the single most impactful change?" Be specific about what they would do differently.
 
 #### Minor Observations
 
@@ -136,6 +154,15 @@ Provocative questions that might unlock better designs:
 - Give concrete suggestions. Cut "consider exploring..." entirely.
 - Prioritize ruthlessly. If everything is important, nothing is.
 - Don't soften criticism. Developers need honest feedback to ship better design.
+
+### Common Mistakes
+
+| Mistake | Why It's Wrong | Fix |
+|---------|---------------|-----|
+| Running assessments sequentially in one head | Both assessments silently anchor to each other; the second output is biased by the first | Use sub-agents or separate contexts. If you can't, note the bias in the report. |
+| Only listing red flags without explaining complexity impact | The reader doesn't know WHY each finding matters | Tag each finding with the complexity symptom it causes (change amplification / cognitive load / unknown unknowns). |
+| Writing generic persona descriptions | "Tactical Tornado would write shallow code" adds nothing | Name the specific function, line, and pattern. "Tactical Tornado would merge UserService with OrderService — they share a db connection." |
+| Scoring without evidence | A score of 2 with no key finding is useless | Every score must have a specific key finding that justifies it. |
 
 ### Ask the User
 
