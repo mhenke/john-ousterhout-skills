@@ -1,12 +1,12 @@
 {
-  "name": "john-ousterhout-skills",
-  "description": "Strategic software design guidelines for AI coding agents, based on A Philosophy of Software Design, 2nd Edition by John Ousterhout",
+  "name": "aposd-skills",
+  "description": "Use when code has shallow modules, information leakage, or tactical shortcuts. Applies complexity-driven design principles from A Philosophy of Software Design, 2nd Edition by John Ousterhout.",
   "version": "1.0.0",
   "author": {
-    "name": "john-ousterhout-skills"
+    "name": "mhenke"
   },
   "license": "MIT",
-  "keywords": ["design", "software-design", "complexity", "ousterhout", "aposd"],
+  "keywords": ["design", "software-design", "complexity", "ousterhout", "aposd", "deep-modules", "information-hiding"],
   "skills": [
     "./skills/aposd",
     "./skills/aposd-critique",

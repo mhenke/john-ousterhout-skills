@@ -2,27 +2,29 @@
   "name": "aposd-skills",
   "id": "aposd-skills",
   "owner": {
-    "name": "john-ousterhout-skills"
+    "name": "mhenke"
   },
   "metadata": {
-    "description": "Strategic software design guidelines for AI coding agents, based on A Philosophy of Software Design by John Ousterhout",
+    "description": "Use when code has shallow modules, information leakage, or tactical shortcuts. Applies complexity-driven design principles from A Philosophy of Software Design by John Ousterhout.",
     "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "john-ousterhout-skills",
+      "name": "aposd-skills",
       "source": "./",
-      "description": "Strategic software design guidelines: Deep Modules, Information Hiding, Pull Complexity Downward, Comments First, Define Errors Out of Existence",
+      "description": "Use when code has shallow modules, information leakage, pass-through methods, or accumulating design debt. 10 behavioral rules + critique/audit commands for strategic software design.",
       "version": "1.0.0",
       "author": {
-        "name": "john-ousterhout-skills"
+        "name": "mhenke"
       },
       "keywords": [
         "design",
         "software-design",
         "complexity",
         "ousterhout",
-        "aposd"
+        "aposd",
+        "deep-modules",
+        "information-hiding"
       ],
       "category": "workflow"
     }

@@ -20,6 +20,22 @@ The agent maintains awareness of whether it's being asked for tactical or strate
 
 "Adjacent" means: same file, same module, or directly in the call chain of the code being modified. The agent does not hunt for problems in unrelated parts of the codebase. This prevents scope creep while still enabling the "leave it cleaner" pattern.
 
+**Examples of adjacent (in scope):**
+```
+Fixing a bug in UserService.find_by_email()
+→ Adjacent: merge find_by_* methods into find(**filters)
+→ Adjacent: add error handling to save_user (same file)
+→ Adjacent: extract UserRepository from UserService (same module)
+```
+
+**Examples of not adjacent (out of scope):**
+```
+Fixing a bug in UserService.find_by_email()
+→ Not adjacent: refactoring PaymentService (unrelated module)
+→ Not adjacent: adding logging to OrderRepository (unrelated file)
+→ Not adjacent: redesigning the database schema (different concern)
+```
+
 ### 10-20% Operationalization
 
 The strategic investment is operationalized as: for every file touched, identify at least one design improvement in the immediate area (same module, adjacent functions, caller/callee chain) and implement it alongside the primary task. "Effort" = changes that add ≤20% more lines or ≤20% more time than the tactical fix alone.

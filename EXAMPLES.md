@@ -2,6 +2,23 @@
 
 Real-world code examples demonstrating each APOSD principle. Each example shows what agents commonly do wrong and how to fix it with Ousterhout's approach.
 
+**Related docs:** [Principles](reference/principles.md) | [Red Flags](reference/red-flags.md) | [Personas](reference/personas.md) | [Scoring](reference/scoring.md)
+
+---
+
+## Contents
+
+- [1. Strategic Over Tactical](#1-strategic-over-tactical)
+- [2. Design Deep Modules](#2-design-deep-modules)
+- [3. Information Hiding](#3-information-hiding)
+- [4. Pull Complexity Downward](#4-pull-complexity-downward)
+- [5. Comments First](#5-comments-first)
+- [6. Define Errors Out of Existence](#6-define-errors-out-of-existence)
+- [7. Better Together or Better Apart](#7-better-together-or-better-apart)
+- [8. Design It Twice](#8-design-it-twice)
+- [Anti-Patterns Summary](#anti-patterns-summary)
+- [Key Insight](#key-insight)
+
 ---
 
 ## 1. Strategic Over Tactical
@@ -60,6 +77,8 @@ class Config:
 - Errors are traceable (no unknown unknowns)
 
 ---
+
+[Back to contents](#contents)
 
 ## 2. Design Deep Modules
 
