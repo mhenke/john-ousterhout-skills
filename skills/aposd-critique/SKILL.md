@@ -76,16 +76,16 @@ Synthesize both assessments into a single report. Do NOT simply concatenate. Wea
 
 #### Design Health Score
 
+Present the 5-dimension scored table (see `reference/scoring.md` for rubric):
+
 | # | Dimension | Score | Key Finding |
 |---|-----------|-------|-------------|
-| 1 | Module Design | ? | [most critical issue or "--"] |
+| 1 | Module Design | ? | |
 | 2 | Information Hiding | ? | |
 | 3 | Comments & Documentation | ? | |
 | 4 | Naming & Obviousness | ? | |
 | 5 | Error Strategy | ? | |
-| **Total** | | **??/20** | **[Rating band]** |
-
-**Rating bands**: 18-20 Excellent, 14-17 Good, 10-13 Acceptable, 6-9 Poor, 0-5 Critical.
+| **Total** | | **??/20** | **[Rating band]**
 
 #### Tactical Tornado Verdict
 

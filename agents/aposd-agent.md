@@ -30,7 +30,6 @@ When the user invokes a command, follow the corresponding skill file:
 
 | Command | Skill File | Purpose |
 |---------|-----------|---------|
-| `aposd review [target]` | `skills/aposd-review/SKILL.md` | Red flag scan |
 | `aposd critique [target]` | `skills/aposd-critique/SKILL.md` | Principles eval + persona assessment |
 | `aposd audit [target]` | `skills/aposd-audit/SKILL.md` | 5-dimension scored audit |
 

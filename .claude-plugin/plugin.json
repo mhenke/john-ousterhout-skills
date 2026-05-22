@@ -9,7 +9,6 @@
   "keywords": ["design", "software-design", "complexity", "ousterhout", "aposd"],
   "skills": [
     "./skills/aposd",
-    "./skills/aposd-review",
     "./skills/aposd-critique",
     "./skills/aposd-audit"
   ]

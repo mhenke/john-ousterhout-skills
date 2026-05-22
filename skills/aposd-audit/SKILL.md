@@ -72,26 +72,20 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 
 ### Design Health Score
 
+Score 5 dimensions 0-4 (see `reference/scoring.md` for full rubric):
+
 | # | Dimension | Score | Key Finding |
 |---|-----------|-------|-------------|
-| 1 | Module Design | ? | [most critical issue or "--"] |
+| 1 | Module Design | ? | |
 | 2 | Information Hiding | ? | |
 | 3 | Comments & Documentation | ? | |
 | 4 | Naming & Obviousness | ? | |
 | 5 | Error Strategy | ? | |
 | **Total** | | **??/20** | **[Rating band]** |
 
-**Rating bands**: 18-20 Excellent (minor polish), 14-17 Good (address weak dimensions), 10-13 Acceptable (significant work needed), 6-9 Poor (major overhaul), 0-5 Critical (fundamental redesign needed)
-
 ### Tactical Tornado Risk
 
-Start here. Does this codebase show signs of the Tactical Tornado persona?
-
-**Low**: Code shows design investment. Deep modules, clear interfaces, good comments. Strategic thinker patterns dominate.
-
-**Medium**: Some areas show quick-and-dirty patterns. Mix of shallow and deep modules. Needs targeted refactoring.
-
-**High**: Pervasive shallow modules, leaky abstractions, pass-through chains, missing comments. Code that "works" but is increasingly difficult to change. Tactical tornado patterns dominate.
+See `reference/scoring.md` for risk levels. Assess: **Low / Medium / High** based on red flag patterns found.
 
 ### Executive Summary
 - Design Health Score: **??/20** ([rating band])

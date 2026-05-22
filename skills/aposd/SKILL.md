@@ -97,9 +97,8 @@ Behavioral guidelines for strategic software design from "A Philosophy of Softwa
 
 ---
 
-**Three commands for deeper analysis:**
-- `aposd review [target]` — Scan code for red flags.
-- `aposd critique [target]` — Evaluate design against principles. Includes tactical vs strategic assessment.
+**Two commands for deeper analysis:**
+- `aposd critique [target]` — Evaluate design against principles + tactical vs strategic assessment.
 - `aposd audit [target]` — Comprehensive design audit with severity scoring and tactical tornado detection.
 
 ---

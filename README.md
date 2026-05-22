@@ -41,7 +41,6 @@ Plus three on-demand analysis commands:
 
 | Command | Purpose |
 |---------|---------|
-| `aposd review [target]` | Scan code for design red flags |
 | `aposd critique [target]` | Evaluate design against principles + tactical assessment |
 | `aposd audit [target]` | Comprehensive audit with severity scoring + tornado detection |
 
@@ -82,19 +81,17 @@ cd john-ousterhout-skills
 
 # OpenCode
 ln -s $(pwd)/skills/aposd ~/.agents/skills/aposd
-ln -s $(pwd)/skills/aposd-review ~/.agents/skills/aposd-review
+
 ln -s $(pwd)/skills/aposd-critique ~/.agents/skills/aposd-critique
 ln -s $(pwd)/skills/aposd-audit ~/.agents/skills/aposd-audit
 
 # Claude Code
 ln -s $(pwd)/skills/aposd ~/.claude/skills/aposd
-ln -s $(pwd)/skills/aposd-review ~/.claude/skills/aposd-review
 ln -s $(pwd)/skills/aposd-critique ~/.claude/skills/aposd-critique
 ln -s $(pwd)/skills/aposd-audit ~/.claude/skills/aposd-audit
 
 # Antigravity CLI
 ln -s $(pwd)/skills/aposd ~/.antigravity/skills/aposd
-ln -s $(pwd)/skills/aposd-review ~/.antigravity/skills/aposd-review
 ln -s $(pwd)/skills/aposd-critique ~/.antigravity/skills/aposd-critique
 ln -s $(pwd)/skills/aposd-audit ~/.antigravity/skills/aposd-audit
 ```
