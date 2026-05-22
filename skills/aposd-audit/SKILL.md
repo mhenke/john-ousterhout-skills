@@ -1,6 +1,6 @@
 ---
 name: aposd-audit
-description: Use when you need a systematic audit of code design quality with scored dimensions and tactical tornado risk assessment. Checks module design, information hiding, comments, naming, consistency, and obviousness.
+description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Also use before major refactoring to identify which areas need the most attention.
 license: MIT
 ---
 

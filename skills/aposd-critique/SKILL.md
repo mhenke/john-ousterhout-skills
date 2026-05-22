@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when you need a deep design critique of code against APOSD principles, combining a principles-based assessment with tactical tornado detection. Includes persona red flags and strategic recommendations.
+description: Use when evaluating code design quality and you need a principles-based assessment with persona analysis. Also use when you suspect code was written tactically and want to assess design debt.
 license: MIT
 ---
 

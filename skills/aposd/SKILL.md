@@ -1,6 +1,6 @@
 ---
 name: aposd
-description: Behavioral guidelines for strategic software design based on "A Philosophy of Software Design" by John Ousterhout. Use when writing, reviewing, or refactoring code to apply deep modules, information hiding, strategic programming, and complexity-driven design.
+description: Use when code has shallow modules, information leakage, pass-through methods, vague names, duplicated logic, or other complexity problems. Also use when writing new code and you want to avoid accumulating design debt from tactical shortcuts.
 license: MIT
 ---
 
@@ -19,7 +19,8 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - Every task gets a small design investment: at least one improvement in the surrounding code.
 - Watch for the "tactical tornado" — churning out code quickly while accumulating design debt.
 - Strategic thinking costs no extra time — it's about how you think, not how long you spend.
-- If asked for a "quick fix," flag the tradeoff: "Here's the tactical path. The strategic alternative reduces [complexity symptom]."
+- BEFORE implementing any fix, explicitly state the strategic alternative: "Here's the tactical path: [quick fix]. The strategic alternative: [redesign that reduces complexity]. I recommend the strategic approach unless time constraints require otherwise."
+- **Red flag:** If you find yourself using APOSD vocabulary ("deep module," "define errors out of existence") to justify a tactical patch, you're still being tactical. Language doesn't make it strategic — design investment does.
 
 ## 2. Design Deep Modules
 
