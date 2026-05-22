@@ -4,11 +4,11 @@ description: Behavioral guidelines for strategic software design based on "A Phi
 license: MIT
 ---
 
-> **Content source:** This file mirrors `CLAUDE.md` with YAML frontmatter added. `CLAUDE.md` is the single source of truth — make changes there first, then copy here.
+> **Content source:** This file mirrors `CLAUDE.md`. `CLAUDE.md` is the single source of truth — make changes there first, then copy here.
 
 # APOSD behavioral guidelines
 
-Behavioral guidelines for strategic software design from "A Philosophy of Software Design, 2nd Edition" by John Ousterhout. Merge with project-specific instructions as needed.
+APOSD behavioral guidelines for AI coding agents. Merge with project-specific instructions as needed.
 
 **Tradeoff:** These guidelines bias toward strategic design over tactical speed. For trivial tasks, use judgment.
 
