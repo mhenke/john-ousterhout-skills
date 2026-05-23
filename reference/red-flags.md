@@ -107,7 +107,7 @@ From *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Listed i
 
 ---
 
-## 8. Conjoined Methods
+## 8. Conjoined Methods (a.k.a. Entanglement)
 
 **Symptom:** Two methods have so many dependencies that you can't understand one without understanding the other.
 

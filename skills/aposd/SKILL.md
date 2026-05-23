@@ -66,7 +66,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - Interface comments: what the method does for callers, not how.
 - Implementation comments: why this approach, not what the code does.
 - If a comment is hard to write, or long, the design is wrong — redesign.
-- **Note:** APOSD disagrees with "comments are failures" philosophy. Comments add critical information that code cannot express: design rationale, cross-module decisions, high-level structure. Ousterhout reports spending 50-80% of development time wading through code due to inadequate documentation — missing comments cost far more than incorrect comments.
+- **Note:** APOSD disagrees with "comments are failures" philosophy. Without comments, there is no way to define abstractions or module interfaces — the contract of every method is left unspecified, forcing readers to read the full implementation. Ousterhout reports spending 50-80% of development time wading through code due to inadequate documentation.
 
 ## 6. Design for Reading
 
@@ -92,7 +92,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - Merge modules that share information, would simplify the interface together, or duplicate each other.
 - Split when one is general-purpose and the other is special-purpose.
 - Split methods only if the child is independently understandable and could be useful elsewhere.
-- Red flag: conjoined methods — if you can't understand one without the other, they shouldn't have been split.
+- Red flag: conjoined methods (entanglement) — if you can't understand one without the other, they shouldn't have been split.
 
 ## 9. Design It Twice
 

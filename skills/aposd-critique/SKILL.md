@@ -74,7 +74,7 @@ Evaluate the code as the Tactical Tornado persona would produce it. Look for:
 5. Pass-Through Variables — context threaded unused
 6. Repetition — duplicated nontrivial code
 7. Special-General Mixture — general code with special-case logic
-8. Conjoined Methods — can't understand one without the other
+8. Conjoined Methods (entanglement) — can't understand one without the other
 9. Overexposure — API forces learning rare features
 10-15. Comment, naming, and obviousness red flags
 
