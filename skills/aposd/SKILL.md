@@ -120,6 +120,25 @@ Skipping these produces generic output that ignores the project's existing desig
 
 **These guidelines are working if:** you see fewer pass-through chains and shallow classes, comments are written before code, errors are eliminated rather than handled, and codebases improve with each modification instead of accumulating design debt.
 
+## Quick Reference
+
+| Principle | Red Flag | Fix |
+|-----------|----------|-----|
+| Deep Modules | Interface as complex as implementation | Merge with caller or redesign for depth |
+| Information Hiding | Same decision in multiple modules | Consolidate into one module |
+| Pull Complexity Downward | Caller does complex setup | Move complexity into the module |
+| Comments First | Hard to write the comment | Redesign the interface |
+| Define Errors Out of Existence | Error-handling mirrors happy path | Change the interface contract |
+
+## Common Mistakes
+
+| Mistake | Why It's Wrong | Fix |
+|---------|---------------|-----|
+| Applying all 10 rules rigidly | Every rule has limits ("taking it too far") | Use the complexity lens: does this rule reduce complexity here? |
+| Calling a patch "strategic" | Language doesn't make it design investment | If you didn't change the interface or module boundary, it's tactical |
+| Skipping "design it twice" for speed | First designs are almost never the best | Even 2 minutes of alternative thinking improves outcomes |
+| Writing comments after code | Comments become afterthoughts, not design tools | Draft interface comment before implementation body |
+
 ## Routing Rules
 
 1. **No explicit command**: Apply the 10 rules as always-on behavior while writing code. No invocation needed.
