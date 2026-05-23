@@ -49,3 +49,21 @@ Fix the count → score goes up, every time. Same code produces the same score.
 - Both tools use P0-P3 severity (matching Impeccable) instead of Critical/Major/Minor
 - `reference/scoring.md` must be updated to reflect the new audit dimensions
 - Users familiar with Impeccable will find the same report structure here
+
+## Subsequent Decisions
+
+### Critique Numeric Score
+
+Impeccable critique scores Nielsen's 10 heuristics 0-4 each for a /40 total. Following this pattern, APOSD critique scores the 18 principles 0-2 each (violate=0, at-risk=1, pass=2) for a /36 total.
+
+Rating bands scaled from the /20 convention: 32-36 Excellent, 25-31 Good, 18-24 Acceptable, 11-17 Poor, 0-10 Critical.
+
+This overrides ADR-001's statement that "Critique no longer produces a /20 numeric score." ADR-001's core intent (critique = principles evaluation, audit = metrics) stands — the /36 is a principles-derived score, not a separate metrics framework.
+
+### Sub-Agent Permission Gate
+
+Impeccable critique has a detailed sub-agent gate that asks for user permission, reports degradation state, and handles failure modes. APOSD critique adopts the same pattern: ask once, report degradation with a specific reason string if sub-agents are unavailable, declined, or fail to spawn.
+
+### Suggested Command in Findings (Deferred)
+
+Impeccable critique and audit both include a "Suggested command" field in each priority issue, routing to specific fix commands. APOSD deliberately omits this — the fix commands are domain-specific (impeccable's `polish`, `harden`, etc.) and don't have APOSD equivalents. Instead, findings route to the generic `aposd` skill, and the user selects which principle or dimension area to address. This is tracked as a future improvement if APOSD gains domain-specific fix commands.
