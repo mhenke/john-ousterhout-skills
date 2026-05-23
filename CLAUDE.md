@@ -2,7 +2,7 @@
 
 **Source of truth for the 10 behavioral rules.** Copy changes here first, then propagate to `skills/aposd/SKILL.md` and `.cursor/rules/aposd-guidelines.mdc`.
 
-APOSD behavioral guidelines for AI coding agents. Guides agents to write software with strategic design depth, deep modules, and intentional complexity reduction.
+APOSD behavioral guidelines for AI coding agents. Merge with project-specific instructions as needed.
 
 **Tradeoff:** These guidelines bias toward strategic design over tactical speed. For trivial tasks, use judgment.
 
