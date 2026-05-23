@@ -102,19 +102,13 @@ Copy `.cursor/rules/aposd-guidelines.mdc` into your project's `.cursor/rules/` d
 
 **Option E: Codex CLI**
 
-Copy packaged skills/agents from `dist`:
+Same approach as other harnesses — symlink into Codex CLI's agent directory:
 
 ```bash
-# Project-local
-cp -r dist/agents/.agents your-project/
-mkdir -p your-project/.codex
-cp -r dist/codex/.codex/agents your-project/.codex/
-
-# Or user-wide
-mkdir -p ~/.agents/skills
-cp -r dist/agents/.agents/skills/* ~/.agents/skills/
-mkdir -p ~/.codex
-cp -r dist/codex/.codex/agents ~/.codex/
+# Codex CLI
+ln -s $(pwd)/skills/aposd ~/.codex/agents/aposd
+ln -s $(pwd)/skills/aposd-critique ~/.codex/agents/aposd-critique
+ln -s $(pwd)/skills/aposd-audit ~/.codex/agents/aposd-audit
 ```
 
 ## How to Know It's Working
