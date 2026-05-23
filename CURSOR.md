@@ -16,7 +16,7 @@ This project includes a **Cursor project rule** so the Ousterhout-inspired behav
 
 ## Optional: personal Agent Skills
 
-If you want the same content as a reusable skill under `~/.agents/skills` or `~/.claude/skills`, use [`skills/aposd/SKILL.md`](skills/aposd/SKILL.md). You can copy or symlink it into your personal skills directory; use whatever layout you use for other skills.
+If you want the same content as a reusable skill under `~/.agents/skills` or `~/.claude/skills`, use [`skills/aposd/SKILL.md`](skills/aposd/SKILL.md). You can copy or symlink it into your personal skills directory; use whatever layout you use for other skills. For Codex CLI, symlink into `~/.codex/agents` (see [Option E in README](README.md#option-e-codex-cli)).
 
 ## Claude Code vs Cursor
 

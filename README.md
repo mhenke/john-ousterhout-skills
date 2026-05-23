@@ -100,6 +100,17 @@ ln -s $(pwd)/skills/aposd-audit ~/.antigravity/skills/aposd-audit
 
 Copy `.cursor/rules/aposd-guidelines.mdc` into your project's `.cursor/rules/` directory. See [CURSOR.md](CURSOR.md).
 
+**Option E: Codex CLI**
+
+Same approach as other harnesses — symlink into Codex CLI's agent directory:
+
+```bash
+# Codex CLI
+ln -s $(pwd)/skills/aposd ~/.codex/agents/aposd
+ln -s $(pwd)/skills/aposd-critique ~/.codex/agents/aposd-critique
+ln -s $(pwd)/skills/aposd-audit ~/.codex/agents/aposd-audit
+```
+
 ## How to Know It's Working
 
 These guidelines are working if you see:
