@@ -12,7 +12,7 @@
     {
       "name": "aposd-skills",
       "source": "./",
-      "description": "Use when writing, reviewing, or modifying any code. 10 behavioral rules + critique/audit commands for strategic software design.",
+      "description": "Use when writing, reviewing, or modifying any code. 15 behavioral rules + critique/audit commands for strategic software design.",
       "version": "1.0.0",
       "author": {
         "name": "mhenke"
