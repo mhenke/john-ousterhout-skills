@@ -132,9 +132,9 @@ The 3-5 most impactful design problems, ordered by importance. For each issue:
 
 Consult `reference/personas.md`. Walk through each persona explicitly:
 
-**Tactical Tornado walkthrough:** "If the Tactical Tornado wrote this code, what patterns would appear?" List the specific red flags found — name the exact function, line, and pattern. Do not write generic descriptions; write specific findings.
+**Tactical Tornado walkthrough:** "If the Tactical Tornado wrote this code, they would let the wrapper grow its own policy language and edge-case heuristics, which increases drift risk. The code would accumulate special-case logic over time as features are tacked on." List the specific red flags found — name the exact function, line, and pattern. Do not write generic descriptions; write specific findings.
 
-**Strategic Thinker walkthrough:** "If the Strategic Thinker were to redesign this, what is the single most impactful change?" Be specific about what they would do differently.
+**Strategic Thinker walkthrough:** "If the Strategic Thinker were to redesign this, they would keep the wrapper thin, with one clean reference back to the core abstraction and minimal local interpretation. No policy language, no heuristic accretion." Be specific about what they would do differently.
 
 #### Minor Observations
 
