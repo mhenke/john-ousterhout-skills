@@ -7,19 +7,9 @@ alwaysApply: true
 
 # APOSD behavioral guidelines
 
-Guides AI coding agents to write software with strategic design depth. Real complexity reduction, intentional module boundaries, exceptional craft.
+APOSD behavioral guidelines for AI coding agents. Guides agents to write software with strategic design depth, deep modules, and intentional complexity reduction.
 
 **Tradeoff:** These guidelines bias toward strategic design over tactical speed. For trivial tasks, use judgment.
-
-## Setup
-
-Before any code writing or file editing:
-
-1. **Load context** — Read the project's README, CLAUDE.md, and any existing code to understand the current design patterns.
-2. **Identify the task type** — Is this a bug fix (tactical), a new feature (strategic), or a refactor (design improvement)? Each maps to a different response.
-3. **Check for red flags in existing code** — Before modifying, scan the immediate area for shallow modules, information leakage, or pass-through methods. If found, note them as improvement opportunities.
-
-Skipping these produces generic output that ignores the project's existing design.
 
 ## 1. Strategic Over Tactical
 
@@ -116,9 +106,3 @@ Skipping these produces generic output that ignores the project's existing desig
 ---
 
 **These guidelines are working if:** you see fewer pass-through chains and shallow classes, comments are written before code, errors are eliminated rather than handled, and codebases improve with each modification instead of accumulating design debt.
-
-## Routing Rules
-
-1. **No explicit command**: Apply the 10 rules as always-on behavior while writing code. No invocation needed.
-2. **First word matches a command** (`aposd critique` or `aposd audit`): Load the corresponding skill file from `skills/aposd-{command}/SKILL.md` and follow its instructions. Everything after the command name is the target.
-3. **User says "just make it work" or "quick fix"**: Follow rule 1 (Strategic Over Tactical) — state the strategic alternative before proceeding tactically.
