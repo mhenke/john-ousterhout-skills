@@ -1,6 +1,6 @@
-# Ousterhout-Inspired Software Design Guidelines
+# A Philosophy of Software Design-Inspired Guide
 
-Behavioral guidelines for AI coding agents based on *A Philosophy of Software Design, 2nd Edition* by John Ousterhout (Yaknyam Press, 2021).
+Behavioral guidelines for AI coding agents inspired by *A Philosophy of Software Design, 2nd Edition* by John Ousterhout (Yaknyam Press, 2021).
 
 Designed for Claude Code, Cursor, OpenCode, Antigravity, and any AI coding agent.
 
