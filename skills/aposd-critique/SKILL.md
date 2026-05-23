@@ -61,7 +61,30 @@ Evaluate the code as the Strategic Thinker persona would. Focus on:
 17. **Performance as Design**: Are design-level decisions sound, not micro-optimized?
 18. **Increments Are Abstractions**: Was work decomposed by abstraction boundary, not feature?
 
-**Evidence requirement:** Each principle assessment must include the evidence that supports the pass/at-risk/violate judgment. Example: "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
+**Condensed reference** (full detail in `reference/principles.md`):
+
+| # | Principle | Core question | Complexity symptom addressed |
+|---|-----------|--------------|------------------------------|
+| 1 | Strategic Over Tactical | Design investment or just get it working? | All three (accumulation) |
+| 2 | Deep Modules | Is interface simpler than implementation? | Cognitive load |
+| 3 | Information Hiding | Do callers see internals? | Change amplification |
+| 4 | General-Purpose Design | Could this serve >1 use case? | Change amplification |
+| 5 | Different Layer, Different Abstraction | Does each layer add value? | Cognitive load |
+| 6 | Pull Complexity Downward | Is the common case trivial? | Cognitive load |
+| 7 | Better Together or Better Apart | Right module boundaries? | All three |
+| 8 | Define Errors Out of Existence | Could errors be designed away? | Unknown unknowns |
+| 9 | Design It Twice | Were alternatives considered? | All three (debt) |
+| 10 | Comments Describe Non-Obvious | Do comments add info beyond code? | Unknown unknowns |
+| 11 | Comments First | Was interface designed before impl? | Unknown unknowns |
+| 12 | Choosing Names | Do names create an image? | Cognitive load |
+| 13 | Code Should Be Obvious | First-reader understands without effort? | Cognitive load |
+| 14 | Modifying Existing Code | Left cleaner than found? | All three (debt) |
+| 15 | Consistency | Same concepts, same patterns? | Cognitive load |
+| 16 | Design for the Future | Volatility encapsulated? | Change amplification |
+| 17 | Performance as Design | Design-level decisions sound? | Unknown unknowns |
+| 18 | Increments Are Abstractions | Decomposed by abstraction, not feature? | Temporal decomposition |
+
+**Evidence requirement:** Each principle assessment must include the evidence that supports the pass/at-risk/violate judgment. "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
 
 **Structural analysis**: module depth, abstraction layers, interface quality, error strategy.
 
@@ -167,6 +190,16 @@ Before reporting any finding, self-validate against this checklist:
 ```
 
 If any field is missing, the finding is not reported. Vague findings are discarded.
+
+**Passing example:**
+```
+□ File path: src/services/user-service.js
+□ Line number(s): 42-48
+□ Code pattern: SQL query string "SELECT * FROM orders WHERE user_id = ?" built inline
+□ Complexity symptom: Change amplification (schema change requires updating every query)
+□ Concrete fix: Extract into OrderRepository.findByUserId(userId)
+□ Principle affected: Deep Modules (interface exposes SQL, caller must know schema)
+```
 
 ### Common Mistakes
 

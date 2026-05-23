@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-**Source of truth for the 10 behavioral rules.** Copy changes here first, then propagate to `skills/aposd/SKILL.md` and `.cursor/rules/aposd-guidelines.mdc`.
+**Source of truth for the 10 behavioral rules.** Copy changes here first. `.cursor/rules/aposd-guidelines.mdc` mirrors this verbatim. `skills/aposd/SKILL.md` uses condensed wording — manually distill changes there, keeping its always-on context footprint small. See `docs/adr/005-claude-sk-condensation.md`.
 
 APOSD behavioral guidelines for AI coding agents. Merge with project-specific instructions as needed.
 

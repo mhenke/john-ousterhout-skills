@@ -42,7 +42,7 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **Temporal decomposition**: Code structure that mirrors execution order instead of hiding information.
 - **God classes**: Modules that know about everything — they have simple interfaces but tangled implementations.
 
-**Score 0-4**: 0=Fundamental problems (pervasive pass-throughs, temporal decomposition everywhere), 1=Major issues (multiple shallow modules, significant pass-through chains), 2=Partial (some deep modules, but several shallow ones), 3=Good (mostly deep modules, isolated shallow spots), 4=Excellent (all modules are deep, clear boundaries, no pass-throughs)
+**Score 0-4**: 0=5+ shallow modules OR 3+ pass-through chains OR pervasive temporal decomposition, 1=3-4 shallow modules OR 2 pass-through chains OR any god class, 2=1-2 shallow modules OR 1 pass-through chain, 3=0 shallow modules, isolated pass-through method (not a chain), 4=All modules deep, no pass-throughs, clear boundaries
 
 ### 2. Information Hiding
 
@@ -52,7 +52,7 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **Interface contamination**: Implementation details visible in interface comments or method signatures.
 - **General-purpose mixture**: Special-purpose logic mixed into general-purpose modules.
 
-**Score 0-4**: 0=Widespread leakage (same knowledge in 5+ places), 1=Major leakage (multiple cross-module dependencies), 2=Partial (some leakage, isolated), 3=Good (minor leakage, mostly clean boundaries), 4=Excellent (clean information hiding, no leakage)
+**Score 0-4**: 0=Same knowledge in 5+ places OR 3+ cross-module leakages, 1=2-4 cross-module leakages OR any interface contamination, 2=1-2 isolated leakages, 3=Minor leakage (1 instance, limited scope), 4=No leakage, clean boundaries
 
 ### 3. Comments & Documentation
 
@@ -63,7 +63,7 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **Hard to describe**: Methods whose behavior requires long documentation to explain.
 - **Stale comments**: Comments that contradict the code they describe.
 
-**Score 0-4**: 0=No documentation (no interface comments anywhere), 1=Minimal docs (some comments, mostly repeats code or stale), 2=Partial (interfaces documented, no design rationale), 3=Good (clear interface comments, some design rationale), 4=Excellent (comments-first approach, interface + implementation docs, design decisions documented)
+**Score 0-4**: 0=No interface comments on public methods OR all comments stale, 1=<25% of public methods documented OR most comments repeat the code, 2=25-75% of public methods documented, no design rationale, 3=>75% documented, clear interface comments, some design rationale, 4=All public methods have interface comments, design decisions documented, comments-first approach
 
 ### 4. Naming & Obviousness
 
@@ -74,7 +74,7 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **Special cases**: Logic for edge cases that could be eliminated by better design.
 - **Inconsistent naming**: Same concept named differently in different places.
 
-**Score 0-4**: 0=Opaque (pervasive vague names, code requires deep analysis to understand), 1=Poor (many unclear names, nonobvious logic), 2=Partial (mostly clear names, some nonobvious sections), 3=Good (clear names, code is obvious with minimal effort), 4=Excellent (names create an image, code is obvious at first read, no special cases)
+**Score 0-4**: 0=5+ vague names OR any module requires deep analysis to understand, 1=3-4 vague names OR 2+ nonobvious code sections OR 2+ special cases, 2=1-2 vague names OR 1 nonobvious section OR 1 special case, 3=All names clear, code obvious with minimal effort, 0 special cases, 4=Names create an image, code obvious at first read, no special cases
 
 ### 5. Error Strategy
 
@@ -85,7 +85,7 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **Masking level**: Are exceptions masked at the right abstraction level?
 - **Crash vs recover**: Are errors that could be recovered from being swallowed or causing crashes?
 
-**Score 0-4**: 0=Error chaos (errors propagated everywhere, no strategy), 1=Poor (too many exception types, error handling doubles code), 2=Partial (some error consolidation, but ad-hoc approach), 3=Good (clear error strategy, errors defined out of existence where practical), 4=Excellent (interfaces designed to prevent errors, minimal and meaningful exception types)
+**Score 0-4**: 0=No error strategy OR error handling duplicates happy path in 3+ places, 1=5+ exception types OR error handling doubles code in 2+ places, 2=Some error consolidation but ad-hoc (1-2 places where errors could be eliminated), 3=Clear error strategy, errors defined out of existence where practical, 4=Interfaces designed to prevent errors, minimal exception types, clean masking at right level
 
 ## Generate Report
 
@@ -156,6 +156,16 @@ Before reporting any finding, self-validate against this checklist:
 ```
 
 If any field is missing, the finding is not reported. Vague findings are discarded.
+
+**Passing example:**
+```
+□ File path: src/services/user-service.js
+□ Line number(s): 42-48
+□ Code pattern: SQL query string "SELECT * FROM orders WHERE user_id = ?" built inline
+□ Complexity symptom: Change amplification (schema change requires updating every query)
+□ Concrete fix: Extract into OrderRepository.findByUserId(userId)
+□ Dimension affected: Module Design
+```
 
 ## Recommended Actions
 

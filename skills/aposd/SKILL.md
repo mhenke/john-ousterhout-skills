@@ -4,7 +4,7 @@ description: Use when writing, reviewing, or modifying any code. Also use when c
 license: MIT
 ---
 
-> **Content source:** `CLAUDE.md` is the single source of truth for the 10 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly.
+> **Content source:** `CLAUDE.md` is the single source of truth for the 10 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly. See `docs/adr/005-claude-sk-condensation.md`.
 
 # APOSD behavioral guidelines
 
