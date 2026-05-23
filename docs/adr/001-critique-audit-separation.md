@@ -23,11 +23,11 @@ Separate critique and audit into distinct concerns:
 - Users choose by need: "Is the design approach sound?" → critique. "What specific problems exist and how bad are they?" → audit.
 - Eliminates redundancy — each tool has a unique purpose.
 - Follows impeccable's pattern of domain-based separation rather than format-based separation.
-- Principles assessment (17 dimensions) is richer than 5-dimension scoring for design philosophy questions.
+- Principles assessment (18 principles) is richer than 5-dimension scoring for design philosophy questions.
 
 ## Consequences
 
-- Critique no longer produces a /20 numeric score — users get a per-principle pass/at-risk/violate tally.
-- Critiques cannot be compared by numeric score across runs (audit still can).
+- Critique produces a pass-count score (X/18 pass) rather than a weighted /20 — users get a per-principle pass/at-risk/violate tally with a simple health indicator.
+- Critiques cannot be compared by weighted score across runs (audit can with its /20).
 - Users must know which tool to invoke for their question.
 - The `reference/scoring.md` rubric is now audit-only.

@@ -11,7 +11,7 @@ Critique and audit produced inconsistent scores and vague findings when re-run o
 **Two parallel decisions:**
 
 1. **Precision anchoring:** Make each evaluation deterministic by anchoring every score/finding to cited rubric criteria (audit) or principles (critique) and quoted code evidence. No state files, no delta tracking, no persistence.
-2. **Critique-audit separation (ADR-001):** Critique evaluates design philosophy qualitatively (17 principles, pass/at-risk/violate, persona analysis). Audit evaluates code quality quantitatively (5 dimensions, /20 numeric score, red flag counts). Different domains, different outputs.
+2. **Critique-audit separation (ADR-001):** Critique evaluates design philosophy qualitatively (18 principles, pass/at-risk/violate, persona analysis). Audit evaluates code quality quantitatively (5 dimensions, /20 numeric score, red flag counts). Different domains, different outputs.
 
 **Inspiration:** Impeccable's critique (design review) vs audit (technical quality) — fundamentally different domains, not just different formats.
 
@@ -39,7 +39,7 @@ Before any finding is reported, it must pass this checklist:
 □ Code pattern (exact snippet, 1-3 lines)
 □ Complexity symptom (change amplification / cognitive load / unknown unknowns)
 □ Concrete fix (an action — "extract into UserRepository.find()" not "consider refactoring")
-□ Affected concept: for critique — which of the 17 principles; for audit — which of the 5 dimensions
+□ Affected concept: for critique — which of the 18 principles; for audit — which of the 5 dimensions
 ```
 
 ### 3. Finding-to-Concept Mapping

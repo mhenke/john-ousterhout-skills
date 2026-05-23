@@ -21,7 +21,7 @@ The APOSD tools' descriptions used similar language to Impeccable's but the impl
 
 Align `aposd critique` and `aposd audit` with the Impeccable convention:
 
-**Critique** remains a qualitative design evaluation but adopts Impeccable's report structure: Anti-Patterns Verdict (→ Tactical Tornado Verdict) first, then score/assessment table, then findings, then personas, then questions. Two independent assessments (Strategic Thinker + Tactical Tornado) feed into a single synthesized report — no raw output section.
+**Critique** remains a qualitative design evaluation but adopts Impeccable's report structure: Anti-Patterns Verdict (→ Tactical Tornado Verdict) first, then score/assessment table, then overall impression and what's working, then priority issues, then personas, then questions. Two independent assessments (Strategic Thinker + Tactical Tornado) feed into a single synthesized report — no raw output section.
 
 **Audit** becomes a measurement of *objectively countable* design metrics, not interpretive quality judgments:
 
