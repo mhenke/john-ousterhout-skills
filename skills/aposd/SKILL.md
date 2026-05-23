@@ -66,16 +66,16 @@ Skipping these produces generic output that ignores the project's existing desig
 - Interface comments: what the method does for callers, not how.
 - Implementation comments: why this approach, not what the code does.
 - If a comment is hard to write, or long, the design is wrong — redesign.
-- **Note:** APOSD disagrees with "comments are failures" philosophy. Comments add critical information that code cannot express: design rationale, cross-module decisions, high-level structure. Missing comments cost far more time than incorrect comments.
+- **Note:** APOSD disagrees with "comments are failures" philosophy. Comments add critical information that code cannot express: design rationale, cross-module decisions, high-level structure. Ousterhout reports spending 50-80% of development time wading through code due to inadequate documentation — missing comments cost far more than incorrect comments.
 
 ## 6. Design for Reading
 
-*If someone needs to think hard to understand it, it's not obvious.*
+*If someone needs to think hard to understand it, it's not obvious. Complexity is in the eye of the reader — if someone finds your code complicated, it IS complicated, and that's your problem to fix, not theirs to overcome.*
 
-- Run the obviousness check before marking code complete.
+- Run the obviousness check before marking code complete: "Would someone reading this for the first time understand it without effort?"
 - Names should create an image — precise, consistent, no extra words.
-- If you can't find an intuitive name, you don't understand the concept well enough.
-- Eliminate special cases.
+- If you can't find an intuitive name, you don't understand the concept well enough — redesign, don't rename.
+- Eliminate special cases. Every special case adds cognitive load for every future reader.
 
 ## 7. Define Errors Out of Existence
 
