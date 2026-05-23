@@ -21,6 +21,10 @@ Total: 9/20 (Needs work)
 Action: Consolidate find_by_* into find(**filters)
 ```
 
+## Setup
+
+Before starting the audit, resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.
+
 ## Diagnostic Scan
 
 Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the criteria below.
