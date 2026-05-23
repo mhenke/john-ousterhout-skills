@@ -37,7 +37,7 @@ Ten behavioral rules in one `CLAUDE.md` file that make agents design software st
 | **Design It Twice** | First-design bias |
 | **Modify Strategically** | Code rot during maintenance |
 
-Plus three on-demand analysis commands:
+Plus two on-demand analysis commands:
 
 | Command | Purpose |
 |---------|---------|
