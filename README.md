@@ -22,19 +22,24 @@ Every principle and red flag in this skill traces to one of these three.
 
 ## The Solution
 
-Ten behavioral rules in one `CLAUDE.md` file that make agents design software strategically, not tactically:
+Fifteen behavioral rules in one `CLAUDE.md` file that make agents design software strategically, not tactically:
 
 | Rule | Addresses |
 |------|-----------|
 | **Strategic Over Tactical** | Design debt, "just make it work" pressure |
 | **Design Deep Modules** | Shallow interfaces, classitis |
 | **Information Hiding** | Leaky abstractions, exposed internals |
+| **Design General-Purpose Modules** | Special-purpose code, narrow interfaces |
+| **Different Layer, Different Abstraction** | Pass-through methods and variables |
 | **Pull Complexity Downward** | Complex callers, simple implementations |
 | **Comments First** | Missing or useless documentation |
-| **Design for Reading** | Obscure code, bad naming |
+| **Choosing Names** | Vague names, inconsistent conventions |
+| **Design for Reading** | Obscure code, cognitive load |
 | **Define Errors Out of Existence** | Error-handling duplication |
 | **Better Together or Better Apart** | Wrong module boundaries |
 | **Design It Twice** | First-design bias |
+| **Design for the Future** | Unencapsulated volatility |
+| **Increments Are Abstractions** | Feature-driven decomposition |
 | **Modify Strategically** | Code rot during maintenance |
 
 Plus two on-demand analysis commands:
@@ -48,7 +53,7 @@ Plus two on-demand analysis commands:
 
 **Option A: CLAUDE.md (per-project, quick start)**
 
-The 10 behavioral rules in a single file. No command skills or reference docs.
+The 15 behavioral rules in a single file. No command skills or reference docs.
 
 New project:
 ```bash

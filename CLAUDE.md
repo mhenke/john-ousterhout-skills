@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-**Source of truth for the 10 behavioral rules.** Copy changes here first. `.cursor/rules/aposd-guidelines.mdc` mirrors this in its rule body. `skills/aposd/SKILL.md` uses condensed wording — manually distill changes there, keeping its always-on context footprint small. See `docs/adr/005-claude-sk-condensation.md`.
+**Source of truth for the 15 behavioral rules.** Copy changes here first. `.cursor/rules/aposd-guidelines.mdc` mirrors this in its rule body. `skills/aposd/SKILL.md` uses condensed wording — manually distill changes there, keeping its always-on context footprint small. See `docs/adr/005-claude-sk-condensation.md`.
 
 APOSD behavioral guidelines for AI coding agents. Merge with project-specific instructions as needed.
 
@@ -32,7 +32,24 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - If the same design decision appears in multiple modules, that's information leakage — consolidate.
 - Don't expose internal state unless callers genuinely need it.
 
-## 4. Pull Complexity Downward
+## 4. Design General-Purpose Modules
+
+*Serve multiple use cases through a stable interface.*
+
+- Design modules to be slightly more general-purpose than your current need. A general-purpose module is reused, not duplicated, and its interface stays stable across use cases.
+- If a module or method serves only one caller, it may be too special-purpose — generalize it.
+- Diagnostic questions: "In how many situations could this method be used?" (if one, too special). "Is this API easy to use for my current need?" (if not, redesign). "Can several special-purpose methods be replaced by one general-purpose method?"
+- Red flag: special-case logic embedded in a general-purpose mechanism — separate the two so the mechanism stays reusable.
+
+## 5. Different Layer, Different Abstraction
+
+*Each layer must add value — pass-throughs are noise.*
+
+- Every software layer should provide a different abstraction from the layers above and below it. If two adjacent layers have similar abstractions, one of them isn't adding value.
+- Pass-through methods (method body only delegates with the same signature) and pass-through variables (config threaded through layers that don't use it) are red flags — eliminate them.
+- Diagnostic question: "Does removing this layer change anything meaningful for the caller?" If not, delete it.
+
+## 6. Pull Complexity Downward
 
 *Handle complexity in the implementation, not the interface.*
 
@@ -40,7 +57,7 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - When a feature is inherently complex, push that complexity into the module so callers don't see it.
 - Don't let the module grow into a god class — if it knows about everything, the interface is simple but the implementation is a tangled mess.
 
-## 5. Comments First
+## 7. Comments First
 
 *Describe what's not obvious. Comments are not a failure — they are essential. If a comment is hard to write, the design is wrong.*
 
@@ -50,16 +67,24 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - If a comment is hard to write, or long, the design is wrong — redesign.
 - **Note:** APOSD disagrees with "comments are failures" philosophy. Without comments, there is no way to define abstractions or module interfaces — the contract of every method is left unspecified, forcing readers to read the full implementation. Ousterhout reports spending 50-80% of development time wading through code due to inadequate documentation.
 
-## 6. Design for Reading
+## 8. Choosing Names
+
+*Names should create an image — precise, consistent, no extra words.*
+
+- If you can't find an intuitive name, you don't understand the concept well enough — redesign, don't rename.
+- Avoid vague names: `data`, `info`, `tmp`, `handle`, `process`, `util`, `helper`, `manager`, `stuff`, `thing`.
+- A good name is precise enough to distinguish and short enough to read. If a name needs extra words to clarify, the concept is fuzzy.
+- Consistency across the codebase matters — the same concept should always have the same name.
+
+## 9. Design for Reading
 
 *If someone needs to think hard to understand it, it's not obvious. Complexity is in the eye of the reader — if someone finds your code complicated, it IS complicated, and that's your problem to fix, not theirs to overcome.*
 
 - Run the obviousness check before marking code complete: "Would someone reading this for the first time understand it without effort?"
-- Names should create an image — precise, consistent, no extra words.
-- If you can't find an intuitive name, you don't understand the concept well enough — redesign, don't rename.
 - Eliminate special cases. Every special case adds cognitive load for every future reader.
+- Good naming, simple control flow, and minimal state make code obvious. If it's not obvious, redesign — don't add comments explaining it.
 
-## 7. Define Errors Out of Existence
+## 10. Define Errors Out of Existence
 
 *Design interfaces so common errors can't happen.*
 
@@ -67,7 +92,7 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - If not: mask the exception at the right level, aggregate related exceptions, or crash if recovery is meaningless.
 - Red flag: complex error-handling that mirrors the happy path — the interface should be redesigned.
 
-## 8. Better Together or Better Apart
+## 11. Better Together or Better Apart
 
 *Merge shared concerns. Split different abstractions.*
 
@@ -76,7 +101,7 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - Split methods only if the child is independently understandable and could be useful elsewhere.
 - Red flag: conjoined methods (entanglement) — if you can't understand one without the other, they shouldn't have been split.
 
-## 9. Design It Twice
+## 12. Design It Twice
 
 *Never accept the first design for non-trivial work.*
 
@@ -84,7 +109,23 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 - The second design is often better.
 - For each alternative: interface sketch, key complexity tradeoffs, which complexity symptom it addresses best.
 
-## 10. Modify Strategically
+## 13. Design for the Future
+
+*Identify what's likely to change and encapsulate it.*
+
+- Encapsulate volatile parts behind stable interfaces. Don't add hooks for hypothetical futures — only for changes you have reasonable evidence will occur.
+- Prefer deletion over extension. Delete what's no longer needed.
+- Over-engineering for hypothetical futures is as bad as under-engineering for real ones.
+
+## 14. Increments Are Abstractions
+
+*Decompose by abstraction boundary, not by feature.*
+
+- A new feature should be implemented as "create the abstraction layer" first, then "build the feature on top of it."
+- Don't decompose by execution order or UI surface area. "Add bold button, then italic button, then underline button" is wrong — implement the formatting interface first, then build the toolbar on top.
+- Each increment should produce a working system at a new abstraction level, not a partial feature sliced by execution order.
+
+## 15. Modify Strategically
 
 *Leave every module cleaner than you found it.*
 

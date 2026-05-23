@@ -1,6 +1,6 @@
 # Scoring Framework — Design Health Score
 
-Scoring framework used by `aposd audit`. Centralized here to avoid duplication.
+Scoring framework used by `aposd audit`. This file provides the scoring overview and rating bands; the `skills/aposd-audit/SKILL.md` file contains the exact per-dimension count thresholds.
 
 Audit measures what's objectively countable — fix the count, score goes up. Every dimension is scored by counting concrete, observable constructs, not by making interpretive design judgments.
 

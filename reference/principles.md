@@ -2,6 +2,8 @@
 
 From *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Each principle includes core idea, complexity symptom it addresses, taking-it-too-far limit, and an example.
 
+**Note on critique alignment:** The `aposd critique` command evaluates 18 design principles. This reference doc covers those 18 plus Information Leakage (#4 below), which is a critical red flag in the book but not a separate principle in critique assessments (it's evaluated in the Tactical Tornado detection scan instead). Numbering below follows the book's chapter order, not the critique's assessment order. See `reference/red-flags.md` for all 15 red flags.
+
 See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnousterhout/aposd-vs-clean-code) with Robert Martin for concrete contrasts between these principles and Clean Code's approach.
 
 ---

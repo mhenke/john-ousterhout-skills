@@ -1,6 +1,6 @@
 {
   "name": "aposd-skills",
-  "description": "Use when code has shallow modules, information leakage, or tactical shortcuts. Applies complexity-driven design principles from A Philosophy of Software Design, 2nd Edition by John Ousterhout.",
+  "description": "Use when writing, reviewing, or modifying any code. Applies complexity-driven design principles from A Philosophy of Software Design, 2nd Edition by John Ousterhout.",
   "version": "1.0.0",
   "author": {
     "name": "mhenke"

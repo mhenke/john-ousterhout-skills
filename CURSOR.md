@@ -25,4 +25,4 @@ If you want the same content as a reusable skill under `~/.agents/skills` or `~/
 
 ## For contributors
 
-When you change the ten behavioral rules, keep **[`CLAUDE.md`](CLAUDE.md)** and **[`.cursor/rules/aposd-guidelines.mdc`](.cursor/rules/aposd-guidelines.mdc)** in sync. If the published skill/plugin text should match, update **[`skills/aposd/SKILL.md`](skills/aposd/SKILL.md)** as well.
+When you change the 15 behavioral rules, keep **[`CLAUDE.md`](CLAUDE.md)** and **[`.cursor/rules/aposd-guidelines.mdc`](.cursor/rules/aposd-guidelines.mdc)** in sync. If the published skill/plugin text should match, update **[`skills/aposd/SKILL.md`](skills/aposd/SKILL.md)** as well.

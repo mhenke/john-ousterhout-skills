@@ -5,14 +5,14 @@
     "name": "mhenke"
   },
   "metadata": {
-    "description": "Use when code has shallow modules, information leakage, or tactical shortcuts. Applies complexity-driven design principles from A Philosophy of Software Design by John Ousterhout.",
+    "description": "Use when writing, reviewing, or modifying any code. Applies complexity-driven design principles from A Philosophy of Software Design by John Ousterhout.",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "aposd-skills",
       "source": "./",
-      "description": "Use when code has shallow modules, information leakage, pass-through methods, or accumulating design debt. 10 behavioral rules + critique/audit commands for strategic software design.",
+      "description": "Use when writing, reviewing, or modifying any code. 10 behavioral rules + critique/audit commands for strategic software design.",
       "version": "1.0.0",
       "author": {
         "name": "mhenke"
