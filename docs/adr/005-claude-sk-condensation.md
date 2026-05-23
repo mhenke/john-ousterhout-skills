@@ -6,20 +6,20 @@
 
 ## Context
 
-Three files contain the 10 APOSD behavioral rules:
+Three files contain the 15 APOSD behavioral rules:
 
 - **`CLAUDE.md`** — Full-text version for project root. Read once, not in active session context.
 - **`skills/aposd/SKILL.md`** — Always-on skill loaded into every coding session. Context cost is a concern.
 - **`.cursor/rules/aposd-guidelines.mdc`** — Cursor project rule, mirrors CLAUDE.md body.
 
-`CLAUDE.md`'s header declares: *"Source of truth for the 10 behavioral rules. Copy changes here first, then propagate."* This implies they should be identical, but they aren't:
+`CLAUDE.md`'s header declares: *"Source of truth for the 15 behavioral rules. Copy changes here first, then propagate."* This implies they should be identical, but they aren't:
 
 | Rule | CLAUDE.md | SKILL.md | Diff |
 |------|-----------|----------|------|
 | 1 | "about how you think, not how long you spend" | omitted | CLAUDE.md has full insight |
-| 5 | "Ousterhout reports spending 50-80%" statistic | omitted | SKILL.md drops the statistic |
-| 6 | "it IS complicated, and that's your problem to fix" | "that's your problem to fix" | SKILL.md is terser |
-| 6 | "before marking code complete" | omitted | SKILL.md drops timing guidance |
+| 7 | "Ousterhout reports spending 50-80%" statistic | omitted | SKILL.md drops the statistic |
+| 9 | "it IS complicated, and that's your problem to fix" | "that's your problem to fix" | SKILL.md is terser |
+| 9 | "before marking code complete" | omitted | SKILL.md drops timing guidance |
 | 2 | "Is this easy to use for my current need?" | omitted | SKILL.md drops 2nd diagnostic question |
 
 Additionally, SKILL.md has unique sections not in CLAUDE.md (Quick Reference, Common Mistakes, Routing Rules, Rationalization Table). `.cursor/rules` mirrors CLAUDE.md's body nearly identically.

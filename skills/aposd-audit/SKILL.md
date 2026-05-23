@@ -243,7 +243,7 @@ List recommended actions in priority order (P0 first, then P1, then P2):
 
 After presenting the summary, tell the user:
 
-> To fix using APOSD design principles, load the `aposd` skill. It applies the 10 APOSD behavioral rules during implementation. Address findings in the priority order above. Each finding is tagged with its affected dimension so you can focus on one area at a time.
+> To fix using APOSD design principles, load the `aposd` skill. It applies the 15 APOSD behavioral rules during implementation. Address findings in the priority order above. Each finding is tagged with its affected dimension so you can focus on one area at a time.
 >
 > Re-run `aposd audit` after fixes to see your score improve.
 

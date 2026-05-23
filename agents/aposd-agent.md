@@ -4,7 +4,7 @@ Agent definition for coding agents that should write APOSD-compliant code. This 
 
 ## Always-On Rules
 
-When writing code, this agent follows the 10 rules from `skills/aposd/SKILL.md`.
+When writing code, this agent follows the 15 rules from `skills/aposd/SKILL.md`.
 
 ### Strategic vs Tactical Detection
 

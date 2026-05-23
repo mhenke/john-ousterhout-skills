@@ -6,7 +6,7 @@
 
 ## Context
 
-The standalone `aposd` skill (containing the 10 APOSD behavioral rules) is meant to be always-on — it should guide every code modification. But its description read like an on-demand diagnostic tool:
+The standalone `aposd` skill (containing the 15 APOSD behavioral rules) is meant to be always-on — it should guide every code modification. But its description read like an on-demand diagnostic tool:
 
 > Use when code has shallow modules, information leakage, pass-through methods, vague names, duplicated logic, or other complexity problems. Also use when writing new code...
 
@@ -26,7 +26,7 @@ Following the writing-skills skill's guidelines:
 
 ## Rationale
 
-- The 10 behavioral rules should apply to every code modification — this is the skill's purpose
+- The 15 behavioral rules should apply to every code modification — this is the skill's purpose
 - Per writing-skills skill: description should trigger on the problem, not describe the solution
 - The problem the aposd skill solves ("code written without design depth") applies whenever any code is written
 - The skills are hardlinked to `.agents/skills/` — no separate deployment step needed
@@ -35,4 +35,4 @@ Following the writing-skills skill's guidelines:
 
 - The skill loads for all coding tasks, consuming more context per session
 - At 1333 words, the skill is large for an always-loaded file — may need trimming in future
-- Agent will apply the 10 behavioral rules even for trivial changes (which is correct — the rules say "for trivial tasks, use judgment")
+- Agent will apply the 15 behavioral rules even for trivial changes (which is correct — the rules say "for trivial tasks, use judgment")
