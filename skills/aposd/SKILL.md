@@ -1,10 +1,10 @@
 ---
 name: aposd
-description: Use when code has shallow modules, information leakage, pass-through methods, vague names, duplicated logic, or other complexity problems. Also use when writing new code and you want to avoid accumulating design debt from tactical shortcuts.
+description: Use when writing, reviewing, or modifying any code. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts.
 license: MIT
 ---
 
-> **Content source:** This file mirrors `CLAUDE.md`. `CLAUDE.md` is the single source of truth — make changes there first, then copy here.
+> **Content source:** `CLAUDE.md` is the single source of truth for the 10 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly.
 
 # APOSD behavioral guidelines
 

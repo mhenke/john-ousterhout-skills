@@ -8,8 +8,8 @@
   "license": "MIT",
   "keywords": ["design", "software-design", "complexity", "ousterhout", "aposd", "deep-modules", "information-hiding"],
   "skills": [
-    "./skills/aposd",
-    "./skills/aposd-critique",
-    "./skills/aposd-audit"
+    "../skills/aposd",
+    "../skills/aposd-critique",
+    "../skills/aposd-audit"
   ]
 }

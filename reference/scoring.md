@@ -1,6 +1,6 @@
 # Scoring Framework — Design Health Score
 
-Shared scoring framework used by `aposd critique` and `aposd audit`. Centralized here to avoid duplication.
+Scoring framework used by `aposd audit`. Centralized here to avoid duplication.
 
 ## Dimensions
 
