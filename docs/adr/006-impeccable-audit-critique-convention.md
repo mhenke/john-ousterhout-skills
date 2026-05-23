@@ -52,17 +52,15 @@ Fix the count → score goes up, every time. Same code produces the same score.
 
 ## Subsequent Decisions
 
-### Critique Numeric Score
+### Critique Health Score
 
-Impeccable critique scores Nielsen's 10 heuristics 0-4 each for a /40 total. Following this pattern, APOSD critique scores the 18 principles 0-2 each (violate=0, at-risk=1, pass=2) for a /36 total.
+Impeccable critique scores Nielsen's 10 heuristics 0-4 each for a /40 total. APOSD critique initially tried a /36 (18 principles × 0-2) but this was false precision — the 18 principles are not independent dimensions. The chosen approach is a simple pass count: **X/18 pass**. No rating bands, no weighting. The pass count is the health indicator; at-risk and violate detail is still in the table for diagnosis. Trend tracking uses the pass count.
 
-Rating bands scaled from the /20 convention: 32-36 Excellent, 25-31 Good, 18-24 Acceptable, 11-17 Poor, 0-10 Critical.
+APOSD design rationale: A weighted score (/36) violates Deep Modules (adds interface complexity for marginal benefit), Design for Reading (a reader must interpret what 24/36 means vs "14 pass"), and Pull Complexity Downward (transforms raw data unnecessarily). The pass count is the simplest honest metric.
 
-This overrides ADR-001's statement that "Critique no longer produces a /20 numeric score." ADR-001's core intent (critique = principles evaluation, audit = metrics) stands — the /36 is a principles-derived score, not a separate metrics framework.
+### Sub-Agent Gate (Rejected)
 
-### Sub-Agent Permission Gate
-
-Impeccable critique has a detailed sub-agent gate that asks for user permission, reports degradation state, and handles failure modes. APOSD critique adopts the same pattern: ask once, report degradation with a specific reason string if sub-agents are unavailable, declined, or fail to spawn.
+Impeccable critique's sub-agent gate was considered but rejected for APOSD. Impeccable's Assessment B is a deterministic HTML detector whose output could bias Assessment A — a real anchoring risk. APOSD's Assessment A and B are both LLM text analysis of the same code; sequential execution doesn't introduce the same problem. The gate would add process instructions and a user interaction for a marginal benefit.
 
 ### Suggested Command in Findings (Deferred)
 

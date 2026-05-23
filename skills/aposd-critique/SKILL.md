@@ -16,9 +16,7 @@ Resolve the target to a concrete file path or module name. If the target has mor
 
 ## Gather Assessments
 
-Launch two independent assessments. **Neither may see the other's output.**
-
-**Sub-agent gate:** Delegate Assessment A and Assessment B to separate sub-agents when possible. If sub-agents are available but the user hasn't explicitly allowed delegation, ask once: "APOSD critique is designed to run two independent sub-agents for an unbiased assessment. May I use sub-agents?" If declined, run sequentially and report: `Assessment independence: degraded (sub-agents declined by user)`. If sub-agents are unavailable, run sequentially and report: `Assessment independence: degraded (sub-agents unavailable)`. If spawning fails, report: `Assessment independence: degraded (sub-agent spawn failed: <error>)`.
+Launch two independent assessments. **Neither may see the other's output.** If sub-agents are unavailable, run sequentially and report the limitation in the report.
 
 #### Assessment A: Strategic Thinker Review
 
@@ -78,14 +76,14 @@ Synthesize both assessments into a single report. Do not concatenate — weave f
 
 #### Design Principles Score
 
-Present the 18 principles as a table with pass/at-risk/violate per principle, scored 0-2 each (violate=0, at-risk=1, pass=2). Total /36.
+Present the 18 principles as a table with pass/at-risk/violate per principle:
 
-| # | Principle | Verdict (score) | Evidence |
-|---|-----------|-----------------|----------|
-| 1 | Strategic Over Tactical | pass (2) / at-risk (1) / violate (0) | File:line:pattern |
+| # | Principle | Verdict | Evidence |
+|---|-----------|---------|----------|
+| 1 | Strategic Over Tactical | pass / at-risk / violate | File:line:pattern |
 | ... | | | |
 
-**Total: ??/36 — [Rating band].** Rating bands: 32-36 Excellent, 25-31 Good, 18-24 Acceptable, 11-17 Poor, 0-10 Critical.
+**Summary: X pass, Y at risk, Z violate (X/18 pass).** The pass count is the health indicator — higher is better. Track it over time via critique snapshots.
 
 #### Overall Impression
 
@@ -132,7 +130,7 @@ Write the critique report to `.aposd/critique/` so the user can refer back, and 
 
 1. **Compute slug** from the resolved target: lowercase, replace non-alphanumeric characters with `-`, collapse multiple dashes.
 
-2. **Compute trend score** as the /36 total from the Design Principles Score table.
+2. **Compute trend score** as the pass count (X/18) from the Design Principles Score.
 
 3. **Write snapshot**: Save the full report body (Design Principles Score through Questions to Consider) to `.aposd/critique/<slug>.md`. Include frontmatter with date, target, score, P0-P3 counts.
 
