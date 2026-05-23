@@ -141,3 +141,7 @@ The goal is reducing costly design debt on non-trivial work, not slowing down si
 ## License
 
 MIT
+
+## Inspiration
+
+This project was inspired by [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) — the CLAUDE.md format, command skill structure, and README/EXAMPLES/CURSOR pattern are adapted from that project. The audit and critique command patterns were inspired by [impeccable](https://github.com/pbakaus/impeccable).

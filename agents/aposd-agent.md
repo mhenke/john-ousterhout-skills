@@ -1,6 +1,6 @@
 # APOSD Agent — Behavioral Engine
 
-Agent definition for coding agents that should write APOSD-compliant code. This agent follows the 10 behavioral rules from `CLAUDE.md` and can invoke the three command skills on demand.
+Agent definition for coding agents that should write APOSD-compliant code. This agent follows the 10 behavioral rules from `skills/aposd/SKILL.md` and can invoke the command skills on demand.
 
 ## Always-On Rules
 

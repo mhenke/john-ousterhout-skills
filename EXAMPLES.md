@@ -2,6 +2,8 @@
 
 Real-world code examples demonstrating each APOSD principle. Each example shows what agents commonly do wrong and how to fix it with Ousterhout's approach.
 
+*Format inspired by [andrej-karpathy-skills/EXAMPLES.md](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/EXAMPLES.md).*
+
 **Related docs:** [Principles](reference/principles.md) | [Red Flags](reference/red-flags.md) | [Personas](reference/personas.md) | [Scoring](reference/scoring.md)
 
 ---
@@ -296,7 +298,6 @@ class RateLimiter:
         
         Returns True if the request should be allowed.
         Records this check as a request in the current window.
-        Safe to call concurrently (thread-safe via lock).
         """
 ```
 
@@ -357,15 +358,13 @@ def delete_file(path):
         pass  # Already gone — that's success
     except PermissionError:
         raise  # Caller needs to know this
-    except OSError:
-        pass  # Non-critical OS errors shouldn't block the caller
 ```
 
 **Why this is better:**
 - "File not found" is defined out of existence — it's not an error anymore
 - The most common callers (cleanup, temp file removal) don't need try/catch
 - Only PermissionError is a real error here — and it's declared in the contract
-- Fewer exception types means less cognitive load for callers
+- Unexpected OS failures still surface instead of being hidden
 
 ---
 
