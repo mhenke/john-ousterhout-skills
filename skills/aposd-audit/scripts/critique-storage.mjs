@@ -27,9 +27,30 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const APOSD_DIR = '.aposd';
 const SLUG_MAX = 50;
 
+function findRepoRoot(startDir) {
+  let dir = path.resolve(startDir);
+  while (true) {
+    if (
+      fs.existsSync(path.join(dir, '.git')) ||
+      fs.existsSync(path.join(dir, '.gitignore')) ||
+      fs.existsSync(path.join(dir, 'CLAUDE.md')) ||
+      fs.existsSync(path.join(dir, 'package.json'))
+    ) {
+      return dir;
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) {
+      break;
+    }
+    dir = parent;
+  }
+  return startDir;
+}
+
 function getStorageDir(cwd) {
   const subdir = process.env.APOSD_STORAGE_SUBDIR || 'critique';
-  return path.join(cwd, APOSD_DIR, subdir);
+  const repoRoot = findRepoRoot(cwd);
+  return path.join(repoRoot, APOSD_DIR, subdir);
 }
 
 function kebab(s) {
@@ -55,8 +76,9 @@ export function slugFromTarget(resolved, { cwd = process.cwd() } = {}) {
     return kebab(hostPath);
   }
 
+  const repoRoot = findRepoRoot(cwd);
   const abs = path.isAbsolute(trimmed) ? trimmed : path.resolve(cwd, trimmed);
-  let rel = path.relative(cwd, abs);
+  let rel = path.relative(repoRoot, abs);
   if (rel.startsWith('..') || path.isAbsolute(rel)) {
     rel = path.basename(abs);
   }
