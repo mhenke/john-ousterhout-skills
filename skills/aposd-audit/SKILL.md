@@ -25,6 +25,10 @@ Action: Consolidate find_by_* into find(**filters)
 
 Before starting the audit, resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.
 
+**Resolution anchoring:** Before scoring, read `reference/scoring.md` for the rubric. For each dimension, identify the rubric criterion that describes the code and find specific code evidence (file:line:pattern) that demonstrates it. Every score point must cite both the rubric criterion and the code evidence.
+
+**Scope scoping:** If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope in the report: "Sampled 8/24 files in src/services/."
+
 ## Diagnostic Scan
 
 Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the criteria below.
@@ -87,20 +91,22 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 
 ### Design Health Score
 
-Score 5 dimensions 0-4 (see `reference/scoring.md` for full rubric):
+Score 5 dimensions 0-4 (see `reference/scoring.md` for full rubric). Every score must cite both the rubric criterion and the code evidence:
 
-| # | Dimension | Score | Key Finding |
-|---|-----------|-------|-------------|
-| 1 | Module Design | ? | |
-| 2 | Information Hiding | ? | |
-| 3 | Comments & Documentation | ? | |
-| 4 | Naming & Obviousness | ? | |
-| 5 | Error Strategy | ? | |
+| # | Dimension | Score | Key Finding | Evidence |
+|---|-----------|-------|-------------|----------|
+| 1 | Module Design | ? | | Rubric criterion quoted. File:line:pattern cited. |
+| 2 | Information Hiding | ? | | Rubric criterion quoted. File:line:pattern cited. |
+| 3 | Comments & Documentation | ? | | Rubric criterion quoted. File:line:pattern cited. |
+| 4 | Naming & Obviousness | ? | | Rubric criterion quoted. File:line:pattern cited. |
+| 5 | Error Strategy | ? | | Rubric criterion quoted. File:line:pattern cited. |
 | **Total** | | **??/20** | **[Rating band]** |
 
 ### Tactical Tornado Risk
 
-See `reference/scoring.md` for risk levels. Assess: **Low / Medium / High** based on red flag patterns found.
+See `reference/scoring.md` for risk levels. Assess: **Low / Medium / High** based on red flag counts found. Must cite the count:
+
+> **Tactical Tornado Risk: HIGH** (7 red flags: 2 information leakage, 3 shallow modules, 2 pass-throughs). Rubric: "High = Pervasive shallow modules, leaky abstractions, pass-through chains."
 
 ### Executive Summary
 - Design Health Score: **??/20** ([rating band])
@@ -109,9 +115,11 @@ See `reference/scoring.md` for risk levels. Assess: **Low / Medium / High** base
 - Top 3-5 critical issues
 - Recommended next steps
 
+> **Note:** Scores are based on evidence found at the reported locations. If the same code is re-run without changes, the same evidence produces the same score. Fix the findings to change the score.
+
 ### Detailed Findings by Severity
 
-Tag every issue with severity:
+Every finding must pass the Specificity Validation Gate before being reported. Tag every issue with severity:
 - **Critical**: Fundamental design problem. Redesign required. Creates unknown unknowns.
 - **Major**: Significant complexity increase. Should be fixed. Creates cognitive load or change amplification.
 - **Minor**: Localized issue. Worth fixing when in the area.
@@ -119,10 +127,10 @@ Tag every issue with severity:
 For each issue, document:
 - **[Critical/Major/Minor] Issue name**
 - **Location**: Component, file, line
-- **Category**: Module Design / Information Hiding / Comments / Naming / Error Strategy
+- **Dimension**: Module Design / Information Hiding / Comments / Naming / Error Strategy
 - **Complexity symptom**: Change amplification / Cognitive load / Unknown unknowns
 - **Impact**: How it affects future development
-- **Recommendation**: APOSD-aligned fix
+- **Recommendation**: APOSD-aligned fix (must be a concrete action, not a suggestion)
 
 ### Patterns & Systemic Issues
 
@@ -134,16 +142,31 @@ Identify recurring problems that indicate systemic gaps rather than one-off mist
 
 Note what's working well: identify design strengths that actively prevent complexity (e.g., deep modules, clean information hiding, interface comments). Be objective rather than congratulatory; explain precisely why they reduce cognitive load or change amplification.
 
+### Specificity Validation Gate
+
+Before reporting any finding, self-validate against this checklist:
+
+```
+□ File path (absolute or relative to target)
+□ Line number(s)
+□ Code pattern (exact snippet, 1-3 lines)
+□ Complexity symptom (change amplification / cognitive load / unknown unknowns)
+□ Concrete fix (an action — "extract into UserRepository.find()" not "consider refactoring")
+□ Dimension affected (which of the 5 scores this finding impacts)
+```
+
+If any field is missing, the finding is not reported. Vague findings are discarded.
+
 ## Recommended Actions
 
-List recommended actions in priority order (Critical first, then Major, then Minor):
+List recommended actions in priority order (Critical first, then Major, then Minor). Every action must pass the Specificity Validation Gate:
 
-1. **[Critical/Major/Minor]**: Brief description (specific context from audit findings)
+1. **[Critical/Major/Minor]**: Brief description with file:line:pattern (specific context from audit findings)
 2. ...
 
 After presenting the summary, tell the user:
 
-> You can ask me to address these one at a time, all at once, or in any order you prefer.
+> To fix using APOSD design principles, load the `aposd` skill. It applies the 10 APOSD behavioral rules during implementation. Address findings in the priority order above. Each finding is tagged with its affected dimension so you can focus on one area at a time.
 >
 > Re-run `aposd audit` after fixes to see your score improve.
 
@@ -162,6 +185,18 @@ After presenting the summary, tell the user:
 | Only finding problems, never strengths | A one-sided report loses credibility | Always include 1-2 positive findings (What's Working) |
 | Tagging everything as Critical | Everything being Critical means nothing is | Use the severity rubric: Critical = redesign required, Major = should fix, Minor = worth fixing when in the area |
 | Treating audit like a code review | Bug hunting and design evaluation are different concerns | Audit evaluates design quality (depth, hiding, boundaries). Don't list typos or style issues. |
+| Reporting findings without file:line:pattern | The reader can't act on generic advice | Every finding must pass the Specificity Validation Gate before reporting |
+| Skipping the Specificity Validation Gate for speed | Vague findings waste the reader's time more than the gate takes to validate | Every finding must pass all 6 fields before reporting. No exceptions. |
+
+### Red Flags — STOP and Start Over
+
+- Scoring a dimension without citing rubric criteria
+- Reporting a finding without file:line:pattern
+- Tagging everything as Critical
+- Reporting a finding that hasn't passed the Specificity Validation Gate
+- Leaving a dimension unscored or marked "N/A"
+- Adding filler praise or encouraging language
+- Recommending "consider refactoring" instead of a concrete action
 
 **NEVER**:
 - Report issues without explaining complexity impact (which symptom does this cause?)
