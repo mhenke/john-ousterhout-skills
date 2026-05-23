@@ -42,12 +42,13 @@ APOSD behavioral guidelines for AI coding agents. Merge with project-specific in
 
 ## 5. Comments First
 
-*Describe what's not obvious. If it's hard to write, the design is wrong.*
+*Describe what's not obvious. Comments are not a failure — they are essential. If a comment is hard to write, the design is wrong.*
 
 - Draft the interface comment before writing the body.
 - Interface comments: what the method does for callers, not how.
 - Implementation comments: why this approach, not what the code does.
 - If a comment is hard to write, or long, the design is wrong — redesign.
+- **Note:** APOSD disagrees with "comments are failures" philosophy. Comments add critical information that code cannot express: design rationale, cross-module decisions, high-level structure.
 
 ## 6. Design for Reading
 

@@ -2,6 +2,8 @@
 
 From *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Each principle includes core idea, complexity symptom it addresses, taking-it-too-far limit, and an example.
 
+See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnousterhout/aposd-vs-clean-code) with Robert Martin for concrete contrasts between these principles and Clean Code's approach.
+
 ---
 
 ## 1. Strategic Over Tactical Programming
