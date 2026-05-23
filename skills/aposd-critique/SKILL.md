@@ -6,158 +6,116 @@ license: MIT
 
 # aposd critique — Design Critique
 
-Principles-based design evaluation from *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Combines two independent assessments into a single report with persona red flags.
+Principles-based design evaluation from *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Combines two independent assessments into a single report with persona walkthroughs. Follows the impeccable critique convention.
 
 **Usage:** `aposd critique [module, class, or subsystem]`
 
-**Example output for a shallow `UserService` class:**
-```
-Tactical Tornado Verdict: CONFIRMED. 4 red flags.
-- Information Leakage: table/column names in every method
-- Shallow Module: 6 one-liner methods
-- Pass-Through: all methods just delegate to self.db
-- Repetition: self.db.query(...) appears 5 times
-
-Principles Assessment: 12/18 pass, 4 at risk, 2 violate
-Strategic Thinker: Consolidate into UserRepository.find(**filters)
-```
-
 ## Setup
 
-Before gathering assessments, resolve the target to a concrete file path or module name. The goal is a stable identifier that can be critiqued again after fixes.
-
-**Resolution anchoring:** Before assessing each principle, find specific code evidence (file:line:pattern) that supports the pass/at-risk/violate judgment. Every principle assessment must cite the code evidence.
-
-**Scope scoping:** If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope in the report: "Sampled 8/24 files in src/services/."
+Resolve the target to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
 
 ## Gather Assessments
 
-Launch two independent assessments. **Neither may see the other's output.** This isolation is what makes the combined critique honest. Running both in one head silently anchors them to each other.
-
-Fall back to sequential in-head work only if the environment cannot spawn sub-agents.
+Launch two independent assessments. **Neither may see the other's output.** Fall back to sequential in-head work only if the environment cannot spawn sub-agents.
 
 #### Assessment A: Strategic Thinker Review
 
-Evaluate the code as the Strategic Thinker persona would. Focus on:
+Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 design principles as pass / at risk / violate, with cited code evidence (file:line:pattern). See `reference/principles.md` for full depth on each principle:
 
-**Design Principles Assessment** (passes / at risk / violates) — consult `reference/principles.md` for full depth on each:
+| # | Principle | Core question |
+|---|-----------|--------------|
+| 1 | Strategic Over Tactical | Design investment or just get it working? |
+| 2 | Deep Modules | Is interface simpler than implementation? |
+| 3 | Information Hiding | Do callers see internals? |
+| 4 | General-Purpose Design | Could this serve >1 use case? |
+| 5 | Different Layer, Different Abstraction | Does each layer add value? |
+| 6 | Pull Complexity Downward | Is the common case trivial? |
+| 7 | Better Together or Better Apart | Right module boundaries? |
+| 8 | Define Errors Out of Existence | Could errors be designed away? |
+| 9 | Design It Twice | Were alternatives considered? |
+| 10 | Comments Describe Non-Obvious | Do comments add info beyond code? |
+| 11 | Comments First | Was interface designed before impl? |
+| 12 | Choosing Names | Do names create an image? |
+| 13 | Code Should Be Obvious | First-reader understands without effort? |
+| 14 | Modifying Existing Code | Left cleaner than found? |
+| 15 | Consistency | Same concepts, same patterns? |
+| 16 | Design for the Future | Volatility encapsulated? |
+| 17 | Performance as Design | Design-level decisions sound? |
+| 18 | Increments Are Abstractions | Decomposed by abstraction, not feature? |
 
-1. **Strategic Over Tactical**: Does the code show design investment or was it written to "just work"?
-2. **Deep Modules**: Is the interface significantly simpler than the implementation?
-3. **Information Hiding**: Do interfaces reveal what they do without revealing how? Any leakage?
-4. **General-Purpose Design**: Are modules designed for one use case or could they serve multiple?
-5. **Different Layer, Different Abstraction**: Does each layer provide a distinct abstraction?
-6. **Pull Complexity Downward**: Is the common case trivial for callers?
-7. **Better Together or Better Apart**: Are module boundaries in the right place?
-8. **Define Errors Out of Existence**: Could common errors be eliminated by redesigning the interface?
-9. **Design It Twice**: Was more than one design considered? Does the chosen design show evidence of alternative evaluation?
-10. **Comments Describe Non-Obvious**: Do comments add information beyond what's in the code?
-11. **Comments First**: Do interface comments read like they were designed, not patched in?
-12. **Choosing Names**: Do names create an image — precise, consistent, no extra words?
-13. **Code Should Be Obvious**: Can someone understand this without deep thought?
-14. **Modifying Existing Code**: Does the code show evidence of strategic modification?
-15. **Consistency**: Are naming, patterns, and conventions consistent?
-16. **Design for the Future**: Is volatility encapsulated without over-engineering?
-17. **Performance as Design**: Are design-level decisions sound, not micro-optimized?
-18. **Increments Are Abstractions**: Was work decomposed by abstraction boundary, not feature?
+**Evidence requirement:** Every assessment must include file:line:code evidence. "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
 
-**Condensed reference** (full detail in `reference/principles.md`):
-
-| # | Principle | Core question | Complexity symptom addressed |
-|---|-----------|--------------|------------------------------|
-| 1 | Strategic Over Tactical | Design investment or just get it working? | All three (accumulation) |
-| 2 | Deep Modules | Is interface simpler than implementation? | Cognitive load |
-| 3 | Information Hiding | Do callers see internals? | Change amplification |
-| 4 | General-Purpose Design | Could this serve >1 use case? | Change amplification |
-| 5 | Different Layer, Different Abstraction | Does each layer add value? | Cognitive load |
-| 6 | Pull Complexity Downward | Is the common case trivial? | Cognitive load |
-| 7 | Better Together or Better Apart | Right module boundaries? | All three |
-| 8 | Define Errors Out of Existence | Could errors be designed away? | Unknown unknowns |
-| 9 | Design It Twice | Were alternatives considered? | All three (debt) |
-| 10 | Comments Describe Non-Obvious | Do comments add info beyond code? | Unknown unknowns |
-| 11 | Comments First | Was interface designed before impl? | Unknown unknowns |
-| 12 | Choosing Names | Do names create an image? | Cognitive load |
-| 13 | Code Should Be Obvious | First-reader understands without effort? | Cognitive load |
-| 14 | Modifying Existing Code | Left cleaner than found? | All three (debt) |
-| 15 | Consistency | Same concepts, same patterns? | Cognitive load |
-| 16 | Design for the Future | Volatility encapsulated? | Change amplification |
-| 17 | Performance as Design | Design-level decisions sound? | Unknown unknowns |
-| 18 | Increments Are Abstractions | Decomposed by abstraction, not feature? | Temporal decomposition |
-
-**Evidence requirement:** Each principle assessment must include the evidence that supports the pass/at-risk/violate judgment. "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
-
-**Structural analysis**: module depth, abstraction layers, interface quality, error strategy.
-
-**Improvement ranking**: Top 3 changes that would most reduce complexity, ranked by impact.
-
-Return structured findings: per-principle assessment, what's working (2-3 items), priority issues (3-5 with what/why/fix), and the single most impactful design change.
+Return: per-principle assessment table, structural analysis (module depth, abstraction layers, interface quality, error strategy), what's working (2-3 items), priority issues (3-5 with what/why/fix), single most impactful design change.
 
 #### Assessment B: Tactical Tornado Detection
 
-Evaluate the code as the Tactical Tornado persona would produce it. Look for:
+Evaluate the code as the Tactical Tornado persona would produce it. Scan for red flags in priority order:
 
-**Red Flag Scan** (in priority order):
-1. Information Leakage — same knowledge in multiple places
-2. Shallow Module — interface as complex as implementation
-3. Temporal Decomposition — code mirrors execution order
-4. Pass-Through Method — methods that add no value
-5. Pass-Through Variables — context threaded unused
-6. Repetition — duplicated nontrivial code
-7. Special-General Mixture — general code with special-case logic
-8. Conjoined Methods (entanglement) — can't understand one without the other
-9. Overexposure — API forces learning rare features
+1. **Information Leakage** — same knowledge in multiple places
+2. **Shallow Module** — interface as complex as implementation
+3. **Temporal Decomposition** — code mirrors execution order
+4. **Pass-Through Method** — methods that add no value
+5. **Pass-Through Variables** — context threaded unused
+6. **Repetition** — duplicated nontrivial code
+7. **Special-General Mixture** — general code with special-case logic
+8. **Conjoined Methods** — can't understand one without the other
+9. **Overexposure** — API forces learning rare features
 10-15. Comment, naming, and obviousness red flags
 
-**Tactical tornado signature**: Count the number of red flags found and assess whether the codebase shows systematic tactical patterns.
+**Location requirement:** Every finding must include exact file path and line numbers. "Information Leakage (HIGH): SQL query string in UserService.findActive (l42) duplicates the same JOIN logic in OrderService.findByUser (l87)." Not "SQL queries are duplicated in service classes."
 
-Return: red flags found (ordered by severity), tactical tornado risk (low/medium/high), specific examples of each pattern found.
-
-**Location requirement:** Every red flag finding must include exact file path and line numbers. Example: "Information Leakage (HIGH): SQL query string in UserService.findActive (l42) duplicates the same JOIN logic in OrderService.findByUser (l87)." Not "SQL queries are duplicated in service classes."
-
-### Raw Assessment Output
-
-Before combining, present the raw findings from each assessment separately so the reader can see each perspective clearly.
-
-**Assessment A output:** [Strategic Thinker findings]
-
-**Assessment B output:** [Tactical Tornado findings]
+Return: red flags found (ordered by severity, with file:line:pattern), tactical tornado risk (low/medium/high), count of flags found.
 
 ### Generate Combined Critique Report
 
-Synthesize both assessments into a single report. Weave the findings together, noting where both assessments agree, where the Strategic Thinker found strengths the Tactical Tornado scan missed, and where the Tactical Tornado scan caught issues the Strategic Thinker overlooked.
+Synthesize both assessments into a single report. Do not concatenate — weave findings together, noting where both assessments agree, where the Strategic Thinker found strengths the Tactical Tornado scan missed, and where the Tactical Tornado caught issues the Strategic Thinker overlooked. The chat response is the primary deliverable.
+
 #### Tactical Tornado Verdict
 
-Start here. Does this code look like it was written tactically? Summarize the Tactical Tornado detection findings, with counts and file locations. Note any additional patterns the detection found that the Strategic Thinker missed.
+**Start here.** Does this code look like it was written tactically? Summarize the Tactical Tornado detection findings: flag counts, file locations, and the most damning pattern found. Note any additional patterns the detection found that the Strategic Thinker missed.
+
+#### Design Principles Score
+
+Present the 18 principles as a table with pass/at-risk/violate per principle. No numeric total — this is a qualitative assessment.
+
+| # | Principle | Verdict | Evidence |
+|---|-----------|---------|----------|
+| 1 | Strategic Over Tactical | pass/at-risk/violate | File:line:pattern |
+| ... | | | |
+
+Summary count: **X pass, Y at risk, Z violate.**
 
 #### Overall Impression
 
-A brief gut reaction: what works, what doesn't, and the single biggest opportunity for reducing complexity.
+Brief gut reaction: what works, what doesn't, the single biggest opportunity for reducing complexity.
 
 #### What's Working
 
-Highlight 2-3 things done well. Be specific about why they reduce complexity.
+Highlight 2-3 things done well. Be specific about why they reduce complexity (change amplification, cognitive load, unknown unknowns).
 
 #### Priority Issues
 
-The 3-5 most impactful design problems, ordered by importance. Each issue must pass the Specificity Validation Gate before being reported. For each issue:
+The 3-5 most impactful design problems, ordered by importance. Every issue must pass the Specificity Validation Gate:
 
-- **[Critical/Major/Minor] What**: Name the problem clearly
-- **Principle**: Which of the 18 principles this finding relates to (e.g., Deep Modules, Information Hiding, Define Errors Out of Existence)
-- **Complexity symptom**: Change amplification? Cognitive load? Unknown unknowns?
+- **[P0/P1/P2/P3] Issue name**
+- **Principle**: Which of the 18 principles this relates to
+- **Complexity symptom**: Change amplification / Cognitive load / Unknown unknowns
 - **Why it matters**: How this hurts future development
-- **Fix**: What to do about it (be concrete)
+- **Fix**: Concrete action (not "consider refactoring")
+
+Severity: **P0**=blocks progress, **P1**=major complexity increase, **P2**=notable but local, **P3**=polish.
 
 #### Persona Walkthrough
 
-Consult `reference/personas.md`. Walk through each persona explicitly:
+Walk through each persona explicitly with specific code references:
 
-**Tactical Tornado walkthrough:** "If the Tactical Tornado wrote this code, they would let the wrapper grow its own policy language and edge-case heuristics, which increases drift risk. The code would accumulate special-case logic over time as features are tacked on." List the specific red flags found — name the exact function, line, and pattern. Do not write generic descriptions; write specific findings.
+**Tactical Tornado walkthrough:** "If the Tactical Tornado wrote this code, they would let the wrapper grow its own policy language and edge-case heuristics, which increases drift risk." Name the exact function, line, and pattern that would accumulate debt.
 
-**Strategic Thinker walkthrough:** "If the Strategic Thinker were to redesign this, they would keep the wrapper thin, with one clean reference back to the core abstraction and minimal local interpretation. No policy language, no heuristic accretion." Be specific about what they would do differently.
+**Strategic Thinker walkthrough:** "If the Strategic Thinker were to redesign this, they would keep the wrapper thin, with one clean reference back to the core abstraction and minimal local interpretation." Name the specific redesign.
 
 #### Minor Observations
 
-Quick notes on smaller issues worth addressing.
+Quick notes on smaller issues worth addressing. No specificity gate required for these.
 
 #### Questions to Consider
 
@@ -166,19 +124,28 @@ Provocative questions that might unlock better designs:
 - "Could this error case be eliminated by changing the interface contract?"
 - "Would merging these two classes produce a deeper module?"
 
-**Remember**:
-- **Critical Collaborator**: Adopt the role of a critical collaborator, not a supportive assistant. Deliver clear, objective feedback. Do not offer compliments by default.
-- **Praise Criteria**: Only praise when the input/design shows genuine insight, exceptional logic, or real originality, and explicitly say why it meets that bar. If the idea is average, vague, or flawed, skip the encouragement.
-- **Analytical Focus**: Focus on analysis, ask pointed questions, and offer concrete suggestions for improvement.
-- **Directness**: Be direct. Vague feedback wastes everyone's time. Don't soften criticism. Developers need honest feedback to ship better design.
-- **Specificity**: Be specific. "The findById method," not "some functions."
-- **Complexity Impact**: Say what's wrong AND why it increases complexity (change amplification, cognitive load, unknown unknowns).
-- **Concrete Suggestions**: Give concrete suggestions. Cut "consider exploring..." entirely.
-- **Ruthless Prioritization**: Prioritize ruthlessly. If everything is important, nothing is.
+### Persist Snapshot
+
+Write the critique report to `.aposd/critique/` so the user can refer back, and so future critiques can show trends.
+
+1. **Compute slug** from the resolved target: lowercase, replace non-alphanumeric characters with `-`, collapse multiple dashes.
+
+2. **Compute trend score** as the percentage of principles passing: `(pass / (pass + at-risk + violate)) * 100`. Round to nearest integer.
+
+3. **Write snapshot**: Save the full report body (Design Principles Score through Questions to Consider) to `.aposd/critique/<slug>.md`. Include frontmatter with date, target, score, P0-P3 counts.
+
+4. **Read trend**: If `.aposd/critique/<slug>.md` exists from prior runs, read the last 5 scores and display:
+
+   > **Trend for `<slug>` (last 5 runs): 72 → 78 → 83 → 81 → 89**
+   > Wrote `.aposd/critique/<slug>.md`.
+
+   If this is the first run: "First run for this target, no trend yet."
+
+This is fire-and-forget. If the write fails, continue the critique without it.
 
 ### Specificity Validation Gate
 
-Before reporting any finding, self-validate against this checklist:
+Before reporting any non-minor finding, self-validate:
 
 ```
 □ File path (absolute or relative to target)
@@ -186,10 +153,10 @@ Before reporting any finding, self-validate against this checklist:
 □ Code pattern (exact snippet, 1-3 lines)
 □ Complexity symptom (change amplification / cognitive load / unknown unknowns)
 □ Concrete fix (an action — "extract into UserRepository.find()" not "consider refactoring")
-□ Principle affected (which of the 18 design principles this finding relates to)
+□ Principle affected (which of the 18 design principles this relates to)
 ```
 
-If any field is missing, the finding is not reported. Vague findings are discarded.
+Missing any field → finding is discarded.
 
 **Passing example:**
 ```
@@ -201,46 +168,44 @@ If any field is missing, the finding is not reported. Vague findings are discard
 □ Principle affected: Deep Modules (interface exposes SQL, caller must know schema)
 ```
 
-### Common Mistakes
-
-| Mistake | Why It's Wrong | Fix |
-|---------|---------------|-----|
-| Running assessments sequentially in one head | Both assessments silently anchor to each other; the second output is biased by the first | Use sub-agents or separate contexts. If you can't, note the bias in the report. |
-| Only listing red flags without explaining complexity impact | The reader doesn't know WHY each finding matters | Tag each finding with the complexity symptom it causes (change amplification / cognitive load / unknown unknowns). |
-| Writing generic persona descriptions | "Tactical Tornado would write shallow code" adds nothing | Name the specific function, line, and pattern. "Tactical Tornado would merge UserService with OrderService — they share a db connection." |
-| Assessing principles without evidence | PASS/FAIL with no code evidence is useless | Every principle assessment must cite the code evidence that supports the judgment. |
-| Reporting findings without file:line:pattern | The reader can't act on generic advice | Every finding must pass the Specificity Validation Gate before reporting |
-| Skipping the Specificity Validation Gate for speed | Vague findings waste the reader's time more than the gate takes to validate | Every finding must pass all 6 fields before reporting. No exceptions. |
-
-### Red Flags — STOP and Start Over
-
-- Reporting a finding without file:line:pattern
-- Assessing a principle without citing code evidence
-- Combining both assessments into a single report without isolation
-- Describing a persona generically instead of citing specific code
-- Tagging a finding without a complexity symptom
-- Reporting more than 5 priority issues
-- Using vague language like "consider refactoring" instead of concrete actions
-
 ### Ask the User
 
-After presenting findings, ask 1-2 targeted questions based on what was actually found:
+After presenting findings, ask 1-2 targeted questions based on what was found:
 
-1. **Priority direction**: Based on the issues found, ask which principle area matters most. For example: "I found problems with module depth, information hiding, and error strategy. Which area should we tackle first?"
-
-2. **Scope**: Ask how much the user wants to take on. For example: "I found N issues. Want to address everything, or focus on the top 3?"
+1. **Priority direction**: "I found problems with [principle area A], [B], and [C]. Which should we tackle first?"
+2. **Scope**: "I found N issues. Want to address everything, or focus on the top 3?"
 
 ### Recommended Actions
 
 After receiving the user's answers, present a prioritized action summary. Every action must pass the Specificity Validation Gate:
 
-1. **[Critical/Major/Minor]**: Brief description with file:line:pattern (specific context from critique findings)
+1. **[P0/P1/P2/P3]**: Brief description with file:line:pattern
 2. ...
 
-Order by the user's stated priorities first, then by impact. Include enough context that each item is actionable.
+Order by the user's stated priorities first, then by impact.
 
-After presenting the summary, tell the user:
+After presenting, tell the user:
 
-> To fix using APOSD design principles, load the `aposd` skill. It applies the 10 APOSD behavioral rules during implementation. Address findings in the priority order above. Each finding is tagged with its affected principle so you can focus on one area at a time.
+> To fix using APOSD design principles, load the `aposd` skill. It applies the 10 APOSD behavioral rules during implementation. Address findings in the priority order above.
 >
-> Re-run `aposd critique` after fixes to see your score improve.
+> Re-run `aposd critique` after fixes to see your assessment improve.
+
+### Common Mistakes
+
+| Mistake | Why It's Wrong | Fix |
+|---------|---------------|-----|
+| Running assessments sequentially in one head | Second output biased by the first | Use sub-agents. If unavailable, note the bias in the report. |
+| Listing red flags without complexity impact | Reader doesn't know WHY it matters | Tag each finding: change amplification / cognitive load / unknown unknowns. |
+| Generic persona descriptions | "Tactical Tornado writes shallow code" adds nothing | Name the specific function, line, and pattern. |
+| Assessing principles without evidence | PASS/FAIL with no code evidence is useless | Every assessment must cite file:line:code. |
+| Reporting findings without file:line:pattern | Reader can't act on generic advice | Every finding must pass the Specificity Validation Gate. |
+
+### Red Flags — STOP and Start Over
+
+- Reporting a finding without file:line:pattern
+- Assessing a principle without citing code evidence
+- Combining assessments without isolation
+- Describing a persona generically instead of citing specific code
+- Tagging a finding without a complexity symptom
+- Reporting more than 5 priority issues
+- Using vague language like "consider refactoring" instead of concrete actions
