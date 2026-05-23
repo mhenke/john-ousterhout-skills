@@ -100,6 +100,23 @@ ln -s $(pwd)/skills/aposd-audit ~/.antigravity/skills/aposd-audit
 
 Copy `.cursor/rules/aposd-guidelines.mdc` into your project's `.cursor/rules/` directory. See [CURSOR.md](CURSOR.md).
 
+**Option E: Codex CLI**
+
+Copy packaged skills/agents from `dist`:
+
+```bash
+# Project-local
+cp -r dist/agents/.agents your-project/
+mkdir -p your-project/.codex
+cp -r dist/codex/.codex/agents your-project/.codex/
+
+# Or user-wide
+mkdir -p ~/.agents/skills
+cp -r dist/agents/.agents/skills/* ~/.agents/skills/
+mkdir -p ~/.codex
+cp -r dist/codex/.codex/agents ~/.codex/
+```
+
 ## How to Know It's Working
 
 These guidelines are working if you see:
