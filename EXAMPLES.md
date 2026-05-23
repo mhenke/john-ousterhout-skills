@@ -303,7 +303,7 @@ class RateLimiter:
 
 **Why this is better:**
 - Interface is designed before implementation — forces thinking about the API
-- Comments describe what's not obvious from the signature (units, thread-safety, return value semantics)
+- Comments describe what's not obvious from the signature (per-key behavior, window semantics, return value semantics)
 - A hard-to-write comment here would signal a design problem early
 
 ---
