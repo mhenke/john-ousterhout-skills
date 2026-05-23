@@ -14,7 +14,7 @@ Compare with impeccable's critique (design heuristics, cognitive load, AI slop) 
 
 Separate critique and audit into distinct concerns:
 
-**Critique** is a **qualitative principles-based evaluation**. It assesses code against the 17 APOSD design principles (pass/at-risk/violate per principle) and uses two persona perspectives (Strategic Thinker vs Tactical Tornado). No numeric /20 score. No reference to `scoring.md`. The assessment tells you *whether the design philosophy is sound*.
+**Critique** is a **qualitative principles-based evaluation**. It assesses code against the 18 APOSD design principles (pass/at-risk/violate per principle) and uses two persona perspectives (Strategic Thinker vs Tactical Tornado). No numeric /20 score. No reference to `scoring.md`. The assessment tells you *whether the design philosophy is sound*.
 
 **Audit** is a **quantitative metrics-based evaluation**. It scores the code across 5 dimensions using the /20 rubric from `reference/scoring.md`. It counts red flags, tags severity, and identifies specific locations. The assessment tells you *what specific code problems exist and how severe they are*.
 

@@ -33,7 +33,7 @@ with:
 
 Before gathering assessments, resolve the target to a concrete file path or module name. The goal is a stable identifier that can be critiqued again after fixes.
 
-**Resolution anchoring:** Before scoring, read `reference/scoring.md` for the rubric. For each dimension, identify the rubric criterion that describes the code and find specific code evidence (file:line:pattern) that demonstrates it. Every score point must cite both the rubric criterion and the code evidence.
+**Resolution anchoring:** Before assessing each principle, find specific code evidence (file:line:pattern) that supports the pass/at-risk/violate judgment. Every principle assessment must cite the code evidence.
 
 **Scope scoping:** If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope in the report: "Sampled 8/24 files in src/services/."
 ```

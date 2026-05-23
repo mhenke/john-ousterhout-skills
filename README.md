@@ -41,7 +41,7 @@ Plus two on-demand analysis commands:
 
 | Command | Purpose |
 |---------|---------|
-| `aposd critique [target]` | Evaluate design against principles + tactical assessment |
+| `aposd critique [module, class, or subsystem]` | Evaluate design against principles + tactical assessment |
 | `aposd audit [target]` | Comprehensive audit with severity scoring + tornado detection |
 
 ## Install

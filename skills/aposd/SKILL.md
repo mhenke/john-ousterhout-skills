@@ -34,7 +34,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - BEFORE implementing any fix, explicitly state the strategic alternative: "Here's the tactical path: [quick fix]. The strategic alternative: [redesign that reduces complexity]. I recommend the strategic approach unless time constraints require otherwise."
 - **Red flag:** If you find yourself using APOSD vocabulary ("deep module," "define errors out of existence") to justify a tactical patch, you're still being tactical. Language doesn't make it strategic — design investment does.
 
-## 2. Design Deep Modules
+### 2. Design Deep Modules
 
 *Simple interface, powerful implementation.*
 
@@ -42,7 +42,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - If the interface is as complex as the implementation, it's shallow — merge or redesign.
 - Diagnostic questions: "How many use cases will this serve?" (if one, too special-purpose). "Is this easy to use for my current need?" (if not, redesign).
 
-## 3. Information Hiding
+### 3. Information Hiding
 
 *Expose only what callers need.*
 
@@ -50,7 +50,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - If the same design decision appears in multiple modules, that's information leakage — consolidate.
 - Don't expose internal state unless callers genuinely need it.
 
-## 4. Pull Complexity Downward
+### 4. Pull Complexity Downward
 
 *Handle complexity in the implementation, not the interface.*
 
@@ -58,7 +58,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - When a feature is inherently complex, push that complexity into the module so callers don't see it.
 - Don't let the module grow into a god class — if it knows about everything, the interface is simple but the implementation is a tangled mess.
 
-## 5. Comments First
+### 5. Comments First
 
 *Describe what's not obvious. Comments are not a failure — they are essential. If a comment is hard to write, the design is wrong.*
 
@@ -68,7 +68,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - If a comment is hard to write, or long, the design is wrong — redesign.
 - **Note:** APOSD disagrees with "comments are failures" philosophy. Without comments, there is no way to define abstractions or module interfaces — the contract of every method is left unspecified, forcing readers to read the full implementation. Ousterhout reports spending 50-80% of development time wading through code due to inadequate documentation.
 
-## 6. Design for Reading
+### 6. Design for Reading
 
 *If someone needs to think hard to understand it, it's not obvious. Complexity is in the eye of the reader — if someone finds your code complicated, it IS complicated, and that's your problem to fix, not theirs to overcome.*
 
@@ -77,7 +77,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - If you can't find an intuitive name, you don't understand the concept well enough — redesign, don't rename.
 - Eliminate special cases. Every special case adds cognitive load for every future reader.
 
-## 7. Define Errors Out of Existence
+### 7. Define Errors Out of Existence
 
 *Design interfaces so common errors can't happen.*
 
@@ -85,7 +85,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - If not: mask the exception at the right level, aggregate related exceptions, or crash if recovery is meaningless.
 - Red flag: complex error-handling that mirrors the happy path — the interface should be redesigned.
 
-## 8. Better Together or Better Apart
+### 8. Better Together or Better Apart
 
 *Merge shared concerns. Split different abstractions.*
 
@@ -94,7 +94,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - Split methods only if the child is independently understandable and could be useful elsewhere.
 - Red flag: conjoined methods (entanglement) — if you can't understand one without the other, they shouldn't have been split.
 
-## 9. Design It Twice
+### 9. Design It Twice
 
 *Never accept the first design for non-trivial work.*
 
@@ -102,7 +102,7 @@ Skipping these produces generic output that ignores the project's existing desig
 - The second design is often better.
 - For each alternative: interface sketch, key complexity tradeoffs, which complexity symptom it addresses best.
 
-## 10. Modify Strategically
+### 10. Modify Strategically
 
 *Leave every module cleaner than you found it.*
 

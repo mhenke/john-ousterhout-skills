@@ -60,6 +60,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Fix:** Consolidate the leaked knowledge into a single module, or re-encapsulate so the knowledge only affects one module.
 
+**Taking it too far:** Over-consolidation — merging unrelated concepts just because they reference the same external entity. Not all shared information belongs in the same module. Use the "change together, stay together" heuristic: merge only if they change for the same reason.
+
 ---
 
 ## 5. General-Purpose Modules Are Deeper
@@ -126,6 +128,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Red flag:** Conjoined Methods — if you can't understand one method without understanding another, they shouldn't have been split.
 
+**Taking it too far:** Over-merging creates god classes. If a module has multiple distinct responsibilities that could change independently, they should have been split. Merge what changes together; keep separate what changes separately.
+
 ---
 
 ## 9. Define Errors Out of Existence
@@ -156,6 +160,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Example:** Text class for an editor. First approach: line-oriented (complex interface, line-splitting logic exposed). Second approach: character-oriented (too low-level, callers need loops). Third approach: range-oriented (deep — simple interface, powerful operations on character ranges).
 
+**Taking it too far:** Analysis paralysis. Comparing more than 2-3 designs without deciding wastes time. The goal is better design, not perfect design. If you have evidence the first design is sound and the alternatives don't offer clear improvement, proceed with the best option.
+
 ---
 
 ## 11. Comments Describe Non-Obvious
@@ -175,6 +181,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Why it reduces complexity:** Reduces unknown unknowns — future maintainers understand the rationale behind code, not just the mechanics.
 
+**Taking it too far:** Over-documenting the obvious. If every line has a comment, the signal-to-noise ratio drops and comments are ignored. Only comment where the code alone is insufficient — the code should speak for itself wherever possible.
+
 ---
 
 ## 12. Comments First
@@ -184,6 +192,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 **Core idea:** Write the interface comment before writing the implementation body. If the comment is hard to write, the design is wrong. If the comment is long, the design is probably wrong.
 
 **Why it reduces complexity:** Forces you to design the interface before getting lost in implementation details. Hard-to-write comments reveal design problems early.
+
+**Taking it too far:** Writing detailed interface comments before the design is stable. Premature commenting locks in a design before it's validated. Comments-first works best when you have a clear concept; iterate the concept first, then document the stable interface.
 
 ---
 
@@ -200,6 +210,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Why it reduces complexity:** Good names make code obvious. Bad names force readers to decode meaning.
 
+**Taking it too far:** Overly long names that try to capture every nuance. The name should create an image, not serve as full documentation. "Descriptive enough to distinguish, short enough to read" — if the name alone can't convey everything, that's what the comment is for.
+
 ---
 
 ## 14. Modifying Existing Code
@@ -209,6 +221,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 **Core idea:** Stay strategic even during modifications. Every change is an opportunity to improve the design of surrounding code. Keep comments near the code they describe. Document decisions in code comments, not commit messages.
 
 **Why it reduces complexity:** Prevents design rot during maintenance. Higher-level comments (module purpose, design rationale) are much easier to maintain than line-by-line explanations.
+
+**Taking it too far:** Over-refactoring — rewriting working code to match an ideal, creating risk without commensurate benefit. The strategic approach to modification should focus on areas that actually reduce complexity, not cosmetic improvements.
 
 ---
 
@@ -230,6 +244,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Obviousness test:** "If someone else reads this and needs to think hard to understand it, the code is not obvious." Run this before marking any code complete.
 
+**Taking it too far:** Oversimplification that obscures important behavior. Sometimes subtle code is necessary for performance, correctness, or concurrency. Not everything can be obvious at first glance; the goal is to *minimize* nonobvious code, not eliminate it entirely.
+
 ---
 
 ## 17. Design for the Future
@@ -243,6 +259,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 - Delete what's no longer needed
 - Prefer deletion over extension
 
+**Taking it too far:** Over-engineering for hypothetical futures. Adding hooks, configurability, or abstraction layers for scenarios that have no evidence of occurring. Design for known changes with extension margin; don't design for guesses.
+
 ---
 
 ## 18. Performance as Design
@@ -255,6 +273,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 
 **Instead:** Measure before optimizing. Clean designs reveal performance bottlenecks more clearly than tangled ones.
 
+**Taking it too far:** Distorting module boundaries for speculative optimization. Clean design enables optimization — you can always optimize later once profiling identifies real bottlenecks. Never trade design clarity for unmeasured performance gains.
+
 ---
 
 ## 19. Increments Are Abstractions, Not Features
@@ -264,6 +284,8 @@ See also Ousterhout's [APOSD vs Clean Code discussion](https://github.com/johnou
 **Core idea:** Decompose development tasks by abstraction boundary, not by feature. A new feature should be implemented as "create the abstraction layer" first, then "build the feature on top of it." Don't decompose by execution order or UI surface area.
 
 **Example:** "Add text formatting toolbar" → implement the formatting interface (deep module), then build the toolbar UI on top of it. Not: "add bold button, then italic button, then underline button."
+
+**Taking it too far:** Creating abstractions without concrete use cases. Increments should be guided by actual feature needs, not abstractions designed in a vacuum. The abstraction is a means to reduce complexity for real features, not an end in itself.
 
 ---
 

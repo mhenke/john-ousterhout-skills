@@ -4,7 +4,7 @@
 **Status:** Superseded — see `2026-05-23-aposd-critique-audit-precision.md` for current spec, `docs/adr/` for current decisions.
 **Source:** A Philosophy of Software Design, 2nd Edition (Ousterhout, 2021)
 
-> **Note:** This spec predates ADR-001 (critique-audit separation) and references a removed `aposd-review` command. The review command was eliminated during refactoring — critique absorbed its red flag scanning role. References to 18 principles and 1-5 scoring are outdated; the current system uses 17 principles (critique) and /20 numeric scoring (audit).
+> **Note:** This spec predates ADR-001 (critique-audit separation) and references a removed `aposd-review` command. The review command was eliminated during refactoring — critique absorbed its red flag scanning role. References to 18 principles, 16 red flags, and 1-5 scoring are outdated; the current system uses 18 principles (critique), 15 red flags, and /20 numeric scoring (audit).
 
 ## Overview
 
@@ -174,7 +174,7 @@ Three command skills, each a SKILL.md with YAML frontmatter, following Karpathy 
 
 **`skills/aposd-review/SKILL.md`** — Red flag scan
 - **Frontmatter:** name: `aposd-review`, description: "Use when you need to scan code for design red flags from A Philosophy of Software Design."
-- **Content:** Brief intro + 16 red flags listed in priority order with 1-2 line detection patterns.
+- **Content:** Brief intro + 15 red flags listed in priority order with 1-2 line detection patterns.
 - **Process:** Scan code for each red flag in priority order. Report found flags with location + suggested fix.
 - **Output:** Red flags found (ordered), design score 1-5, top 3 improvements.
 
@@ -235,7 +235,7 @@ Principles covered:
 
 Plus awareness sections: Software trends (Ch 19), Taking it too far (summary).
 
-### `reference/red-flags.md` — Red Flags Deep Reference
+### `reference/red-flags.md` — Red Flags Deep Reference (15 red flags)
 
 One section per red flag, each with:
 - **Name, priority rank, book reference**
