@@ -35,6 +35,15 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 by counti
 - 1: 6-10 pass-through methods OR 2+ variable chains
 - 0: 10+ pass-through methods OR any pass-through chain (A→B→C)
 
+**Calibration:**
+- ✓ Counts: `getUser()` body is exactly `return this.db.fetchUser(id)`
+- ✓ Counts: `handleClick(e)` body is `this.onClick(e)` with nothing else
+- ✓ Counts: `processData()` → `transformData()` → `applyRules()` where middle just calls the next
+- ✓ Counts: `config` threaded through 5 methods that only pass it to a 6th that uses it
+- ✗ Doesn't count: method adds validation, logging, or error handling around the delegate
+- ✗ Doesn't count: method transforms args (e.g., `return this.db.query(normalize(id))`)
+- ✗ Doesn't count: method combines multiple delegates (e.g., `a(x); return b(y)`)
+
 ### 2. Information Duplication
 
 **Count:** Instances where the same design knowledge (URL paths, schema fields, business rules, configuration keys, magic strings/numbers) appears in multiple independent modules. Count each distinct piece of knowledge that's duplicated.
@@ -45,6 +54,15 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 by counti
 - 2: 3-4 instances
 - 1: 5-7 instances
 - 0: 8+ instances or a systemic pattern (same rule in 5+ files)
+
+**Calibration:**
+- ✓ Counts: `"SELECT * FROM orders WHERE status = 'active'"` in user-service.js and order-service.js
+- ✓ Counts: `MAX_RETRIES = 3` defined in retry.js and again in network-client.js
+- ✓ Counts: `"orders_expire_after_days": 30` in both config schema and validation logic
+- ✗ Doesn't count: common import (`import React from "react"`) — that's a dependency, not leakage
+- ✗ Doesn't count: function `formatDate()` called from multiple modules — that's normal usage
+- ✗ Doesn't count: same error message string used in a try/catch and a test assertion
+- ✗ Deduplicate: only count each distinct piece of knowledge once, even if spread across 5+ files
 
 ### 3. Interface Documentation
 
@@ -57,6 +75,13 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 by counti
 - 1: 10-39% documented
 - 0: <10% documented
 
+**Calibration:**
+- ✓ Counts as documented: has a JSDoc/comment block describing what the method does, its parameters, or its return value
+- ✓ Counts as undocumented: public method with only a `// TODO` or inline comment, or no comment at all
+- ✗ Doesn't count: private/internal methods — only public/protected interface
+- ✗ Doesn't count: getters/setters that only read/write a field — skip these from the total
+- ✗ Doesn't count: comments that only repeat the method name (`/** Get user */ getUser()`)
+
 ### 4. Naming Quality
 
 **Count:** Identifiers matching the vague names blocklist — `data`, `info`, `tmp`, `handle`, `process`, `util`, `helper`, `manager`, `stuff`, `thing`. Also count violations of project naming conventions (inconsistent casing, mixed patterns).
@@ -68,6 +93,13 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 by counti
 - 1: 6-10 vague names or project-wide naming inconsistency
 - 0: 10+ vague names or no discernible naming convention
 
+**Calibration:**
+- ✓ Counts: `data`, `info`, `tmp`, `handle`, `process`, `util`, `helper`, `manager`, `stuff`, `thing` used as function names, class names, or variable names
+- ✓ Counts: `camelCase` and `snake_case` mixed in the same module
+- ✓ Counts: `UserService` and `user_service` referring to the same concept
+- ✗ Doesn't count: `data` as a parameter in a generic utility (e.g., `JSON.parse(data)`) — context matters
+- ✗ Doesn't count: `tmp` in a 3-line test helper scoped to a single function
+
 ### 5. Exception Discipline
 
 **Count:** Custom exception/error classes defined (not standard library types). Count catch blocks that only re-throw, log, or swallow the same exception type.
@@ -78,6 +110,15 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 by counti
 - 2: 3-5 custom exceptions or 1-2 catch-and-rethrow
 - 1: 6-10 custom exceptions or 3-5 catch-and-rethrow
 - 0: 10+ custom exceptions or 5+ catch-and-rethrow
+
+**Calibration:**
+- ✓ Counts: `class UserNotFoundError extends Error {}` — custom exception class
+- ✓ Counts: `class PaymentError extends Error { constructor(code, msg) { super(msg); this.code = code; } }` — custom with extra fields
+- ✓ Counts: `try { ... } catch (e) { throw new ApiError(e.message); }` — catch-and-rethrow
+- ✓ Counts: `try { ... } catch (e) { log(e); throw e; }` — log-and-rethrow
+- ✗ Doesn't count: using built-in `Error`, `TypeError`, `RangeError` directly — only count custom subclasses
+- ✗ Doesn't count: `try { ... } catch (e) { return defaultValue; }` — that's masking, not rethrowing
+- ✗ Doesn't count: catch block at module boundary that transforms for the caller (`catch (e) { throw new ApiError(500, e.message); }`) — that's proper masking
 
 ## Generate Report
 
