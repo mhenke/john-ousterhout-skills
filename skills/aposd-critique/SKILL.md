@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when evaluating whether code follows APOSD design principles — a qualitative assessment of design philosophy and development approach with persona analysis. Also use when you suspect code was written tactically and want to assess whether the approach was strategic or tactical.
+description: Use when evaluating whether code follows APOSD design principles. Also use when you suspect code was written tactically and want to assess whether the approach was strategic or tactical.
 license: MIT
 ---
 
@@ -177,6 +177,17 @@ If any field is missing, the finding is not reported. Vague findings are discard
 | Writing generic persona descriptions | "Tactical Tornado would write shallow code" adds nothing | Name the specific function, line, and pattern. "Tactical Tornado would merge UserService with OrderService — they share a db connection." |
 | Assessing principles without evidence | PASS/FAIL with no code evidence is useless | Every principle assessment must cite the code evidence that supports the judgment. |
 | Reporting findings without file:line:pattern | The reader can't act on generic advice | Every finding must pass the Specificity Validation Gate before reporting |
+| Skipping the Specificity Validation Gate for speed | Vague findings waste the reader's time more than the gate takes to validate | Every finding must pass all 6 fields before reporting. No exceptions. |
+
+### Red Flags — STOP and Start Over
+
+- Reporting a finding without file:line:pattern
+- Assessing a principle without citing code evidence
+- Combining both assessments into a single report without isolation
+- Describing a persona generically instead of citing specific code
+- Tagging a finding without a complexity symptom
+- Reporting more than 5 priority issues
+- Using vague language like "consider refactoring" instead of concrete actions
 
 ### Ask the User
 

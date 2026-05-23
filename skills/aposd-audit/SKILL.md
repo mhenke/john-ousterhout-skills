@@ -186,6 +186,17 @@ After presenting the summary, tell the user:
 | Tagging everything as Critical | Everything being Critical means nothing is | Use the severity rubric: Critical = redesign required, Major = should fix, Minor = worth fixing when in the area |
 | Treating audit like a code review | Bug hunting and design evaluation are different concerns | Audit evaluates design quality (depth, hiding, boundaries). Don't list typos or style issues. |
 | Reporting findings without file:line:pattern | The reader can't act on generic advice | Every finding must pass the Specificity Validation Gate before reporting |
+| Skipping the Specificity Validation Gate for speed | Vague findings waste the reader's time more than the gate takes to validate | Every finding must pass all 6 fields before reporting. No exceptions. |
+
+### Red Flags — STOP and Start Over
+
+- Scoring a dimension without citing rubric criteria
+- Reporting a finding without file:line:pattern
+- Tagging everything as Critical
+- Reporting a finding that hasn't passed the Specificity Validation Gate
+- Leaving a dimension unscored or marked "N/A"
+- Adding filler praise or encouraging language
+- Recommending "consider refactoring" instead of a concrete action
 
 **NEVER**:
 - Report issues without explaining complexity impact (which symptom does this cause?)
