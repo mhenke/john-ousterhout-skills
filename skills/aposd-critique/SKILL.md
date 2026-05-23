@@ -12,7 +12,24 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 ## Setup
 
-Resolve the target to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+1. **Resolve the target** to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+
+2. **Compute the slug** for persistence and trend tracking:
+   ```bash
+   node {{scripts_path}}/critique-storage.mjs slug "<resolved-path>"
+   ```
+   Keep it. If the command exits non-zero, skip persistence and trend for this run, but continue the critique.
+
+3. **Read `.aposd/critique/ignore.md`** if it exists. Drop matching findings silently; it is the only prior-run input critique consumes.
+
+## Hard Invariants
+
+- Assessment A (Strategic Thinker Review) and Assessment B (Tactical Tornado Detection) are both required.
+- Assessment A must finish before Assessment B findings enter the parent synthesis context.
+- If sub-agents are unavailable, run sequentially: finish and record A first, then run B, then synthesize. Report `Assessment independence: degraded (sub-agents unavailable)`.
+- A skipped assessment B is a failed critique run unless the codebase is empty.
+- The chat response is the primary deliverable. The persisted snapshot is only an archive/backlog for later use.
+- Every finding must pass the Specificity Validation Gate.
 
 ## Gather Assessments
 
@@ -124,24 +141,39 @@ Provocative questions that might unlock better designs:
 - "Could this error case be eliminated by changing the interface contract?"
 - "Would merging these two classes produce a deeper module?"
 
+#### Run Notes
+
+Keep this compact. Include status for target slug, ignore list, assessment independence (sub-agents used or sequential), and temp-file cleanup. Run Notes are final-chat only — do not include this section in the persisted snapshot body.
+
 ### Persist Snapshot
 
-Write the critique report to `.aposd/critique/` so the user can refer back, and so future critiques can show trends.
+Write the critique report to `.aposd/critique/` so the user can refer back, and so future critiques can show trends. The slug was computed during Setup.
 
-1. **Compute slug** from the resolved target: lowercase, replace non-alphanumeric characters with `-`, collapse multiple dashes.
+Skip this step if the Setup slug was null (vague or root-level target).
 
-2. **Compute trend score** as the pass count (X/18) from the Design Principles Score.
+1. **Compute trend score** as the pass count (X/18) from the Design Principles Score.
 
-3. **Write snapshot**: Save the full report body (Design Principles Score through Questions to Consider) to `.aposd/critique/<slug>.md`. Include frontmatter with date, target, score, P0-P3 counts.
+2. **Write snapshot**: Write the full report body (Design Principles Score through Run Notes) to a temp file, then pass it through the helper with structured metadata. Exclude the "Ask the User" / "Recommended Actions" / "Common Mistakes" / "Red Flags" sections and the snapshot trend line itself from the body:
+   ```bash
+   APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<X>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
+     node {{scripts_path}}/critique-storage.mjs write <slug> <body-file>
+   ```
+   The helper prints the absolute path it wrote. Delete the temp file afterward.
 
-4. **Read trend**: If `.aposd/critique/<slug>.md` exists from prior runs, read the last 5 scores and display:
+3. **Read trend** for context:
+   ```bash
+   node {{scripts_path}}/critique-storage.mjs trend <slug> 5
+   ```
+   This returns a JSON array of the last 5 frontmatter entries (including the one just written).
+
+4. **Append a single line** to the user-visible output, after the report and before the questions:
 
    > **Trend for `<slug>` (last 5 runs): 72 → 78 → 83 → 81 → 89**
-   > Wrote `.aposd/critique/<slug>.md`.
+   > Wrote `.aposd/critique/<filename>`.
 
-   If this is the first run: "First run for this target, no trend yet."
+   If this is the first run for the slug: "First run for this target, no trend yet."
 
-This is fire-and-forget. If the write fails, continue the critique without it.
+This is fire-and-forget. Do not show the user the helper's JSON output; only the human-readable trend line and the written path. Failures here should not block the rest of the flow; print the error and move on.
 
 ### Specificity Validation Gate
 

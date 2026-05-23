@@ -177,6 +177,38 @@ Identify recurring problems that indicate systemic gaps rather than one-off mist
 
 Note what's working well: dimensions scoring ≥3, clean patterns that prevent complexity. Be objective — explain precisely why they reduce change amplification or cognitive load.
 
+### Persist Snapshot
+
+Write the audit report to `.aposd/audit/` so the user can refer back, and so future audits can show trends.
+
+1. **Compute slug** from the resolved target:
+   ```bash
+   APOSD_STORAGE_SUBDIR=audit node {{scripts_path}}/critique-storage.mjs slug "<resolved-target>"
+   ```
+   Keep it. If the command exits non-zero, skip persistence and trend for this run, but continue the audit.
+
+2. **Write snapshot**: Write the full report body (Design Health Score through Positive Findings) to a temp file, then pass it through the helper with structured metadata:
+   ```bash
+   APOSD_STORAGE_SUBDIR=audit APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<N>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
+     node {{scripts_path}}/critique-storage.mjs write <slug> <body-file>
+   ```
+   The helper prints the absolute path it wrote. Delete the temp file afterward.
+
+3. **Read trend** for context:
+   ```bash
+   APOSD_STORAGE_SUBDIR=audit node {{scripts_path}}/critique-storage.mjs trend <slug> 5
+   ```
+   This returns a JSON array of the last 5 frontmatter entries.
+
+4. **Append a single line** to the user-visible output, after the report and before the recommended actions:
+
+   > **Trend for `<slug>` (last 5 runs): 12 → 14 → 16 → 15 → 17**
+   > Wrote `.aposd/audit/<filename>`.
+
+   If this is the first run for the slug: "First run for this target, no trend yet."
+
+This is fire-and-forget. Do not show the user the helper's JSON output; only the human-readable trend line and the written path. Failures here should not block the rest of the flow; print the error and move on.
+
 ### Specificity Validation Gate
 
 Before reporting any finding, self-validate:
