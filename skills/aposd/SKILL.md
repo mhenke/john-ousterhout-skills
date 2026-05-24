@@ -4,13 +4,39 @@ description: Use when writing, reviewing, or modifying any code. Also use when c
 license: MIT
 ---
 
-> **Content source:** `CLAUDE.md` is the single source of truth for the 15 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly. See `docs/adr/005-claude-sk-condensation.md`.
+> **Content source:** `CLAUDE.md` is the single source of truth for the 15 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly. See ADR-005 (Intentional Condensation). Examples and troubleshooting in `references/`.
 
 # APOSD behavioral guidelines
+
+## Routing Rules
+
+1. **No explicit command**: Apply the 15 rules as always-on behavior while writing code. No invocation needed.
+2. **First word matches a command** (`aposd critique` or `aposd audit`): Load the corresponding skill file (`skills/aposd-critique/SKILL.md` or `skills/aposd-audit/SKILL.md`) and follow its instructions. Everything after the command name is the target.
+3. **User says "just make it work" or "quick fix"**: Follow rule 1 (Strategic Over Tactical) — state the strategic alternative before proceeding tactically.
+
+## Red Flags — STOP and Start Over
+
+- Using APOSD vocabulary to justify a tactical patch
+- Writing implementation before the interface comment
+- Exposing implementation details in the interface
+- Special-case logic embedded in a general-purpose mechanism
+- Pass-through methods or variables that add no abstraction value
+- Requiring the caller to do complex setup or handle error cases
+- Being unable to name a concept without vague or multi-word terms
+- Error-handling code that mirrors the happy path
+- Adding hooks for hypothetical future requirements
+- Decomposing work by execution order instead of abstraction boundaries
+- Making any change without leaving the surrounding module cleaner
 
 ## Setup
 
 Before coding: load context (README, CLAUDE.md, existing code), identify task type (bug fix, feature, refactor), and scan for design red flags (shallow modules, information leakage, pass-through methods). Skipping these produces generic output.
+
+## Input / Output
+
+This skill modifies agent behavior during any coding task:
+- **Input** — A coding task: writing new code, reviewing existing code, refactoring, debugging, or designing.
+- **Output** — Code modified by the 15 principles: deeper module boundaries extracted, pass-through layers eliminated, vague names replaced, error cases removed from caller paths. The Quick Reference table below maps each principle to its observable effect.
 
 ## Principles
 
@@ -144,12 +170,6 @@ Before coding: load context (README, CLAUDE.md, existing code), identify task ty
 - If your change invalidates a comment, update it.
 - Higher-level comments (design rationale, module purpose) outlast line-by-line explanations.
 
----
-
-**Commands:**
-- `aposd critique [target]` — Design evaluation against principles + tactical assessment.
-- `aposd audit [target]` — Design audit with severity scoring and tactical tornado detection.
-
 ## Quick Reference
 
 | Principle | Red Flag | Fix |
@@ -164,6 +184,47 @@ Before coding: load context (README, CLAUDE.md, existing code), identify task ty
 | Define Errors | Error-handling mirrors happy path | Change contract |
 | Design for Future | Hooks for hypothetical scenarios | Only encapsulate known volatility |
 
+## Examples
+
+### Tactical vs strategic (Rule 1 + 2)
+
+```python
+# Tactical: caller manages email lifecycle
+notifier = EmailNotifier()
+notifier.connect()
+notifier.send(user.email, message)
+notifier.disconnect()
+
+# Strategic: one-line interface, complexity inside
+NotificationService().send(user, message)
+```
+
+### Error elimination (Rule 10)
+
+```python
+# Before: every caller handles None
+user = db.query("SELECT * FROM users WHERE id = ?", uid).fetchone()
+if user is None:
+    return default_user()
+
+# After: Optional expresses "not found" as valid state
+user = db.query("SELECT * FROM users WHERE id = ?", uid).first()
+```
+
+### Pass-through elimination (Rule 5)
+
+```python
+# Before: controller passes through to service
+def update_user(request):
+    return UserService().update(request.user_id, request.data)
+
+# After: controller owns its abstraction
+def update_user(request):
+    return self.user_service.update(request.user_id, request.data)
+```
+
+More examples in `references/examples.md`.
+
 ## Common Mistakes
 
 | Mistake | Problem | Fix |
@@ -172,33 +233,17 @@ Before coding: load context (README, CLAUDE.md, existing code), identify task ty
 | Calling a patch "strategic" | Vocabulary ≠ design investment | If the interface didn't change, it's tactical |
 | Skipping "design it twice" | First designs are rarely best | Even 2 minutes of alternatives improves outcomes |
 | Writing comments after code | Comments become afterthoughts | Draft interface comment before implementation |
+| "Too small to design" | Every task deserves investment | Even trivial changes should leave code cleaner |
+| "No time to design" | No time to fix it later either | Two minutes of alternative thinking is free |
+| "Only serves one use case" | Special-purpose code proliferates | Generalize the interface |
 
-## Routing Rules
+## Commands
 
-1. **No explicit command**: Apply the 15 rules as always-on behavior while writing code. No invocation needed.
-2. **First word matches a command** (`aposd critique` or `aposd audit`): Load the corresponding skill file from `skills/aposd-{command}/SKILL.md` and follow its instructions. Everything after the command name is the target.
-3. **User says "just make it work" or "quick fix"**: Follow rule 1 (Strategic Over Tactical) — state the strategic alternative before proceeding tactically.
+- `aposd critique [target]` — Design evaluation against principles + tactical assessment.
+- `aposd audit [target]` — Design audit with severity scoring and tactical tornado detection.
 
-## Rationalization Table
+## Related
 
-| Excuse | Reality |
-|--------|---------|
-| "Too small to design" | Every task gets a design investment. |
-| "I'm using APOSD vocabulary" | Vocabulary without design investment is still tactical. |
-| "I'll add comments after" | Comments are design tools, not afterthoughts. |
-| "No time to design it twice" | Even two minutes of alternative thinking improves outcomes. |
-| "Only serves one use case" | If it serves one caller, it's too special-purpose — generalize. |
-
-## Red Flags — STOP and Start Over
-
-- Using APOSD vocabulary to justify a tactical patch
-- Writing implementation before the interface comment
-- Exposing implementation details in the interface
-- Special-case logic embedded in a general-purpose mechanism
-- Pass-through methods or variables that add no abstraction value
-- Requiring the caller to do complex setup or handle error cases
-- Being unable to name a concept without vague or multi-word terms
-- Error-handling code that mirrors the happy path
-- Adding hooks for hypothetical future requirements
-- Decomposing work by execution order instead of abstraction boundaries
-- Making any change without leaving the surrounding module cleaner
+- [aposd-critique](skills/aposd-critique/SKILL.md) — Design evaluation command
+- [aposd-audit](skills/aposd-audit/SKILL.md) — Design audit command
+- [references/](references/) — Extended examples and troubleshooting

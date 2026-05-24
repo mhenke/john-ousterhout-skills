@@ -12,7 +12,7 @@ Three files contain the 15 APOSD behavioral rules:
 - **`skills/aposd/SKILL.md`** — Always-on skill loaded into every coding session. Context cost is a concern.
 - **`.cursor/rules/aposd-guidelines.mdc`** — Cursor project rule, mirrors CLAUDE.md body.
 
-`CLAUDE.md`'s header declares: *"Source of truth for the 15 behavioral rules. Copy changes here first, then propagate."* This implies they should be identical, but they aren't:
+`CLAUDE.md`'s header now declares: *"Source of truth for the 15 behavioral rules. Copy changes here first. `.cursor/rules/aposd-guidelines.mdc` mirrors this in its rule body. `skills/aposd/SKILL.md` uses condensed wording — manually distill changes there, keeping its always-on context footprint small."* An earlier version read *"Copy changes here first, then propagate"* — the current header is explicit about the condensation relationship. Despite clarity, the three copies can drift:
 
 | Rule | CLAUDE.md | SKILL.md | Diff |
 |------|-----------|----------|------|
@@ -51,4 +51,15 @@ Not a decision *for* drift, but a decision *against* tool-enforced synchronizati
 - Maintainers must manually distill rule changes from CLAUDE.md into SKILL.md, keeping SKILL.md's voice concise.
 - A future reader who assumes they should be identical will be confused. This ADR documents the intent.
 - `.cursor/rules` should remain in sync with CLAUDE.md body (they serve the same depth). Currently they are.
-- The CLAUDE.md header should be updated to stop implying identity: "Copy changes here first, then manually distill into skills/aposd/SKILL.md."
+
+## Precedent: Same Pattern in karpathy-guidelines
+
+The [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) project (152k stars) follows the identical distribution pattern:
+
+| File | karpathy-guidelines | aposd |
+|------|-------------------|-------|
+| CLAUDE.md | Root, full text, no frontmatter | Root, full text, no frontmatter |
+| SKILL.md | Frontmatter + nearly identical body (drops closing paragraph) | Frontmatter + condensed body + extra sections |
+| .cursor/*.mdc | Frontmatter + identical body | Frontmatter + identical body |
+
+Like this project, karpathy-guidelines has no CI drift detection and relies on manual sync. The SKILL.md and CLAUDE.md in that project are nearly identical (SKILL.md only omits the closing "These guidelines are working if" section), while this project's SKILL.md takes the divergence further with condensation and added sections. Both projects accept the same tradeoff: multi-platform distribution inherently produces copies, and the sync overhead is small enough for manual handling.

@@ -154,6 +154,14 @@ These guidelines bias toward **strategic design over tactical speed**. For trivi
 
 The goal is reducing costly design debt on non-trivial work, not slowing down simple tasks.
 
+## Security
+
+This project governs AI agent behavior. Files like `CLAUDE.md`, `skills/*/SKILL.md`, and `.cursor/rules/*.mdc` directly control how an agent operates in your environment. Treat changes to these files with the same rigor you'd apply to production code or binary dependencies.
+
+- **Pin to tagged releases** for production use — see [SECURITY.md](SECURITY.md) for details
+- **Review updates** between versions via `CHANGELOG.md`
+- **Report security issues** via GitHub issues with the `security` label — see [SECURITY.md](SECURITY.md)
+
 ## License
 
 MIT
