@@ -1,9 +1,12 @@
 ---
 name: aposd-audit
-description: Baselines current state before major refactoring. Use when code shows shallow modules, information leakage, or pass-through methods. Tracks design quality over time via evidence-backed, countable findings.
+description: Use when you need countable design evidence to justify a refactoring — pass-through method tallies, module depth scores, duplication ratios, and information leakage counts across 5+ dimensions. Tracks design health over time via repeatable measurements. Not for subjective design judgment — use aposd-critique when code feels wrong but no single violation is individually countable.
+keywords: [design, audit, aposd, refactoring, code-quality, static-analysis, dead-module]
+scope_max_input: 25 files
+scope_max_output: 15 findings
+scope_analysis_depth: quantitative
 version: 1.0.0
 author: wshobson
-tags: [design, audit, aposd, refactoring, code-quality, static-analysis]
 license: MIT
 ---
 
