@@ -4,7 +4,41 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
-- Initial release setup (CHANGELOG, tags, release workflow)
+## [v0.2.0] — 2026-05-24
+
+### Added
+
+- SECURITY.md with vulnerability disclosure policy
+- CONTRIBUTING.md with file hierarchy and sync processes
+- ADR-008: Declined safeguards (CI, validation, supply chain)
+- ADR-009: Plugin vs marketplace manifest distinction
+- `skills/release-workflow/SKILL.md` — documented release process
+- When Not to Use section in all 3 aposd skills
+- Quick Reference tables in aposd-critique and aposd-audit
+- Input/Output contract sections in all 3 aposd skills
+- Troubleshooting sections in all 3 aposd skills
+- `references/` directories in all skills for progressive disclosure
+- Worked examples in aposd-critique and aposd-audit (UserService, OrderService)
+- No-rubber-stamps and stop-and-return constraints in critique and audit
+- 9arm-skills attribution
+
+### Changed
+
+- SKILL.md restructured: Routing Rules + Red Flags first, deduplicated Rationalization Table
+- All skill descriptions narrowed to CSO-compliant trigger-only wording
+- aposd description: "any code" → "code involving design decisions"
+- aposd-critique description: CSO-clean, tightened for specificity
+- aposd-audit description: CSO-clean, disambiguated from code review
+- `{{scripts_path}}` template variables replaced with `scripts/` project paths
+- README install examples pinned to v0.1.0 tag (now v0.2.0)
+- Reference/ directory consolidated to references/ across all skills
+
+### Fixed
+
+- ADR-005 stale CLAUDE.md header quote
+- aposd-critique ADR link changed from broken relative path to title reference
+- aposd Related section cross-ref paths corrected
+- release-workflow DEAD_CROSS_REF false positive in description
 
 ## [v0.1.0] — 2026-05-24
 
@@ -53,5 +87,6 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md
 - MIT License
 
-[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.0
 [v0.1.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.1.0

@@ -57,13 +57,13 @@ The 15 behavioral rules in a single file. No command skills or reference docs.
 
 New project:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/v0.1.0/CLAUDE.md
+curl -o CLAUDE.md https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/v0.2.0/CLAUDE.md
 ```
 
 Existing project (append):
 ```bash
 echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/v0.1.0/CLAUDE.md >> CLAUDE.md
+curl https://raw.githubusercontent.com/mhenke/john-ousterhout-skills/v0.2.0/CLAUDE.md >> CLAUDE.md
 ```
 
 **Option B: Claude Code Plugin**
