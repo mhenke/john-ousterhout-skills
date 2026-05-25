@@ -43,21 +43,6 @@ Design-quality guardrails for every coding task. APOSD applies 15 principles fro
 | [**aposd-critique**](../aposd-critique/SKILL.md) | Principles-based design evaluation | Deep design review, second opinion on complexity |
 | [**aposd-audit**](../aposd-audit/SKILL.md) | Severity-scored design audit | Before major refactoring, baseline current state |
 
-## When to Use
-
-The following trigger contexts should activate this skill:
-
-1. **Module boundaries** — Deciding where to split code into modules, classes, or functions
-2. **Interface design** — Defining what a module exposes to its callers (public API, method signatures, return types)
-3. **Error handling strategy** — Choosing between exceptions, Option types, sentinel values, or error elimination
-4. **Naming** — Finding precise, intuitive names for concepts, modules, functions, or variables
-5. **Abstraction layering** — Deciding how many layers to introduce and what each layer abstracts
-6. **Refactoring pass-throughs** — Eliminating methods or config variables that add no abstraction value
-7. **Error-prone patterns** — Happy-path error handling, special cases, caller-side setup boilerplate
-8. **Design exploration** — Comparing alternative designs before choosing one
-9. **Tactical debt detection** — Recognizing when a quick fix is accumulating design debt and needs a strategic alternative
-10. **Code review** — Evaluating whether the design is deep enough, hides information, and defines errors out of existence
-
 ## When Not to Use
 
 This skill is designed for non-trivial design decisions. Skip it for:
@@ -363,57 +348,6 @@ class Authenticator:
 
 More examples in `references/examples.md`.
 
-## Template: Deep Module Pattern (Python)
-
-```python
-"""
-Deep module scaffold
-
-Hide connection lifecycle, error handling, and retry logic
-behind a one-line interface.
-
-APOSD: Rule 2 (Deep Modules) + Rule 6 (Pull Complexity Downward)
-"""
-from __future__ import annotations
-import logging
-from typing import Any, Protocol
-
-
-class EmailService(Protocol):
-    def send(self, to: str, subject: str, body: str) -> None: ...
-
-
-class SmtpEmailService:
-    """Send emails with automatic connection pooling and retry."""
-
-    def __init__(self, host: str, port: int, timeout: int = 30) -> None:
-        self._host = host
-        self._port = port
-        self._timeout = timeout
-        self._pool: list[Connection] = []
-
-    def send(self, to: str, subject: str, body: str) -> None:
-        """Deliver an email. Handles connect/send/disconnect internally."""
-        conn = self._acquire()
-        try:
-            conn.send(to, subject, body)
-        finally:
-            self._release(conn)
-
-    def _acquire(self) -> Connection:
-        return self._pool.pop() if self._pool else Connection(
-            self._host, self._port, self._timeout
-        )
-
-    def _release(self, conn: Connection) -> None:
-        if conn.healthy and len(self._pool) < 5:
-            self._pool.append(conn)
-        else:
-            conn.close()
-```
-
-More templates in `templates/`.
-
 ## Common Mistakes
 
 | Mistake | Problem | Fix |
@@ -425,20 +359,6 @@ More templates in `templates/`.
 | "Too small to design" | Every task deserves investment | Even trivial changes should leave code cleaner |
 | "No time to design" | No time to fix it later either | Two minutes of alternative thinking is free |
 | "Only serves one use case" | Special-purpose code proliferates | Generalize the interface |
-
-## Troubleshooting
-
-| Problem | Cause | Fix |
-|---------|-------|------|
-| Skill doesn't trigger on refactoring | Description says "writing, reviewing, or modifying any code" | Refactoring is "modifying" — trigger is correct. Verify the agent reads the description. |
-| Skill input is ambiguous | Task doesn't clearly match a design scenario | Falls through silently — no APOSD behavior applied. Normal agent behavior proceeds. |
-| Skill cannot complete its task | Non-design task (e.g., "write a bash script") | Returns no output. Normal agent behavior takes over. |
-| Agent over-applies all 15 rules rigidly | Treating principles as checklist instead of lens | Use the complexity lens: rules that reduce cognitive load apply; rules that don't add value can be skipped. |
-| Caller complexity not reduced after applying a rule | Rule was applied to the module body, not the interface | If the caller's code didn't get simpler, the rule was applied at the wrong level. The interface contract must change. |
-| Two principles conflict (e.g., General-Purpose vs Simplicity) | Principles have inherent tension | Resolve via the complexity lens: the option that reduces cognitive load more for future readers wins. Document the tradeoff. |
-| User repeatedly rejects strategic recommendations | User has tactical time constraints | Document the tradeoff, proceed tactically, and note the deferred design debt. Do not keep re-proposing strategic alternatives. |
-| Change invalidates an existing comment | Comment was tied to old design | Update the comment to reflect the new design. If the comment is now irrelevant, delete it. |
-| Multiple redesign rounds without convergence | Design exploration without evaluation criteria | Compare each alternative against the same criteria (interface simplicity, caller complexity, change impact). If no alternative is clearly better, the criteria are wrong — redefine them. |
 
 ## Commands
 

@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when evaluating code against APOSD design principles — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity. Use this when you need a deep, evidence-based critique that surfaces root causes instead of only symptoms.
+description: Use when evaluating whether code follows APOSD design principles — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity.
 keywords: [design, critique, aposd, complexity, module, abstraction, tactical, debt]
 scope_max_input: 15 files
 scope_max_output: 5 issues
