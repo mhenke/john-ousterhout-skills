@@ -65,7 +65,7 @@ Launch two independent assessments. **Neither may see the other's output.** If s
 
 #### Assessment A: Strategic Thinker Review
 
-Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 design principles as pass / at risk / violate, with cited code evidence (file:line:pattern). See `reference/principles.md` for full depth on each principle:
+Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 design principles as pass / at risk / violate, with cited code evidence (file:line:pattern). See `references/principles.md` for full depth on each principle:
 
 | # | Principle | Core question |
 |---|-----------|--------------|
