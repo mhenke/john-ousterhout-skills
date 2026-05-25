@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when code feels wrong but you can't name why. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity.
+description: Use when code has design quality problems that are hard to name — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity.
 license: MIT
 ---
 
