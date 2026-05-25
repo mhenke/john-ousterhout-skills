@@ -1,6 +1,6 @@
 ---
 name: aposd-audit
-description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Use before major refactoring to identify which areas need the most attention, or when code shows red flags like shallow modules, information leakage, and pass-through methods. This is a design audit, not a code review — it measures countable design metrics, not bugs or style issues.
+description: Use before major refactoring to baseline current state. Use when code shows red flags like shallow modules, information leakage, or pass-through methods. Use to track design quality over time by comparing scores across runs.
 license: MIT
 ---
 
@@ -24,6 +24,22 @@ Resolve the target to a concrete file path, directory, or module name. If no tar
 
 - **Input** — A file path, directory, or module name to audit. Defaults to workspace root if omitted.
 - **Output** — A structured Design Health Score (/20) across 5 dimensions, with per-finding evidence counts and P0-P3 severity tags. Persisted to `.aposd/audit/` for trend tracking.
+
+## Quick Reference
+
+| Dimension | Counts | Score 0-4 |
+|-----------|--------|-----------|
+| Pass-Through Proliferation | Pass-through methods + variable chains | 4=0, 3=1-2, 2=3-5, 1=6-10, 0=10+ |
+| Information Duplication | Same knowledge in multiple modules | 4=0, 3=1-2, 2=3-4, 1=5-7, 0=8+ |
+| Interface Documentation | % of public methods documented | 4=90%+, 3=70-89%, 2=40-69%, 1=10-39%, 0=<10% |
+| Naming Quality | Vague names + convention violations | 4=0, 3=1-2, 2=3-5, 1=6-10, 0=10+ |
+| Exception Discipline | Custom exceptions + catch-and-rethrow | 4=0 custom, 3=1-2, 2=3-5, 1=6-10, 0=10+ |
+
+## When Not to Use
+
+- For qualitative design philosophy questions — use `aposd critique` instead
+- For code review (bugs, style, typos) — audit measures design metrics, not correctness
+- For codebases you can't modify — the value is in tracking improvement over time
 
 ## Diagnostic Scan
 

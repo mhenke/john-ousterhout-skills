@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when evaluating whether code follows APOSD design principles. Also use when you suspect code was written tactically and want to assess whether the approach was strategic or tactical.
+description: Use when code feels wrong but you can't name why. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity.
 license: MIT
 ---
 
@@ -26,6 +26,21 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 - **Input** — A module, class, or subsystem path. Defaults to current directory if omitted. Targets with >15 files are sampled.
 - **Output** — Combined critique report: Tactical Tornado Verdict, Design Principles Score (X/18 pass), Priority Issues with P0-P3 severity, Persona Walkthroughs. Persisted to `.aposd/critique/` for trend tracking.
+
+## Quick Reference
+
+| Question | Look At |
+|----------|---------|
+| Is the design approach sound? | Design Principles Score (pass count) |
+| What's the single biggest problem? | Priority Issues (top P0) |
+| Would a different designer see it differently? | Persona Walkthroughs section |
+| Is it getting better over time? | Trend line from persisted snapshots |
+
+## When Not to Use
+
+- For counting measurable metrics — use `aposd audit` instead
+- For bug hunting or style nitpicks — critique evaluates design philosophy, not correctness
+- For trivial files (<50 lines) with no design decisions — the output won't justify the process
 
 ## Hard Invariants
 
