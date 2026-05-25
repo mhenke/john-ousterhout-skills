@@ -1,6 +1,6 @@
 ---
 name: aposd-audit
-description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Also use before major refactoring to identify which areas need the most attention, or when code shows red flags like shallow modules, information leakage, and pass-through methods.
+description: Use when you need a systematic scored evaluation of design quality across multiple dimensions. Use before major refactoring to identify which areas need the most attention, or when code shows red flags like shallow modules, information leakage, and pass-through methods. This is a design audit, not a code review — it measures countable design metrics, not bugs or style issues.
 license: MIT
 ---
 
@@ -19,6 +19,11 @@ This is a code-level design audit — check what's measurable and verifiable in 
 Resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.
 
 **Scope scoping:** If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+
+## Input / Output
+
+- **Input** — A file path, directory, or module name to audit. Defaults to workspace root if omitted.
+- **Output** — A structured Design Health Score (/20) across 5 dimensions, with per-finding evidence counts and P0-P3 severity tags. Persisted to `.aposd/audit/` for trend tracking.
 
 ## Diagnostic Scan
 
@@ -248,6 +253,15 @@ After presenting the summary, tell the user:
 > Re-run `aposd audit` after fixes to see your score improve.
 
 **IMPORTANT**: Be thorough but actionable. Too many P3 issues creates noise. Focus on what actually matters.
+
+### Troubleshooting
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| Target has 200+ files | Sampling 15 files may miss systemic issues | Sample systematically — first/middle/last per directory group. Document the sample scope. |
+| Script dependency fails (`{{scripts_path}}/critique-storage.mjs` not found) | Skill is symlinked without the scripts directory | Skip persistence. Report "Snapshot skipped (scripts not available)". Continue the audit. |
+| All dimensions score 0 | Either the codebase is critically broken, or the audit is measuring the wrong thing | Re-check the calibration examples. If the codebase truly has zero pass-throughs, zero duplication, etc., that's a valid audit result. |
+| User asks for a code review, not an audit | The two are confused | Audit measures design metrics (countable). Code review finds bugs and style issues. Redirect to the appropriate tool. |
 
 ### Common Mistakes
 

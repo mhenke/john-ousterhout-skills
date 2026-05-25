@@ -1,6 +1,6 @@
 ---
 name: aposd
-description: Use when writing, reviewing, or modifying any code. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts.
+description: Use when writing or modifying code that involves design decisions — module boundaries, interfaces, error handling, naming, or abstraction layers. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts. Not for trivial one-line changes where design investment adds no value.
 license: MIT
 ---
 
@@ -13,6 +13,15 @@ license: MIT
 1. **No explicit command**: Apply the 15 rules as always-on behavior while writing code. No invocation needed.
 2. **First word matches a command** (`aposd critique` or `aposd audit`): Load the corresponding skill file (`skills/aposd-critique/SKILL.md` or `skills/aposd-audit/SKILL.md`) and follow its instructions. Everything after the command name is the target.
 3. **User says "just make it work" or "quick fix"**: Follow rule 1 (Strategic Over Tactical) — state the strategic alternative before proceeding tactically.
+
+## When Not to Use
+
+This skill is designed for non-trivial design decisions. Skip it for:
+- Trivial one-line fixes (typo, variable rename, config change)
+- Mechanical refactors with no design impact (rename a method, extract a constant)
+- Exploratory code where the design is intentionally provisional
+
+The tradeoff note at the top of Principles covers this: "For trivial tasks, use judgment."
 
 ## Red Flags — STOP and Start Over
 
