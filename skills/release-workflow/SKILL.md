@@ -1,6 +1,6 @@
 ---
 name: release-workflow
-description: Use when starting a release, drafting a changelog, creating git tags, publishing GitHub releases, or updating README install examples to pin to the latest tagged version.
+description: Use when cutting a new version — drafting a changelog entry, creating git tags, publishing via GitHub Releases, or updating README install examples to pin to the latest tagged version.
 license: MIT
 ---
 
