@@ -8,84 +8,89 @@ license: MIT
 
 ## Overview
 
-Standardized release process for this project: draft CHANGELOG.md → git tag → GitHub release → update README install examples.
+Standardized release process: draft CHANGELOG entry → git tag → GitHub release → update README → commit.
+
+## Version Prompting
+
+Before starting the process, determine the next version:
+
+```bash
+git describe --tags --abbrev=0
+```
+
+This prints the latest tag (e.g., `v0.1.0`). Decide the bump type:
+
+- **Major** (1.0.0): Breaking behavioral rules, SKILL.md structure, or plugin compatibility
+- **Minor** (0.2.0): New rules, commands, or ADRs
+- **Patch** (0.1.1): Bug fixes, docs, non-breaking refactors
+
+No prior tag? Start at `v0.1.0`.
 
 ## Setup
 
-Before starting, verify:
-- Working tree is clean (`git status`)
-- All changes for this release are committed on `main`
-- The remote origin is accessible (`git fetch`)
+Before starting:
+- `git status` — working tree must be clean
+- `git log origin/main..HEAD` — no unpushed commits
+- `git fetch` — remote accessible
 
 ## Process
 
 ### 1. Draft CHANGELOG Entry
 
-Read `CHANGELOG.md` at project root to find the current latest version. Then read the git log since the last tag:
+Read `CHANGELOG.md` to find the current latest version. Read the git log since the last tag:
 
 ```bash
-git log --oneline <last-tag>..HEAD
+git log --oneline $(git describe --tags --abbrev=0)..HEAD
 # If no prior tag:
 git log --oneline --all
 ```
 
-Categorize commits by type:
-- **Added** — new features (`feat:`, `feat(...):`)
-- **Changed** — changes in existing functionality (`refactor:`, `perf:`)
-- **Fixed** — bug fixes (`fix:`, `fix(...):`)
-- **Docs** — documentation (`docs:`, `docs(...):`)
-
-Update `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/) format. Add a new section at the top for this release with the planned version number and date.
+Categorize commits: **Added** (`feat:`), **Changed** (`refactor:`, `perf:`), **Fixed** (`fix:`), **Docs** (`docs:`). Update `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/) format.
 
 ### 2. Create Git Tag
 
 ```bash
-git tag -a v<major>.<minor>.<patch> -m "Release v<major>.<minor>.<patch>"
-git push origin v<major>.<minor>.<patch>
+git tag -a v{NEW_VERSION} -m "Release v{NEW_VERSION}"
+git push origin v{NEW_VERSION}
 ```
-
-Semantic versioning:
-- **Major** (1.0.0): Breaking changes to behavioral rules, SKILL.md structure, or plugin compatibility
-- **Minor** (0.1.0): New rules, new commands, new ADRs
-- **Patch** (0.0.1): Bug fixes, documentation updates, non-breaking refactors
 
 ### 3. Create GitHub Release
 
 ```bash
-gh release create v<major>.<minor>.<patch> \
-  --title "v<major>.<minor>.<patch>" \
+gh release create v{NEW_VERSION} \
+  --title "v{NEW_VERSION}" \
   --notes "See CHANGELOG.md for details."
 ```
 
 ### 4. Update README Install Examples
 
-Search README.md for raw.githubusercontent.com URLs pointing to `main` branch:
+Search README.md for `raw.githubusercontent.com/mhenke/john-ousterhout-skills/` followed by a version reference. Replace with the new version tag. The `/plugin install` commands don't need URL changes.
 
-```
-raw.githubusercontent.com/mhenke/john-ousterhout-skills/main/
-```
-
-Replace `main` with the new tag name:
-
-```
-raw.githubusercontent.com/mhenke/john-ousterhout-skills/v<major>.<minor>.<patch>/
-```
-
-The `/plugin install` commands use the plugin registry and don't need URL changes.
-
-### 5. Commit the Release
+### 5. Commit
 
 ```bash
 git add CHANGELOG.md README.md
-git commit -m "chore: release v<major>.<minor>.<patch>"
+git commit -m "chore: release v{NEW_VERSION}"
 git push origin main
 ```
 
+## Troubleshooting
+
+| Step | Failure | Fix |
+|------|---------|-----|
+| 2. Tag push | `git push origin v{NEW_VERSION}` fails (tag exists) | Tag may already exist remotely. Run `git tag -d v{NEW_VERSION}` locally, then re-push. Or bump to next patch version. |
+| 3. Release | `gh release create` fails | GitHub CLI not authenticated? Run `gh auth status`. Or create the release manually at `https://github.com/mhenke/john-ousterhout-skills/releases/new`. |
+| 4. README update | No `main` reference found in README | The install examples may already point to a tag. Update them to the new tag directly. |
+| 5. Push rejected | Remote has new commits | `git pull --rebase origin main`, resolve conflicts, re-push. Re-do steps 1-4 if CHANGELOG or README conflicts. |
+
 ## Version Contract
 
-Releases signal the level of change users should expect:
-
 - Tagged releases are stable snapshots with a documented CHANGELOG
-- `main` branch is the development edge — may contain unreleased changes
-- Users pinning to a tag get stability; users on `main` get latest
-- There is no formal SemVer guarantee until v1.0.0 — the 0.x range acknowledges the project is evolving rapidly
+- The `main` branch is the development edge — may contain unreleased changes
+- Users pinning to a tag get stability; users on `main` get the latest
+- No formal SemVer guarantee until v1.0.0 — 0.x range acknowledges rapid evolution
+
+## Related
+
+- [Keep a Changelog](https://keepachangelog.com/) — changelog format reference
+- `references/version-examples.md` — version bump examples
