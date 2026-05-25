@@ -42,6 +42,14 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 - For bug hunting or style nitpicks — critique evaluates design philosophy, not correctness
 - For trivial files (<50 lines) with no design decisions — the output won't justify the process
 
+## Scope
+
+**Analyzes:** One module, class, or subsystem at a time. Evaluates design decisions — module boundaries, interface quality, error handling, abstraction layers, naming, and comments.
+
+**Does not analyze:** Cross-module consistency, runtime performance, test coverage, security vulnerabilities, or style formatting. These are outside the critique's design philosophy lens.
+
+**Output:** A combined report with persona perspectives. Not a score — critique is qualitative. For a measurable score, use `aposd audit`.
+
 ## Hard Invariants
 
 - Assessment A (Strategic Thinker Review) and Assessment B (Tactical Tornado Detection) are both required.
@@ -81,6 +89,16 @@ Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 
 | 18 | Increments Are Abstractions | Decomposed by abstraction, not feature? |
 
 **Evidence requirement:** Every assessment must include file:line:code evidence. "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
+
+```python
+# Good evidence:
+"Deep Modules: VIOLATE — UserService.get_user (user_service.py:42-45) body is:
+    return self.repo.find_by_id(user_id)
+    # ^^ pass-through method, adds no abstraction, interface == implementation"
+
+# Bad evidence (fails gate):
+"Deep Modules: VIOLATE — some methods are shallow"
+```
 
 Return: per-principle assessment table, structural analysis (module depth, abstraction layers, interface quality, error strategy), what's working (2-3 items), priority issues (3-5 with what/why/fix), single most impactful design change.
 
