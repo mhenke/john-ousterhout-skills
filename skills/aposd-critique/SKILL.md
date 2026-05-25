@@ -10,6 +10,16 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 **Usage:** `aposd critique [module, class, or subsystem]`
 
+## Required Inputs — Refuse Without These
+
+Before starting, confirm all three. If any are missing, list what's missing and stop:
+
+- [ ] **Target exists** — a real file path, directory, or module name. If the user provided nothing, ask. If the path doesn't exist, refuse.
+- [ ] **Target is code** — not a binary, image, config file, or generated artifact. Critique evaluates design decisions, not output.
+- [ ] **Target has substance** — at least one non-trivial module (>50 lines or >1 file). Trivial code doesn't need a critique.
+
+**If any check fails:** state what's missing and stop. Do not proceed to Setup.
+
 ## Setup
 
 1. **Resolve the target** to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
@@ -165,6 +175,27 @@ Provocative questions that might unlock better designs:
 
 Keep this compact. Include status for target slug, ignore list, assessment independence (sub-agents used or sequential), and temp-file cleanup. Run Notes are final-chat only — do not include this section in the persisted snapshot body.
 
+### Worked Example — UserService.java
+
+Given a target at `src/services/UserService.java`, the critique report would look like:
+
+> **Tactical Tornado Verdict:** Medium risk. UserService has 3 pass-through methods (findById→repository.findById, findAll→repository.findAll, deleteById→repository.deleteById) and a mixed abstraction layer where validation and persistence are entangled.
+>
+> **Design Principles Score: 12/18 pass** (4 at-risk, 2 violate)
+>
+> | # | Principle | Verdict | Evidence |
+> |---|---|---|---|
+> | 2 | Deep Modules | at-risk | `findById` body is `return repo.findById(id)` — shallow |
+> | 5 | Different Layer | violate | `UserService.createUser` calls validation then repo in same method |
+> | 7 | Better Together | at-risk | `UserValidator` and `UserRepository` could merge into deeper module |
+> | ... | | | |
+>
+> **Priority Issues:**
+> - **P1** Pass-through chain in UserService (findById→findAll→deleteById) adds no abstraction value
+> - **P2** Validation logic in createUser leaks persistence concerns into the service layer
+>
+> This is illustrative. Your output will follow this structure but reflect the actual target.
+
 ### Persist Snapshot
 
 Write the critique report to `.aposd/critique/` so the user can refer back, and so future critiques can show trends. The slug was computed during Setup.
@@ -209,6 +240,10 @@ Before reporting any non-minor finding, self-validate:
 ```
 
 Missing any field → finding is discarded.
+
+**No rubber-stamps.** "All 18 principles PASS" with no code evidence per principle is not a valid critique. Every verdict must cite file:line:pattern. If you catch yourself writing a finding without evidence, stop and return to the gate check.
+
+**Stop-and-return.** If you find yourself writing a finding without a file:line:pattern, do not continue. Stop. Restart the validation gate for that finding. A finding that doesn't pass is worse than no finding — it wastes the reader's time.
 
 **Passing example:**
 ```

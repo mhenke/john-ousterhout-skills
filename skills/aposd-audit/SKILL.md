@@ -14,6 +14,16 @@ This is a code-level design audit — check what's measurable and verifiable in 
 
 **Scoring rubric:** Score each dimension 0-4. Total /20. Rating bands: 18-20 Excellent, 14-17 Good, 10-13 Acceptable, 6-9 Poor, 0-5 Critical.
 
+## Required Inputs — Refuse Without These
+
+Before starting, confirm all three. If any are missing, list what's missing and stop:
+
+- [ ] **Target exists** — a real file path, directory, or module. If the user provided nothing, ask. If the path doesn't resolve, refuse.
+- [ ] **Target is code** — not a binary, image, or generated artifact. Audit counts design constructs (pass-throughs, duplication, docs, names, exceptions), not bytes.
+- [ ] **Target has measurable substance** — at least one source file with public methods, multiple modules, or detectable design decisions. Empty or trivial targets produce meaningless scores.
+
+**If any check fails:** state what's missing and stop. Do not proceed to Setup.
+
 ## Setup
 
 Resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.
@@ -198,6 +208,23 @@ Identify recurring problems that indicate systemic gaps rather than one-off mist
 
 Note what's working well: dimensions scoring ≥3, clean patterns that prevent complexity. Be objective — explain precisely why they reduce change amplification or cognitive load.
 
+### Worked Example — OrderService Module
+
+Given a target at `src/services/`, the audit report would look like:
+
+> | # | Dimension | Score | Key Finding |
+> |---|---|---|---|
+> | 1 | Pass-Through Proliferation | 2 | 4 pass-through methods found (findById→repo.findById, etc.) |
+> | 2 | Information Duplication | 1 | "expired_at" threshold defined in 3 places |
+> | 3 | Interface Documentation | 3 | 70% of public methods documented |
+> | 4 | Naming Quality | 3 | 2 vague names ("data", "helper") |
+> | 5 | Exception Discipline | 4 | 0 custom exceptions, no catch-and-rethrow |
+> | **Total** | | **13/20** | **Acceptable** |
+>
+> **Tactical Tornado Risk:** Medium — pass-through proliferation across service layer is a systemic pattern.
+>
+> This is illustrative. Your output will follow this structure but reflect the actual target's counts.
+
 ### Persist Snapshot
 
 Write the audit report to `.aposd/audit/` so the user can refer back, and so future audits can show trends.
@@ -244,6 +271,10 @@ Before reporting any finding, self-validate:
 ```
 
 Missing any field → finding is discarded.
+
+**No rubber-stamps.** A score of 20/20 with no evidence counts per dimension is not a valid audit. Every score must cite the count behind it. If you catch yourself writing a score without evidence, stop and restart the gate check.
+
+**Stop-and-return.** If you find yourself writing a finding without a file:line:pattern or count, do not continue. Stop. Restart the validation gate for that finding. An unverifiable finding is noise, not signal.
 
 **Passing example:**
 ```
