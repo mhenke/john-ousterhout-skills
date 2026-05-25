@@ -14,16 +14,6 @@ This is a code-level design audit — check what's measurable and verifiable in 
 
 **Scoring rubric:** Score each dimension 0-4. Total /20. Rating bands: 18-20 Excellent, 14-17 Good, 10-13 Acceptable, 6-9 Poor, 0-5 Critical.
 
-## Required Inputs — Refuse Without These
-
-Before starting, confirm all three. If any are missing, list what's missing and stop:
-
-- [ ] **Target exists** — a real file path, directory, or module. If the user provided nothing, ask. If the path doesn't resolve, refuse.
-- [ ] **Target is code** — not a binary, image, or generated artifact. Audit counts design constructs (pass-throughs, duplication, docs, names, exceptions), not bytes.
-- [ ] **Target has measurable substance** — at least one source file with public methods, multiple modules, or detectable design decisions. Empty or trivial targets produce meaningless scores.
-
-**If any check fails:** state what's missing and stop. Do not proceed to Setup.
-
 ## Setup
 
 Resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.

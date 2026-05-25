@@ -10,16 +10,6 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 **Usage:** `aposd critique [module, class, or subsystem]`
 
-## Required Inputs — Refuse Without These
-
-Before starting, confirm all three. If any are missing, list what's missing and stop:
-
-- [ ] **Target exists** — a real file path, directory, or module name. If the user provided nothing, ask. If the path doesn't exist, refuse.
-- [ ] **Target is code** — not a binary, image, config file, or generated artifact. Critique evaluates design decisions, not output.
-- [ ] **Target has substance** — at least one non-trivial module (>50 lines or >1 file). Trivial code doesn't need a critique.
-
-**If any check fails:** state what's missing and stop. Do not proceed to Setup.
-
 ## Setup
 
 1. **Resolve the target** to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
