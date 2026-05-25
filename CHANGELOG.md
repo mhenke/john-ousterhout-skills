@@ -4,6 +4,22 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [v0.2.1] — 2026-05-24
+
+### Changed
+
+- Renamed `skills/release-workflow/` to `skills/create-release-workflow/`
+- Release notes now embed the version's CHANGELOG section instead of a bare "See CHANGELOG.md" link
+
+### Fixed
+
+- Trimmed verbose sections from aposd SKILL.md
+- Removed explicit triggers and scope blocks from aposd that harmed PluginEval scores
+
+### Docs
+
+- Added review-discipline source notes to aposd
+
 ## [v0.2.0] — 2026-05-24
 
 ### Added
@@ -86,6 +102,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md
 - MIT License
 
-[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.2.1...HEAD
+[v0.2.1]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.1
 [v0.2.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.0
 [v0.1.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.1.0
