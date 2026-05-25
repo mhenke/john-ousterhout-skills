@@ -253,6 +253,6 @@ More examples in `references/examples.md`.
 
 ## Related
 
-- [aposd-critique](skills/aposd-critique/SKILL.md) — Design evaluation command
-- [aposd-audit](skills/aposd-audit/SKILL.md) — Design audit command
+- [aposd-critique](../aposd-critique/SKILL.md) — Design evaluation command
+- [aposd-audit](../aposd-audit/SKILL.md) — Design audit command
 - [references/](references/) — Extended examples and troubleshooting
