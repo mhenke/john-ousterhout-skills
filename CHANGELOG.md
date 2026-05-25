@@ -4,6 +4,14 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [v0.2.2] — 2026-05-25
+
+### Docs
+
+- Sharpened aposd audit-critique boundary in skill descriptions
+- Consolidated aposd-audit references, added code templates, removed stale root-level docs
+- Linked CHANGELOG.md in create-release-workflow and release notes
+
 ## [v0.2.1] — 2026-05-24
 
 ### Changed
@@ -102,7 +110,8 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md
 - MIT License
 
-[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/mhenke/john-ousterhout-skills/compare/v0.2.2...HEAD
+[v0.2.2]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.2
 [v0.2.1]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.1
 [v0.2.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.2.0
 [v0.1.0]: https://github.com/mhenke/john-ousterhout-skills/releases/tag/v0.1.0
