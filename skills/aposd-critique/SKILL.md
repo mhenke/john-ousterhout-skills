@@ -16,11 +16,16 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 2. **Compute the slug** for persistence and trend tracking:
    ```bash
-   node {{scripts_path}}/critique-storage.mjs slug "<resolved-path>"
+   node scripts/critique-storage.mjs slug "<resolved-path>"
    ```
    Keep it. If the command exits non-zero, skip persistence and trend for this run, but continue the critique.
 
 3. **Read `.aposd/critique/ignore.md`** if it exists. Drop matching findings silently; it is the only prior-run input critique consumes.
+
+## Input / Output
+
+- **Input** — A module, class, or subsystem path. Defaults to current directory if omitted. Targets with >15 files are sampled.
+- **Output** — Combined critique report: Tactical Tornado Verdict, Design Principles Score (X/18 pass), Priority Issues with P0-P3 severity, Persona Walkthroughs. Persisted to `.aposd/critique/` for trend tracking.
 
 ## Hard Invariants
 
@@ -156,13 +161,13 @@ Skip this step if the Setup slug was null (vague or root-level target).
 2. **Write snapshot**: Write the full report body (Design Principles Score through Run Notes) to a temp file, then pass it through the helper with structured metadata. Exclude the "Ask the User" / "Recommended Actions" / "Common Mistakes" / "Red Flags" sections and the snapshot trend line itself from the body:
    ```bash
    APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<X>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
-     node {{scripts_path}}/critique-storage.mjs write <slug> <body-file>
+     node scripts/critique-storage.mjs write <slug> <body-file>
    ```
    The helper prints the absolute path it wrote. Delete the temp file afterward.
 
 3. **Read trend** for context:
    ```bash
-   node {{scripts_path}}/critique-storage.mjs trend <slug> 5
+   node scripts/critique-storage.mjs trend <slug> 5
    ```
    This returns a JSON array of the last 5 frontmatter entries (including the one just written).
 
@@ -222,6 +227,16 @@ After presenting, tell the user:
 >
 > Re-run `aposd critique` after fixes to see your assessment improve.
 
+### Troubleshooting
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| Script dependency fails (`scripts/critique-storage.mjs` not found) | Skill is symlinked without the scripts directory | Skip persistence. Report "Snapshot skipped (scripts not available)". Continue the critique. |
+| Sub-agents unavailable for dual assessment | Environment doesn't support sub-agents | Run sequentially: complete Assessment A first, then Assessment B, then synthesize. Report "degraded (sequential)". |
+| Slug computation fails (non-zero exit) | Target is vague or root-level | Skip persistence and trend. Continue the critique without snapshot. |
+| Target has 200+ files | Sampling 15 files may miss systemic issues | Sample systematically — first/middle/last per directory group. Document the sample scope. |
+| User asks for audit, not critique | The two are confused | Critique evaluates design philosophy (qualitative). Audit measures countable metrics (quantitative). Redirect to the appropriate command. |
+
 ### Common Mistakes
 
 | Mistake | Why It's Wrong | Fix |
@@ -241,3 +256,9 @@ After presenting, tell the user:
 - Tagging a finding without a complexity symptom
 - Reporting more than 5 priority issues
 - Using vague language like "consider refactoring" instead of concrete actions
+
+## Related
+
+- [aposd](skills/aposd/SKILL.md) — Always-on behavioral rules
+- [aposd-audit](skills/aposd-audit/SKILL.md) — Design audit command
+- [references/](references/) — Extended troubleshooting
