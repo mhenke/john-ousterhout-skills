@@ -1,3 +1,5 @@
+> **Canonical copy.** Edit here first. Vendored copies in `skills/*/references/` are snapshots.
+
 # Personas — Tactical Tornado & Strategic Thinker
 
 Two design personas for evaluating code through the APOSD lens. Use in critique and audit to surface different failure modes and design ideals.

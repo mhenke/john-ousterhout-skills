@@ -1,3 +1,5 @@
+> **Canonical copy.** Edit here first. Vendored copies in `skills/*/references/` are snapshots.
+
 # Red Flags — Deep Reference
 
 From *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Listed in priority order. Each red flag includes symptom, why it increases complexity, detection pattern, and fix strategy.

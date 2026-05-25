@@ -1,3 +1,5 @@
+> **Canonical copy.** Edit here first. Vendored copies in `skills/*/references/` are snapshots.
+
 # Scoring Framework — Design Health Score
 
 Scoring framework used by `aposd audit`. This file provides the scoring overview and rating bands; the `skills/aposd-audit/SKILL.md` file contains the exact per-dimension count thresholds.

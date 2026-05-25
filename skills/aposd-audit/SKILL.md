@@ -253,11 +253,11 @@ After presenting the summary, tell the user:
 
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
-| Scoring dimensions without evidence | A score with no count is meaningless | Every score must cite the count and file:line:pattern |
-| Judging design quality instead of counting | "This module is shallow" — interpretive, not measurable | Count pass-throughs. Count duplications. Count missing docs. |
-| Tagging everything as P0 | Everything being P0 means nothing is | P0 = blocks progress, P1 = major fix, P2 = local, P3 = polish |
+| Scoring dimensions without evidence | e.g., Pass-Through Proliferation scored 2/4 with no count | Every score must cite the count and file:line:pattern |
+| Judging design quality instead of counting | e.g., "This module is shallow" is interpretive, not measurable | Count pass-throughs. Count duplications. Count missing docs. |
+| Tagging everything as P0 | e.g., all 5 findings marked P0 dilutes prioritization | P0 = blocks progress, P1 = major fix, P2 = local, P3 = polish |
 | Treating audit like a code review | Bug hunting and design evaluation are different | Audit measures design metrics. Don't list typos or style issues. |
-| Reporting findings without file:line:pattern | Reader can't act on generic advice | Every finding must pass the Specificity Validation Gate |
+| Reporting findings without file:line:pattern | e.g., "Naming violations found" with no locations | Every finding must pass the Specificity Validation Gate |
 
 ### Red Flags — STOP and Start Over
 

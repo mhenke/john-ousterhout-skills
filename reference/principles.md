@@ -1,3 +1,5 @@
+> **Canonical copy.** Edit here first. Vendored copies in `skills/*/references/` are snapshots.
+
 # Design Principles — Deep Reference
 
 From *A Philosophy of Software Design, 2nd Edition* (Ousterhout, 2021). Each principle includes core idea, complexity symptom it addresses, taking-it-too-far limit, and an example.

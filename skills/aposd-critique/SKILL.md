@@ -228,9 +228,9 @@ After presenting, tell the user:
 |---------|---------------|-----|
 | Running assessments sequentially in one head | Second output biased by the first | Use sub-agents. If unavailable, note the bias in the report. |
 | Listing red flags without complexity impact | Reader doesn't know WHY it matters | Tag each finding: change amplification / cognitive load / unknown unknowns. |
-| Generic persona descriptions | "Tactical Tornado writes shallow code" adds nothing | Name the specific function, line, and pattern. |
-| Assessing principles without evidence | PASS/FAIL with no code evidence is useless | Every assessment must cite file:line:code. |
-| Reporting findings without file:line:pattern | Reader can't act on generic advice | Every finding must pass the Specificity Validation Gate. |
+| Generic persona descriptions | e.g., "Tactical Tornado writes shallow code" adds nothing | Name the specific function, line, and pattern. |
+| Assessing principles without evidence | e.g., PASS on rule 2 with no code citation is useless | Every assessment must cite file:line:code. |
+| Reporting findings without file:line:pattern | e.g., "Information Hiding violated" with no location | Every finding must pass the Specificity Validation Gate. |
 
 ### Red Flags — STOP and Start Over
 
