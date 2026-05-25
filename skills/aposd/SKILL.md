@@ -1,6 +1,6 @@
 ---
 name: aposd
-description: Use when writing or modifying code that involves design decisions — module boundaries, interfaces, error handling, naming, or abstraction layers. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts. Not for trivial one-line changes where design investment adds no value.
+description: Use when writing or modifying code that involves design decisions — module boundaries, interfaces, error handling, naming, or abstraction layers. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts. Use it whenever a change needs a design lens, even if the user asks for a quick fix. Not for trivial one-line changes where design investment adds no value.
 license: MIT
 ---
 
@@ -40,6 +40,18 @@ The tradeoff note at the top of Principles covers this: "For trivial tasks, use 
 ## Setup
 
 Before coding: load context (README, CLAUDE.md, existing code), identify task type (bug fix, feature, refactor), and scan for design red flags (shallow modules, information leakage, pass-through methods). Skipping these produces generic output.
+
+## Review discipline
+
+When evaluating or modifying design, do not stop at the first workable answer.
+
+1. Identify the smallest meaningful target and the caller-facing problem.
+2. Compare at least two plausible designs or fixes before choosing one.
+3. Tie every recommendation to a concrete design principle or red flag.
+4. Prefer the change that removes future decisions from callers and leaves the module cleaner.
+5. Keep the everyday skill lightweight; use the deeper critique and audit skills when you need a formal review pass.
+
+Source for this review-discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
 
 ## Input / Output
 

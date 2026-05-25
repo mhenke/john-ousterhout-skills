@@ -1,6 +1,6 @@
 ---
 name: aposd-critique
-description: Use when code has design quality problems that are hard to name — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity.
+description: Use when code has design quality problems that are hard to name — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity. Use this when you need a deep, evidence-based critique that surfaces root causes instead of only symptoms.
 license: MIT
 ---
 
@@ -49,6 +49,16 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 **Does not analyze:** Cross-module consistency, runtime performance, test coverage, security vulnerabilities, or style formatting. These are outside the critique's design philosophy lens.
 
 **Output:** A combined report with persona perspectives. Not a score — critique is qualitative. For a measurable score, use `aposd audit`.
+
+## Depth rules
+
+- Treat the review as two independent attempts to explain the code, then synthesize the answers.
+- Do not stop at naming a smell; connect it to change amplification, cognitive load, or unknown unknowns.
+- For every major issue, identify the root abstraction leak or boundary mistake, not just the symptom.
+- Compare at least two possible redesigns before recommending one.
+- Prefer a small number of high-signal findings over a long list of shallow observations.
+
+Source for this review-discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
 
 ## Hard Invariants
 
