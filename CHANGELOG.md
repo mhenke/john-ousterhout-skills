@@ -9,7 +9,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 ### Changed
 
 - Renamed `skills/release-workflow/` to `skills/create-release-workflow/`
-- Release notes now embed the version's CHANGELOG section instead of a bare "See CHANGELOG.md" link
+- Release notes now embed the version's CHANGELOG section instead of a bare "[See CHANGELOG.md](/CHANGELOG.md)" link
 
 ### Fixed
 

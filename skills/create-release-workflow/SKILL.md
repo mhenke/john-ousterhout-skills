@@ -10,6 +10,8 @@ license: MIT
 
 Standardized release process: draft CHANGELOG entry → git tag → GitHub release → update README → commit.
 
+See [CHANGELOG.md](/CHANGELOG.md).
+
 ## Version Prompting
 
 Before starting the process, determine the next version:
