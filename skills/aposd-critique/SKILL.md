@@ -1,6 +1,10 @@
 ---
 name: aposd-critique
-description: Use when code has design quality problems that are hard to name — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity. Use this when you need a deep, evidence-based critique that surfaces root causes instead of only symptoms.
+description: Use when evaluating code against APOSD design principles — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use when you want a second opinion on design quality, or when you suspect tactical shortcuts produced working code with hidden complexity. Use this when you need a deep, evidence-based critique that surfaces root causes instead of only symptoms.
+keywords: [design, critique, aposd, complexity, module, abstraction, tactical, debt]
+scope_max_input: 15 files
+scope_max_output: 5 issues
+scope_analysis_depth: qualitative
 license: MIT
 ---
 
@@ -10,9 +14,20 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 **Usage:** `aposd critique [module, class, or subsystem]`
 
+## Quick Reference
+
+| Question | Look At |
+|----------|---------|
+| Is the design approach sound? | Design Principles Score (pass count) |
+| What's the single biggest problem? | Priority Issues (top P0) |
+| Would a different designer see it differently? | Persona Walkthroughs section |
+| Is it getting better over time? | Trend line from persisted snapshots |
+
 ## Setup
 
-1. **Resolve the target** to a concrete file path or module name. If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+1. **Resolve the target** to a concrete file path or module name. If the target does not exist or is empty, report "Target not found or empty" and exit the critique (no findings to evaluate). If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+
+**Pre-check:** Verify `scripts/critique-storage.mjs` is available. If not found, set `persist=false` and skip all persistence steps. Continue the critique without snapshots.
 
 2. **Compute the slug** for persistence and trend tracking:
    ```bash
@@ -27,15 +42,6 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 - **Input** — A module, class, or subsystem path. Defaults to current directory if omitted. Targets with >15 files are sampled.
 - **Output** — Combined critique report: Tactical Tornado Verdict, Design Principles Score (X/18 pass), Priority Issues with P0-P3 severity, Persona Walkthroughs. Persisted to `.aposd/critique/` for trend tracking.
 
-## Quick Reference
-
-| Question | Look At |
-|----------|---------|
-| Is the design approach sound? | Design Principles Score (pass count) |
-| What's the single biggest problem? | Priority Issues (top P0) |
-| Would a different designer see it differently? | Persona Walkthroughs section |
-| Is it getting better over time? | Trend line from persisted snapshots |
-
 ## When Not to Use
 
 - For counting measurable metrics — use `aposd audit` instead
@@ -44,7 +50,7 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 ## Scope
 
-**Analyzes:** One module, class, or subsystem at a time. Evaluates design decisions — module boundaries, interface quality, error handling, abstraction layers, naming, and comments.
+**Analyzes:** One module, class, or subsystem at a time (max 15 files sampled). Evaluates design decisions — module boundaries, interface quality, error handling, abstraction layers, naming, and comments. No more than 5 priority issues per critique.
 
 **Does not analyze:** Cross-module consistency, runtime performance, test coverage, security vulnerabilities, or style formatting. These are outside the critique's design philosophy lens.
 
@@ -75,28 +81,7 @@ Launch two independent assessments. **Neither may see the other's output.** If s
 
 #### Assessment A: Strategic Thinker Review
 
-Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 design principles as pass / at risk / violate, with cited code evidence (file:line:pattern). See `references/principles.md` for full depth on each principle:
-
-| # | Principle | Core question |
-|---|-----------|--------------|
-| 1 | Strategic Over Tactical | Design investment or just get it working? |
-| 2 | Deep Modules | Is interface simpler than implementation? |
-| 3 | Information Hiding | Do callers see internals? |
-| 4 | General-Purpose Design | Could this serve >1 use case? |
-| 5 | Different Layer, Different Abstraction | Does each layer add value? |
-| 6 | Pull Complexity Downward | Is the common case trivial? |
-| 7 | Better Together or Better Apart | Right module boundaries? |
-| 8 | Define Errors Out of Existence | Could errors be designed away? |
-| 9 | Design It Twice | Were alternatives considered? |
-| 10 | Comments Describe Non-Obvious | Do comments add info beyond code? |
-| 11 | Comments First | Was interface designed before impl? |
-| 12 | Choosing Names | Do names create an image? |
-| 13 | Code Should Be Obvious | First-reader understands without effort? |
-| 14 | Modifying Existing Code | Left cleaner than found? |
-| 15 | Consistency | Same concepts, same patterns? |
-| 16 | Design for the Future | Volatility encapsulated? |
-| 17 | Performance as Design | Design-level decisions sound? |
-| 18 | Increments Are Abstractions | Decomposed by abstraction, not feature? |
+Evaluate the code as the Strategic Thinker persona would. Assess each of the 18 design principles as pass / at risk / violate, with cited code evidence (file:line:pattern). See `references/principles.md` for the full framework.
 
 **Evidence requirement:** Every assessment must include file:line:code evidence. "Strategic Over Tactical: PASS — UserRepository (l12) extracts db logic into a module, reducing change amplification." Not just "PASS."
 
@@ -223,6 +208,19 @@ Skip this step if the Setup slug was null (vague or root-level target).
 1. **Compute trend score** as the pass count (X/18) from the Design Principles Score.
 
 2. **Write snapshot**: Write the full report body (Design Principles Score through Run Notes) to a temp file, then pass it through the helper with structured metadata. Exclude the "Ask the User" / "Recommended Actions" / "Common Mistakes" / "Red Flags" sections and the snapshot trend line itself from the body:
+
+   The metadata JSON follows this schema:
+   ```json
+   {
+     "target": "src/services/UserService.java",
+     "total_score": 12,
+     "p0_count": 0,
+     "p1_count": 2,
+     "p2_count": 3,
+     "p3_count": 1
+   }
+   ```
+
    ```bash
    APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<X>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
      node scripts/critique-storage.mjs write <slug> <body-file>
@@ -303,7 +301,12 @@ After presenting, tell the user:
 | Sub-agents unavailable for dual assessment | Environment doesn't support sub-agents | Run sequentially: complete Assessment A first, then Assessment B, then synthesize. Report "degraded (sequential)". |
 | Slug computation fails (non-zero exit) | Target is vague or root-level | Skip persistence and trend. Continue the critique without snapshot. |
 | Target has 200+ files | Sampling 15 files may miss systemic issues | Sample systematically — first/middle/last per directory group. Document the sample scope. |
+| Target is missing or empty | Path does not exist or file has no content | Report "Target not found or empty" and exit. No findings to evaluate. |
 | User asks for audit, not critique | The two are confused | Critique evaluates design philosophy (qualitative). Audit measures countable metrics (quantitative). Redirect to the appropriate command. |
+| Target contains only generated/protobuf files | No design decisions to evaluate | Report "Target is generated code — critique skipped" and exit. |
+| Target is a single trivial file (<50 lines) | Not enough design decisions to evaluate | Report "Target too small for meaningful critique" and exit, or evaluate at reduced depth. |
+| Target has mixed-language files (e.g., JS + SQL + YAML) | Cross-language analysis exceeds scope | Scope critique to the primary language files (by line count). Report the scoping decision. |
+| Assessment takes too long (>5 min) | Large dependency graph or deep nesting | Sample more aggressively. Report the sample scope and that depth was limited. |
 
 ### Common Mistakes
 

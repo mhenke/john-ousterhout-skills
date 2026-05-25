@@ -1,18 +1,62 @@
 ---
 name: aposd
-description: Use when writing or modifying code that involves design decisions — module boundaries, interfaces, error handling, naming, or abstraction layers. Also use when code has shallow modules, information leakage, pass-through methods, duplicated logic, vague names, or accumulating design debt from tactical shortcuts. Use it whenever a change needs a design lens, even if the user asks for a quick fix. Not for trivial one-line changes where design investment adds no value.
+description: 'Use when making design decisions: module boundaries, interfaces, error handling, naming. Not for one-line fixes.'
 license: MIT
+in_scope:
+  - Design analysis
+  - Modular decomposition
+  - Interface design
+  - Naming decisions
+  - Error-handling strategy
+  - Abstraction layering
+  - Code review with design lens
+out_of_scope:
+  - Low-level debugging
+  - Performance profiling
+  - Framework-specific patterns
+  - CI/CD configuration
+  - Deployment infrastructure
+  - Security auditing
 ---
 
-> **Content source:** `CLAUDE.md` is the single source of truth for the 15 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Routing Rules) are maintained here directly. See ADR-005 (Intentional Condensation). Examples and troubleshooting in `references/`.
+> **Content source:** `CLAUDE.md` is the single source of truth for the 15 behavioral rules — make changes to those there first, then copy here. Sections unique to this file (Setup, Quick Reference, Common Mistakes, Invocation Modes) are maintained here directly. See ADR-005 (Intentional Condensation). Examples in `references/`.
 
 # APOSD behavioral guidelines
 
-## Routing Rules
+Design-quality guardrails for every coding task. APOSD applies 15 principles from *A Philosophy of Software Design* (Ousterhout) — always-on behavioral guidance that pushes toward deeper modules, cleaner interfaces, and less error handling for callers. No explicit invocation needed for everyday coding.
 
-1. **No explicit command**: Apply the 15 rules as always-on behavior while writing code. No invocation needed.
-2. **First word matches a command** (`aposd critique` or `aposd audit`): Load the corresponding skill file (`skills/aposd-critique/SKILL.md` or `skills/aposd-audit/SKILL.md`) and follow its instructions. Everything after the command name is the target.
-3. **User says "just make it work" or "quick fix"**: Follow rule 1 (Strategic Over Tactical) — state the strategic alternative before proceeding tactically.
+## Scope
+
+**In scope:** Design analysis, modular decomposition, interface design, naming, error-handling strategy, abstraction layering, code review with a design lens.
+
+**Deliberately out of scope:**
+- Low-level debugging or performance profiling
+- Framework-specific patterns (React, Django, etc.)
+- CI/CD configuration, deployment, infrastructure
+- Security auditing — see the dedicated security skills
+
+**Boundary with sibling skills:** This skill provides design *principles* and behavioral guidance. The sibling skills below cover formal evaluation passes:
+
+| Skill | Purpose | When to Use |
+|-------|---------|-------------|
+| **aposd** (this skill) | Always-on design principles during coding | Every task with design decisions |
+| [**aposd-critique**](../aposd-critique/SKILL.md) | Principles-based design evaluation | Deep design review, second opinion on complexity |
+| [**aposd-audit**](../aposd-audit/SKILL.md) | Severity-scored design audit | Before major refactoring, baseline current state |
+
+## When to Use
+
+The following trigger contexts should activate this skill:
+
+1. **Module boundaries** — Deciding where to split code into modules, classes, or functions
+2. **Interface design** — Defining what a module exposes to its callers (public API, method signatures, return types)
+3. **Error handling strategy** — Choosing between exceptions, Option types, sentinel values, or error elimination
+4. **Naming** — Finding precise, intuitive names for concepts, modules, functions, or variables
+5. **Abstraction layering** — Deciding how many layers to introduce and what each layer abstracts
+6. **Refactoring pass-throughs** — Eliminating methods or config variables that add no abstraction value
+7. **Error-prone patterns** — Happy-path error handling, special cases, caller-side setup boilerplate
+8. **Design exploration** — Comparing alternative designs before choosing one
+9. **Tactical debt detection** — Recognizing when a quick fix is accumulating design debt and needs a strategic alternative
+10. **Code review** — Evaluating whether the design is deep enough, hides information, and defines errors out of existence
 
 ## When Not to Use
 
@@ -22,6 +66,28 @@ This skill is designed for non-trivial design decisions. Skip it for:
 - Exploratory code where the design is intentionally provisional
 
 The tradeoff note at the top of Principles covers this: "For trivial tasks, use judgment."
+
+## Invocation Modes
+
+Three invocation patterns — see [`references/routing.md`](references/routing.md) for the full routing table and fallback behavior.
+
+## Setup
+
+### Quick start
+1. Load project context (README, CLAUDE.md, existing code)
+2. Identify task type (bug fix, feature, refactor)
+3. Scan for design red flags (shallow modules, info leakage, pass-through methods)
+4. Apply the relevant principle — the first three below cover most cases
+
+### Full setup
+Before coding: load context (README, CLAUDE.md, existing code), identify task type (bug fix, feature, refactor), and scan for design red flags (shallow modules, information leakage, pass-through methods). Skipping these produces generic output.
+
+## Input / Output
+
+This skill modifies agent behavior during any coding task:
+- **Input** — A coding task: writing new code, reviewing existing code, refactoring, debugging, or designing.
+- **Output** — Code modified by the 15 principles: deeper module boundaries extracted, pass-through layers eliminated, vague names replaced, error cases removed from caller paths. The Quick Reference table below maps each principle to its observable effect.
+- **Fallback** — If the task is trivial, out of scope, or doesn't match a design scenario, the skill remains silent and normal agent behavior proceeds without APOSD guidance.
 
 ## Red Flags — STOP and Start Over
 
@@ -37,10 +103,6 @@ The tradeoff note at the top of Principles covers this: "For trivial tasks, use 
 - Decomposing work by execution order instead of abstraction boundaries
 - Making any change without leaving the surrounding module cleaner
 
-## Setup
-
-Before coding: load context (README, CLAUDE.md, existing code), identify task type (bug fix, feature, refactor), and scan for design red flags (shallow modules, information leakage, pass-through methods). Skipping these produces generic output.
-
 ## Review discipline
 
 When evaluating or modifying design, do not stop at the first workable answer.
@@ -52,12 +114,6 @@ When evaluating or modifying design, do not stop at the first workable answer.
 5. Keep the everyday skill lightweight; use the deeper critique and audit skills when you need a formal review pass.
 
 Source for this review-discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
-
-## Input / Output
-
-This skill modifies agent behavior during any coding task:
-- **Input** — A coding task: writing new code, reviewing existing code, refactoring, debugging, or designing.
-- **Output** — Code modified by the 15 principles: deeper module boundaries extracted, pass-through layers eliminated, vague names replaced, error cases removed from caller paths. The Quick Reference table below maps each principle to its observable effect.
 
 ## Principles
 
@@ -191,6 +247,21 @@ This skill modifies agent behavior during any coding task:
 - If your change invalidates a comment, update it.
 - Higher-level comments (design rationale, module purpose) outlast line-by-line explanations.
 
+## Robustness
+
+> **Degradation guarantee:** When the skill can't complete, it exits silently with no side effects. No partial output, no misleading results.
+
+This skill documents every failure path explicitly:
+
+| Condition | Behavior | Recovery |
+|-----------|----------|----------|
+| **Mis-triggered** (task isn't a design scenario) | Falls through silently | Normal agent behavior proceeds unaffected |
+| **Principles conflict** (e.g., General-Purpose vs Simplicity) | Principles have tension by design | Use the complexity lens: the option that better reduces cognitive load wins |
+| **Vocabulary used without design depth** | Agent references APOSD but interface didn't change | Check if the interface actually changed. If not, it's tactical regardless of language |
+| **User explicitly rejects strategic approach** | Falls back to tactical, documents the tradeoff | State the tradeoff, document it, then proceed |
+| **Target not found or empty** | Report and exit | No code changes made |
+| **Target too large** (>15 files) | Sample systematically (first/middle/last of each group) | Report sampling scope in output |
+
 ## Quick Reference
 
 | Principle | Red Flag | Fix |
@@ -204,6 +275,20 @@ This skill modifies agent behavior during any coding task:
 | Choosing Names | Vague name like `data`, `handle` | Rename to create an image |
 | Define Errors | Error-handling mirrors happy path | Change contract |
 | Design for Future | Hooks for hypothetical scenarios | Only encapsulate known volatility |
+
+## Code Templates
+
+### Deep module scaffold
+
+Hide connection lifecycle, error handling, and retry logic behind a one-line interface.
+
+See [`templates/deep-module.py`](templates/deep-module.py) for a complete working implementation.
+
+### Error-eliminating decorator
+
+Wrap a fallible API so callers never see the error case.
+
+See [`templates/error-suppressor.py`](templates/error-suppressor.py) for a complete working implementation.
 
 ## Examples
 
@@ -244,7 +329,90 @@ def update_user(request):
     return self.user_service.update(request.user_id, request.data)
 ```
 
+### Design It Twice (Rule 12)
+
+Scenario: a service needs to authenticate users via API keys, OAuth, and SSO.
+
+**Design A — Monolithic Auth class:**
+
+```python
+class Authenticator:
+    # Single class handles all strategies — 3+ methods per auth type
+    def authenticate_api_key(self, key: str) -> User: ...
+    def authenticate_oauth(self, token: str) -> User: ...
+    def authenticate_sso(self, assertion: str) -> User: ...
+    # Caller must pick the right method — tight coupling to auth type
+```
+
+*Tradeoff:* Simple to start, but every new auth type adds methods to this class. Callers must know which method to call. Testing requires exercising all strategies through one class.
+
+**Design B — Strategy pattern with pluggable providers:**
+
+```python
+class AuthProvider(Protocol):
+    def authenticate(self, credentials: str) -> User: ...
+
+class Authenticator:
+    # One method, any provider
+    def authenticate(self, provider: AuthProvider, credentials: str) -> User: ...
+```
+
+*Tradeoff:* More files upfront. But callers never change — they always call `authenticator.authenticate(provider, creds)`. New auth types mean new provider classes, no changes to `Authenticator`. Testing each provider is isolated.
+
+**Verdict:** Design B is deeper — same caller interface regardless of auth type. The implementation complexity (which provider to use, credential format) is pushed to the provider implementations, not the caller.
+
 More examples in `references/examples.md`.
+
+## Template: Deep Module Pattern (Python)
+
+```python
+"""
+Deep module scaffold
+
+Hide connection lifecycle, error handling, and retry logic
+behind a one-line interface.
+
+APOSD: Rule 2 (Deep Modules) + Rule 6 (Pull Complexity Downward)
+"""
+from __future__ import annotations
+import logging
+from typing import Any, Protocol
+
+
+class EmailService(Protocol):
+    def send(self, to: str, subject: str, body: str) -> None: ...
+
+
+class SmtpEmailService:
+    """Send emails with automatic connection pooling and retry."""
+
+    def __init__(self, host: str, port: int, timeout: int = 30) -> None:
+        self._host = host
+        self._port = port
+        self._timeout = timeout
+        self._pool: list[Connection] = []
+
+    def send(self, to: str, subject: str, body: str) -> None:
+        """Deliver an email. Handles connect/send/disconnect internally."""
+        conn = self._acquire()
+        try:
+            conn.send(to, subject, body)
+        finally:
+            self._release(conn)
+
+    def _acquire(self) -> Connection:
+        return self._pool.pop() if self._pool else Connection(
+            self._host, self._port, self._timeout
+        )
+
+    def _release(self, conn: Connection) -> None:
+        if conn.healthy and len(self._pool) < 5:
+            self._pool.append(conn)
+        else:
+            conn.close()
+```
+
+More templates in `templates/`.
 
 ## Common Mistakes
 
@@ -258,13 +426,31 @@ More examples in `references/examples.md`.
 | "No time to design" | No time to fix it later either | Two minutes of alternative thinking is free |
 | "Only serves one use case" | Special-purpose code proliferates | Generalize the interface |
 
+## Troubleshooting
+
+| Problem | Cause | Fix |
+|---------|-------|------|
+| Skill doesn't trigger on refactoring | Description says "writing, reviewing, or modifying any code" | Refactoring is "modifying" — trigger is correct. Verify the agent reads the description. |
+| Skill input is ambiguous | Task doesn't clearly match a design scenario | Falls through silently — no APOSD behavior applied. Normal agent behavior proceeds. |
+| Skill cannot complete its task | Non-design task (e.g., "write a bash script") | Returns no output. Normal agent behavior takes over. |
+| Agent over-applies all 15 rules rigidly | Treating principles as checklist instead of lens | Use the complexity lens: rules that reduce cognitive load apply; rules that don't add value can be skipped. |
+| Caller complexity not reduced after applying a rule | Rule was applied to the module body, not the interface | If the caller's code didn't get simpler, the rule was applied at the wrong level. The interface contract must change. |
+| Two principles conflict (e.g., General-Purpose vs Simplicity) | Principles have inherent tension | Resolve via the complexity lens: the option that reduces cognitive load more for future readers wins. Document the tradeoff. |
+| User repeatedly rejects strategic recommendations | User has tactical time constraints | Document the tradeoff, proceed tactically, and note the deferred design debt. Do not keep re-proposing strategic alternatives. |
+| Change invalidates an existing comment | Comment was tied to old design | Update the comment to reflect the new design. If the comment is now irrelevant, delete it. |
+| Multiple redesign rounds without convergence | Design exploration without evaluation criteria | Compare each alternative against the same criteria (interface simplicity, caller complexity, change impact). If no alternative is clearly better, the criteria are wrong — redefine them. |
+
 ## Commands
 
 - `aposd critique [target]` — Design evaluation against principles + tactical assessment.
 - `aposd audit [target]` — Design audit with severity scoring and tactical tornado detection.
 
+## Troubleshooting
+
+See [`references/troubleshooting.md`](references/troubleshooting.md) for the full failure-mode catalog (6+ scenarios with causes and fixes).
+
 ## Related
 
 - [aposd-critique](../aposd-critique/SKILL.md) — Design evaluation command
 - [aposd-audit](../aposd-audit/SKILL.md) — Design audit command
-- [references/](references/) — Extended examples and troubleshooting
+- [references/](references/) — Extended examples

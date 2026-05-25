@@ -1,0 +1,16 @@
+[manifest]
+skill = "aposd"
+description = "APOSD design principle code templates"
+version = "1"
+
+[[templates]]
+name = "deep-module"
+file = "deep-module.py"
+description = "Deep module scaffold — hide connection lifecycle and retry behind a one-line interface"
+rules = ["Rule 2 (Deep Modules)", "Rule 6 (Pull Complexity Downward)"]
+
+[[templates]]
+name = "error-suppressor"
+file = "error-suppressor.py"
+description = "Error-eliminating decorator — wrap fallible APIs so callers never see the error case"
+rules = ["Rule 10 (Define Errors Out of Existence)"]

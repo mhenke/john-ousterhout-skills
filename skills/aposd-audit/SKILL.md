@@ -1,6 +1,9 @@
 ---
 name: aposd-audit
-description: Use before major refactoring to baseline current state. Use when code shows red flags like shallow modules, information leakage, or pass-through methods. Use to track design quality over time by comparing scores across runs and to force evidence-backed, countable findings.
+description: Baselines current state before major refactoring. Use when code shows shallow modules, information leakage, or pass-through methods. Tracks design quality over time via evidence-backed, countable findings.
+version: 1.0.0
+author: wshobson
+tags: [design, audit, aposd, refactoring, code-quality, static-analysis]
 license: MIT
 ---
 
@@ -13,6 +16,25 @@ This is a code-level design audit — check what's measurable and verifiable in 
 **Follows the impeccable audit convention:** measure what's objectively countable, not what's interpretive.
 
 **Scoring rubric:** Score each dimension 0-4. Total /20. Rating bands: 18-20 Excellent, 14-17 Good, 10-13 Acceptable, 6-9 Poor, 0-5 Critical.
+
+## Quick Start
+
+```bash
+aposd audit src/          # audit a directory
+aposd audit src/services/order-service.js  # audit a single file
+aposd audit               # defaults to workspace root
+```
+
+The report is printed to stdout and persisted to `.aposd/audit/` for trend tracking.
+
+## Scope
+
+This skill audits a single codebase target per invocation. It measures 5 design dimensions by counting observable constructs — pass-throughs, duplication, documentation gaps, naming issues, and exception patterns. It does not evaluate functional correctness, runtime performance, or test coverage. Each dimension is scored 0-4 from concrete evidence only.
+
+## Prerequisites
+
+- Node.js (for snapshot persistence via `scripts/critique-storage.mjs`)
+- Write access to create `.aposd/audit/` directory
 
 ## Setup
 
@@ -50,6 +72,8 @@ Source for this audit discipline pattern: `wshobson/agents` comprehensive-review
 - For qualitative design philosophy questions — use `aposd critique` instead
 - For code review (bugs, style, typos) — audit measures design metrics, not correctness
 - For codebases you can't modify — the value is in tracking improvement over time
+- For runtime performance analysis — use a profiler, not a static design audit
+- For one-off scripts under 50 lines — design patterns haven't had time to accumulate
 
 ## Diagnostic Scan
 
@@ -212,18 +236,24 @@ Note what's working well: dimensions scoring ≥3, clean patterns that prevent c
 
 Given a target at `src/services/`, the audit report would look like:
 
-> | # | Dimension | Score | Key Finding |
-> |---|---|---|---|
-> | 1 | Pass-Through Proliferation | 2 | 4 pass-through methods found (findById→repo.findById, etc.) |
-> | 2 | Information Duplication | 1 | "expired_at" threshold defined in 3 places |
-> | 3 | Interface Documentation | 3 | 70% of public methods documented |
-> | 4 | Naming Quality | 3 | 2 vague names ("data", "helper") |
-> | 5 | Exception Discipline | 4 | 0 custom exceptions, no catch-and-rethrow |
-> | **Total** | | **13/20** | **Acceptable** |
->
-> **Tactical Tornado Risk:** Medium — pass-through proliferation across service layer is a systemic pattern.
->
-> This is illustrative. Your output will follow this structure but reflect the actual target's counts.
+```markdown
+| # | Dimension | Score | Key Finding |
+|---|-----------|-------|-------------|
+| 1 | Pass-Through Proliferation | 2 | 4 pass-through methods found (findById→repo.findById, etc.) |
+| 2 | Information Duplication | 1 | "expired_at" threshold defined in 3 places |
+| 3 | Interface Documentation | 3 | 70% of public methods documented |
+| 4 | Naming Quality | 3 | 2 vague names ("data", "helper") |
+| 5 | Exception Discipline | 4 | 0 custom exceptions, no catch-and-rethrow |
+| **Total** | | **13/20** | **Acceptable** |
+
+**Tactical Tornado Risk:** Medium — pass-through proliferation across service layer is a systemic pattern.
+```
+
+This is illustrative. Your output will follow this structure but reflect the actual target's counts.
+
+### Copy-Paste-Ready Audit Template
+
+See [scripts/audit-report-template.md](scripts/audit-report-template.md) for the standalone template that can be reused programmatically. Copy it and fill in your findings — each `?`, `__`, `[ ]` placeholder maps to your actual counts.
 
 ### Persist Snapshot
 
@@ -257,11 +287,15 @@ Write the audit report to `.aposd/audit/` so the user can refer back, and so fut
 
 This is fire-and-forget. Do not show the user the helper's JSON output; only the human-readable trend line and the written path. Failures here should not block the rest of the flow; print the error and move on.
 
+### Error Recovery
+
+See [references/troubleshooting.md](references/troubleshooting.md) for the error recovery table. All failures print an error message and continue — the audit never blocks on non-critical errors.
+
 ### Specificity Validation Gate
 
 Before reporting any finding, self-validate:
 
-```
+```text
 □ File path (absolute or relative to target)
 □ Line number(s)
 □ Code pattern (exact snippet, 1-3 lines)
@@ -277,7 +311,7 @@ Missing any field → finding is discarded.
 **Stop-and-return.** If you find yourself writing a finding without a file:line:pattern or count, do not continue. Stop. Restart the validation gate for that finding. An unverifiable finding is noise, not signal.
 
 **Passing example:**
-```
+```text
 □ File path: src/services/user-service.js
 □ Line number(s): 42-48
 □ Code pattern: "SELECT * FROM orders WHERE user_id = ?" built inline, same query in order-service.js:87
@@ -303,22 +337,11 @@ After presenting the summary, tell the user:
 
 ### Troubleshooting
 
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| Target has 200+ files | Sampling 15 files may miss systemic issues | Sample systematically — first/middle/last per directory group. Document the sample scope. |
-| Script dependency fails (`scripts/critique-storage.mjs` not found) | Skill is symlinked without the scripts directory | Skip persistence. Report "Snapshot skipped (scripts not available)". Continue the audit. |
-| All dimensions score 0 | Either the codebase is critically broken, or the audit is measuring the wrong thing | Re-check the calibration examples. If the codebase truly has zero pass-throughs, zero duplication, etc., that's a valid audit result. |
-| User asks for a code review, not an audit | The two are confused | Audit measures design metrics (countable). Code review finds bugs and style issues. Redirect to the appropriate tool. |
+See [references/troubleshooting.md](references/troubleshooting.md) for a comprehensive troubleshooting guide covering common problems, recovery procedures, error handling patterns, and edge cases.
 
 ### Common Mistakes
 
-| Mistake | Why It's Wrong | Fix |
-|---------|---------------|-----|
-| Scoring dimensions without evidence | e.g., Pass-Through Proliferation scored 2/4 with no count | Every score must cite the count and file:line:pattern |
-| Judging design quality instead of counting | e.g., "This module is shallow" is interpretive, not measurable | Count pass-throughs. Count duplications. Count missing docs. |
-| Tagging everything as P0 | e.g., all 5 findings marked P0 dilutes prioritization | P0 = blocks progress, P1 = major fix, P2 = local, P3 = polish |
-| Treating audit like a code review | Bug hunting and design evaluation are different | Audit measures design metrics. Don't list typos or style issues. |
-| Reporting findings without file:line:pattern | e.g., "Naming violations found" with no locations | Every finding must pass the Specificity Validation Gate |
+See [references/troubleshooting.md](references/troubleshooting.md) for common audit mistakes and how to avoid them.
 
 ### Red Flags — STOP and Start Over
 
@@ -341,4 +364,5 @@ After presenting the summary, tell the user:
 
 - [aposd](skills/aposd/SKILL.md) — Always-on behavioral rules
 - [aposd-critique](skills/aposd-critique/SKILL.md) — Design critique command
-- [references/](references/) — Extended troubleshooting
+- [references/](references/) — Extended troubleshooting, common mistakes, edge cases
+- [scripts/](scripts/) — Storage persistence helper, audit report template
