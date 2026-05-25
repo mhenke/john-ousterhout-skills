@@ -68,8 +68,6 @@ Resolve the target to a concrete file path, directory, or module name. If no tar
 - Prefer clustered root causes over scattered one-offs when they are the same design decision repeated.
 - Keep the report objective: the point is to measure design quality, not to narrate an opinion.
 
-Source for this audit discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
-
 ## When Not to Use
 
 - For qualitative design philosophy questions — use `aposd critique` instead

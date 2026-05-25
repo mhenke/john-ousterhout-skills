@@ -64,8 +64,6 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 - Compare at least two possible redesigns before recommending one.
 - Prefer a small number of high-signal findings over a long list of shallow observations.
 
-Source for this review-discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
-
 ## Hard Invariants
 
 - Assessment A (Strategic Thinker Review) and Assessment B (Tactical Tornado Detection) are both required.

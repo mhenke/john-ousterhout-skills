@@ -98,8 +98,6 @@ When evaluating or modifying design, do not stop at the first workable answer.
 4. Prefer the change that removes future decisions from callers and leaves the module cleaner.
 5. Keep the everyday skill lightweight; use the deeper critique and audit skills when you need a formal review pass.
 
-Source for this review-discipline pattern: `wshobson/agents` comprehensive-review plugin — https://github.com/wshobson/agents/tree/main/plugins/comprehensive-review
-
 ## Principles
 
 **Tradeoff:** Bias toward strategic design. For trivial tasks, use judgment.
