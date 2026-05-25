@@ -7,7 +7,7 @@ CLAUDE.md                          # Source of truth for 15 behavioral rules
 skills/aposd/SKILL.md              # Always-on skill (condensed rules + reference sections)
 skills/aposd-critique/SKILL.md     # Design critique command
 skills/aposd-audit/SKILL.md        # Design audit command
-skills/release-workflow/SKILL.md   # Release process
+skills/create-release-workflow/SKILL.md   # Release process
 .cursor/rules/aposd-guidelines.mdc # Cursor mirror (identical to CLAUDE.md body)
 docs/adr/                          # Architecture Decision Records
 reference/                         # Canonical reference files (principles, personas, red-flags, scoring)
@@ -39,7 +39,7 @@ agents/aposd-agent.md              # Agent behavioral profile design artifact
 
 ### Cut a release
 
-Follow the release workflow skill: `skills/release-workflow/SKILL.md`.
+Follow the create-release-workflow skill: `skills/create-release-workflow/SKILL.md`.
 
 ### Reference files
 

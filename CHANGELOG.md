@@ -12,14 +12,13 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - CONTRIBUTING.md with file hierarchy and sync processes
 - ADR-008: Declined safeguards (CI, validation, supply chain)
 - ADR-009: Plugin vs marketplace manifest distinction
-- `skills/release-workflow/SKILL.md` — documented release process
+- `skills/create-release-workflow/SKILL.md` — documented release process
 - When Not to Use section in all 3 aposd skills
 - Quick Reference tables in aposd-critique and aposd-audit
 - Input/Output contract sections in all 3 aposd skills
 - Troubleshooting sections in all 3 aposd skills
 - `references/` directories in all skills for progressive disclosure
 - Worked examples in aposd-critique and aposd-audit (UserService, OrderService)
-- No-rubber-stamps and stop-and-return constraints in critique and audit
 - 9arm-skills attribution
 
 ### Changed
@@ -38,7 +37,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - ADR-005 stale CLAUDE.md header quote
 - aposd-critique ADR link changed from broken relative path to title reference
 - aposd Related section cross-ref paths corrected
-- release-workflow DEAD_CROSS_REF false positive in description
+- create-release-workflow DEAD_CROSS_REF false positive in description
 
 ## [v0.1.0] — 2026-05-24
 

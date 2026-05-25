@@ -1,6 +1,6 @@
 ---
-name: release-workflow
-description: Use when cutting a new version — drafting a changelog entry, creating git tags, publishing via GitHub Releases, or updating README install examples to pin to the latest tagged version.
+name: create-release-workflow
+description: Use when creating a new release — drafting a changelog entry, creating git tags, publishing via GitHub Releases, or updating README install examples to pin to the latest tagged version.
 license: MIT
 ---
 
@@ -56,10 +56,30 @@ git push origin v{NEW_VERSION}
 
 ### 3. Create GitHub Release
 
+Extract the current version's entry from `CHANGELOG.md` and use it as the release body:
+
 ```bash
+# Extract changelog section for this version
+python3 << 'PYEOF' > /tmp/changelog-entry.md
+import sys
+with open('CHANGELOG.md') as f:
+    content = f.read()
+version = 'v{NEW_VERSION}'
+start = content.find(f'## [{version}]')
+if start == -1:
+    print(f"Error: no CHANGELOG entry for {version}", file=sys.stderr)
+    sys.exit(1)
+end = content.find('\n## [', start + 1)
+if end == -1:
+    end = content.find('\n[Unreleased]:', start)
+    if end == -1:
+        end = len(content)
+print(content[start:end].strip())
+PYEOF
+
 gh release create v{NEW_VERSION} \
   --title "v{NEW_VERSION}" \
-  --notes "See CHANGELOG.md for details."
+  --notes-file /tmp/changelog-entry.md
 ```
 
 ### 4. Update README Install Examples
@@ -79,7 +99,7 @@ git push origin main
 | Step | Failure | Fix |
 |------|---------|-----|
 | 2. Tag push | `git push origin v{NEW_VERSION}` fails (tag exists) | Tag may already exist remotely. Run `git tag -d v{NEW_VERSION}` locally, then re-push. Or bump to next patch version. |
-| 3. Release | `gh release create` fails | GitHub CLI not authenticated? Run `gh auth status`. Or create the release manually at `https://github.com/mhenke/john-ousterhout-skills/releases/new`. |
+| 3. Release creation | `gh release create` or changelog extraction fails | GitHub CLI not authenticated? Run `gh auth status`. Changelog extraction failed? Verify the version heading in CHANGELOG.md matches `v{NEW_VERSION}` exactly. Or create the release manually at the GitHub URL. |
 | 4. README update | No `main` reference found in README | The install examples may already point to a tag. Update them to the new tag directly. |
 | 5. Push rejected | Remote has new commits | `git pull --rebase origin main`, resolve conflicts, re-push. Re-do steps 1-4 if CHANGELOG or README conflicts. |
 
