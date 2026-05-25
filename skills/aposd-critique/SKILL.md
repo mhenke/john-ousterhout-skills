@@ -1,7 +1,7 @@
 ---
 name: aposd-critique
-description: Use for a subjective second opinion on design quality when code feels wrong but no single violation is countable. Evaluates whether hard-to-follow control flow, unexpected complexity, or tactical shortcuts have produced hidden complexity. Not for baselining refactoring targets — use aposd-audit when you need countable evidence like pass-through counts or duplication tallies to justify a rewrite.
-keywords: [design, critique, aposd, complexity, module, abstraction, tactical, debt]
+description: Use proactively when evaluating whether code follows APOSD design principles — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use for a second opinion on quality, or when suspecting tactical shortcuts. Not for baselining refactoring — use aposd-audit for countable evidence.
+keywords: [design, critique, aposd, complexity, module, abstraction, tactical, debt, proactive, review]
 scope_max_input: 15 files
 scope_max_output: 5 issues
 scope_analysis_depth: qualitative

@@ -363,9 +363,20 @@ See [references/troubleshooting.md](references/troubleshooting.md) for common au
 - Forget to prioritize (everything can't be P0)
 - Report false positives without verification
 
+## Code Templates
+
+### Full Audit Workflow
+
+See [examples/full-audit-workflow.sh](examples/full-audit-workflow.sh) for a copy-paste-ready bash script that runs the complete audit pipeline: audit → slug → persist → trend.
+
+### Example Report
+
+See [examples/example-audit-report.md](examples/example-audit-report.md) for a complete, filled-in audit report showing all sections with real findings, severity classifications, and recommendations.
+
 ## Related
 
 - [aposd](skills/aposd/SKILL.md) — Always-on behavioral rules
 - [aposd-critique](skills/aposd-critique/SKILL.md) — Design critique command
 - [references/](references/) — Extended troubleshooting, common mistakes, edge cases
 - [scripts/](scripts/) — Storage persistence helper, audit report template
+- [examples/](examples/) — Copy-paste-ready workflow scripts and example reports
