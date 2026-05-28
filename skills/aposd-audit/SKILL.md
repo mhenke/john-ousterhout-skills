@@ -2,8 +2,8 @@
 name: aposd-audit
 description: Use when you need countable design evidence to justify a refactoring — pass-through method tallies, module depth scores, duplication ratios, and information leakage counts across 5+ dimensions. Tracks design health over time via repeatable measurements. Not for subjective design judgment — use aposd-critique when code feels wrong but no single violation is individually countable.
 keywords: [design, audit, aposd, refactoring, code-quality, static-analysis, dead-module]
-scope_max_input: 25 files
-scope_max_output: 15 findings
+scope_max_input: unlimited
+scope_max_output: unlimited
 scope_analysis_depth: quantitative
 version: 1.0.0
 author: wshobson
@@ -43,7 +43,7 @@ This skill audits a single codebase target per invocation. It measures 5 design 
 
 Resolve the target to a concrete file path, directory, or module name. If no target is specified, default to the current workspace root directory.
 
-**Scope scoping:** If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+**Full scan:** Scan **all** files in the target — no sampling. For large targets (>50 files), use sub-agents to parallelize the scan across directory groups.
 
 ## Input / Output
 
@@ -64,7 +64,7 @@ Resolve the target to a concrete file path, directory, or module name. If no tar
 
 - Count only concrete, observable constructs. If you cannot point to file:line:pattern, do not count it.
 - For each score, explain why the count maps to the rubric and what design debt the count represents.
-- When the target is large, sample first/middle/last of each directory group and report the sample scope.
+- When the target is large (>50 files), use sub-agents to parallelize scanning across directory groups. Report total files scanned.
 - Prefer clustered root causes over scattered one-offs when they are the same design decision repeated.
 - Keep the report objective: the point is to measure design quality, not to narrate an opinion.
 

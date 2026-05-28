@@ -243,7 +243,7 @@ This skill documents every failure path explicitly:
 | **Vocabulary used without design depth** | Agent references APOSD but interface didn't change | Check if the interface actually changed. If not, it's tactical regardless of language |
 | **User explicitly rejects strategic approach** | Falls back to tactical, documents the tradeoff | State the tradeoff, document it, then proceed |
 | **Target not found or empty** | Report and exit | No code changes made |
-| **Target too large** (>15 files) | Sample systematically (first/middle/last of each group) | Report sampling scope in output |
+| **Target too large** (>50 files) | Use sub-agents to parallelize scanning | Report total files scanned |
 
 ## Quick Reference
 

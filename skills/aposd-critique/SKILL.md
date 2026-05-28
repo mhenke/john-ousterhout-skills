@@ -2,8 +2,8 @@
 name: aposd-critique
 description: Use proactively when evaluating whether code follows APOSD design principles — unexpected complexity, hard-to-follow control flow, or modules that feel shallow. Use for a second opinion on quality, or when suspecting tactical shortcuts. Not for baselining refactoring — use aposd-audit for countable evidence.
 keywords: [design, critique, aposd, complexity, module, abstraction, tactical, debt, proactive, review]
-scope_max_input: 15 files
-scope_max_output: 5 issues
+scope_max_input: unlimited
+scope_max_output: unlimited
 scope_analysis_depth: qualitative
 license: MIT
 ---
@@ -25,7 +25,7 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 ## Setup
 
-1. **Resolve the target** to a concrete file path or module name. If the target does not exist or is empty, report "Target not found or empty" and exit the critique (no findings to evaluate). If the target has more than 15 files, sample systematically (first/middle/last of each directory group). Report the sample scope: "Sampled 8/24 files in src/services/."
+1. **Resolve the target** to a concrete file path or module name. If the target does not exist or is empty, report "Target not found or empty" and exit the critique (no findings to evaluate). Scan **all** files in the target — no sampling. For large targets (>50 files), use sub-agents to parallelize the scan across directory groups.
 
 **Pre-check:** Verify `scripts/critique-storage.mjs` is available. If not found, set `persist=false` and skip all persistence steps. Continue the critique without snapshots.
 
@@ -39,7 +39,7 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 ## Input / Output
 
-- **Input** — A module, class, or subsystem path. Defaults to current directory if omitted. Targets with >15 files are sampled.
+- **Input** — A module, class, or subsystem path. Defaults to current directory if omitted. All files in the target are scanned.
 - **Output** — Combined critique report: Tactical Tornado Verdict, Design Principles Score (X/18 pass), Priority Issues with P0-P3 severity, Persona Walkthroughs. Persisted to `.aposd/critique/` for trend tracking.
 
 ## When Not to Use
@@ -50,7 +50,7 @@ Principles-based design evaluation from *A Philosophy of Software Design, 2nd Ed
 
 ## Scope
 
-**Analyzes:** One module, class, or subsystem at a time (max 15 files sampled). Evaluates design decisions — module boundaries, interface quality, error handling, abstraction layers, naming, and comments. No more than 5 priority issues per critique.
+**Analyzes:** One module, class, or subsystem at a time — scans **all** source files in the target. Evaluates design decisions — module boundaries, interface quality, error handling, abstraction layers, naming, and comments. Priority issues should cover the most impactful design problems found across the full scan.
 
 **Does not analyze:** Cross-module consistency, runtime performance, test coverage, security vulnerabilities, or style formatting. These are outside the critique's design philosophy lens.
 
@@ -298,13 +298,13 @@ After presenting, tell the user:
 | Script dependency fails (`scripts/critique-storage.mjs` not found) | Skill is symlinked without the scripts directory | Skip persistence. Report "Snapshot skipped (scripts not available)". Continue the critique. |
 | Sub-agents unavailable for dual assessment | Environment doesn't support sub-agents | Run sequentially: complete Assessment A first, then Assessment B, then synthesize. Report "degraded (sequential)". |
 | Slug computation fails (non-zero exit) | Target is vague or root-level | Skip persistence and trend. Continue the critique without snapshot. |
-| Target has 200+ files | Sampling 15 files may miss systemic issues | Sample systematically — first/middle/last per directory group. Document the sample scope. |
+| Target has 200+ files | Large scan area | Use sub-agents to parallelize across directory groups. Report total files scanned. |
 | Target is missing or empty | Path does not exist or file has no content | Report "Target not found or empty" and exit. No findings to evaluate. |
 | User asks for audit, not critique | The two are confused | Critique evaluates design philosophy (qualitative). Audit measures countable metrics (quantitative). Redirect to the appropriate command. |
 | Target contains only generated/protobuf files | No design decisions to evaluate | Report "Target is generated code — critique skipped" and exit. |
 | Target is a single trivial file (<50 lines) | Not enough design decisions to evaluate | Report "Target too small for meaningful critique" and exit, or evaluate at reduced depth. |
 | Target has mixed-language files (e.g., JS + SQL + YAML) | Cross-language analysis exceeds scope | Scope critique to the primary language files (by line count). Report the scoping decision. |
-| Assessment takes too long (>5 min) | Large dependency graph or deep nesting | Sample more aggressively. Report the sample scope and that depth was limited. |
+| Assessment takes too long (>5 min) | Large dependency graph or deep nesting | Use sub-agents to parallelize. Report that depth was limited. |
 
 ### Common Mistakes
 

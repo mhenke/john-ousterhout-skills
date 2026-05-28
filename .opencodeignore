@@ -1,0 +1,7 @@
+.git/
+.aposd/
+.claude-plugin/
+.cursor/
+.gitignore
+*.log
+.DS_Store
