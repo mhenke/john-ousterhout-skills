@@ -205,7 +205,9 @@ Skip this step if the Setup slug was null (vague or root-level target).
 
 1. **Compute trend score** as the pass count (X/18) from the Design Principles Score.
 
-2. **Write snapshot**: Write the full report body (Design Principles Score through Run Notes) to a temp file, then pass it through the helper with structured metadata. Exclude the "Ask the User" / "Recommended Actions" / "Common Mistakes" / "Red Flags" sections and the snapshot trend line itself from the body:
+2. **Write the body to a temp file** so you can pass it to the helper. Use the full critique report (Design Principles Score through Run Notes), but exclude the "Ask the User" / "Recommended Actions" / "Common Mistakes" / "Red Flags" sections and the snapshot trend line itself from the body.
+
+3. **Pass the structured metadata** through `APOSD_CRITIQUE_META` (JSON), then run the write command:
 
    The metadata JSON follows this schema:
    ```json
@@ -223,20 +225,22 @@ Skip this step if the Setup slug was null (vague or root-level target).
    APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<X>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
      node scripts/critique-storage.mjs write <slug> <body-file>
    ```
-   The helper prints the absolute path it wrote. Delete the temp file afterward.
+   The helper prints the absolute path it wrote.
 
-3. **Read trend** for context:
+4. **Delete the temp body file** after the write attempt completes, whether the write succeeded or failed. If deletion fails, mention `temp-file cleanup failed: <reason>` briefly in the final output, but do not block the critique.
+
+5. **Read the trend** for context:
    ```bash
    node scripts/critique-storage.mjs trend <slug> 5
    ```
-   This returns a JSON array of the last 5 frontmatter entries (including the one just written).
+   This returns a JSON array of the last 5 frontmatter entries (including the one you just wrote).
 
-4. **Append a single line** to the user-visible output, after the report and before the questions:
+6. **Append a single line** to the user-visible output, after the report and before the questions:
 
    > **Trend for `<slug>` (last 5 runs): 72 → 78 → 83 → 81 → 89**
    > Wrote `.aposd/critique/<filename>`.
 
-   If this is the first run for the slug: "First run for this target, no trend yet."
+   If this is the first run for the slug, the trend is just one score; say so: "First run for this target, no trend yet."
 
 This is fire-and-forget. Do not show the user the helper's JSON output; only the human-readable trend line and the written path. Failures here should not block the rest of the flow; print the error and move on.
 

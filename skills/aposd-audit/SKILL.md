@@ -1,7 +1,7 @@
 ---
 name: aposd-audit
-description: Use when you need countable design evidence to justify a refactoring — pass-through method tallies, module depth scores, duplication ratios, and information leakage counts across 5+ dimensions. Tracks design health over time via repeatable measurements. Not for subjective design judgment — use aposd-critique when code feels wrong but no single violation is individually countable.
-keywords: [design, audit, aposd, refactoring, code-quality, static-analysis, dead-module]
+description: Use when you need countable design evidence to justify a refactoring — pass-through method tallies, module depth scores, duplication ratios, and information leakage counts across 5+ dimensions. Not for subjective design judgment — use aposd-critique when code feels wrong but no single violation is individually countable.
+keywords: [design, audit, aposd, refactoring, code-quality, static-analysis]
 scope_max_input: unlimited
 scope_max_output: unlimited
 scope_analysis_depth: quantitative
@@ -28,16 +28,11 @@ aposd audit src/services/order-service.js  # audit a single file
 aposd audit               # defaults to workspace root
 ```
 
-The report is printed to stdout and persisted to `.aposd/audit/` for trend tracking.
+The report is printed to stdout.
 
 ## Scope
 
 This skill audits a single codebase target per invocation. It measures 5 design dimensions by counting observable constructs — pass-throughs, duplication, documentation gaps, naming issues, and exception patterns. It does not evaluate functional correctness, runtime performance, or test coverage. Each dimension is scored 0-4 from concrete evidence only.
-
-## Prerequisites
-
-- Node.js (for snapshot persistence via `scripts/critique-storage.mjs`)
-- Write access to create `.aposd/audit/` directory
 
 ## Setup
 
@@ -48,7 +43,7 @@ Resolve the target to a concrete file path, directory, or module name. If no tar
 ## Input / Output
 
 - **Input** — A file path, directory, or module name to audit. Defaults to workspace root if omitted.
-- **Output** — A structured Design Health Score (/20) across 5 dimensions, with per-finding evidence counts and P0-P3 severity tags. Persisted to `.aposd/audit/` for trend tracking.
+- **Output** — A structured Design Health Score (/20) across 5 dimensions, with per-finding evidence counts and P0-P3 severity tags.
 
 ## Quick Reference
 
@@ -256,42 +251,6 @@ This is illustrative. Your output will follow this structure but reflect the act
 
 See [scripts/audit-report-template.md](scripts/audit-report-template.md) for the standalone template that can be reused programmatically. Copy it and fill in your findings — each `?`, `__`, `[ ]` placeholder maps to your actual counts.
 
-### Persist Snapshot
-
-Write the audit report to `.aposd/audit/` so the user can refer back, and so future audits can show trends.
-
-1. **Compute slug** from the resolved target:
-   ```bash
-   APOSD_STORAGE_SUBDIR=audit node scripts/critique-storage.mjs slug "<resolved-target>"
-   ```
-   Keep it. If the command exits non-zero, skip persistence and trend for this run, but continue the audit.
-
-2. **Write snapshot**: Write the full report body (Design Health Score through Positive Findings) to a temp file, then pass it through the helper with structured metadata:
-   ```bash
-   APOSD_STORAGE_SUBDIR=audit APOSD_CRITIQUE_META='{"target":"<user phrasing>","total_score":<N>,"p0_count":<n>,"p1_count":<n>,"p2_count":<n>,"p3_count":<n>}' \
-     node scripts/critique-storage.mjs write <slug> <body-file>
-   ```
-   The helper prints the absolute path it wrote. Delete the temp file afterward.
-
-3. **Read trend** for context:
-   ```bash
-   APOSD_STORAGE_SUBDIR=audit node scripts/critique-storage.mjs trend <slug> 5
-   ```
-   This returns a JSON array of the last 5 frontmatter entries.
-
-4. **Append a single line** to the user-visible output, after the report and before the recommended actions:
-
-   > **Trend for `<slug>` (last 5 runs): 12 → 14 → 16 → 15 → 17**
-   > Wrote `.aposd/audit/<filename>`.
-
-   If this is the first run for the slug: "First run for this target, no trend yet."
-
-This is fire-and-forget. Do not show the user the helper's JSON output; only the human-readable trend line and the written path. Failures here should not block the rest of the flow; print the error and move on.
-
-### Error Recovery
-
-See [references/troubleshooting.md](references/troubleshooting.md) for the error recovery table. All failures print an error message and continue — the audit never blocks on non-critical errors.
-
 ### Specificity Validation Gate
 
 Before reporting any finding, self-validate:
@@ -365,7 +324,7 @@ See [references/troubleshooting.md](references/troubleshooting.md) for common au
 
 ### Full Audit Workflow
 
-See [examples/full-audit-workflow.sh](examples/full-audit-workflow.sh) for a copy-paste-ready bash script that runs the complete audit pipeline: audit → slug → persist → trend.
+See [examples/full-audit-workflow.sh](examples/full-audit-workflow.sh) for a copy-paste-ready bash script that runs the complete audit pipeline.
 
 ### Example Report
 
@@ -376,5 +335,5 @@ See [examples/example-audit-report.md](examples/example-audit-report.md) for a c
 - [aposd](skills/aposd/SKILL.md) — Always-on behavioral rules
 - [aposd-critique](skills/aposd-critique/SKILL.md) — Design critique command
 - [references/](references/) — Extended troubleshooting, common mistakes, edge cases
-- [scripts/](scripts/) — Storage persistence helper, audit report template
+- [scripts/](scripts/) — Audit report template
 - [examples/](examples/) — Copy-paste-ready workflow scripts and example reports

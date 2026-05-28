@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 /**
- * Storage persistence helper for aposd critique and audit.
+ * Critique persistence helper for aposd.
  *
- * Each run writes a per-target timestamped snapshot to
- *   .aposd/<subdir>/<timestamp>__<slug>.md
- * where <subdir> is "critique" by default, or "audit" when
- * APOSD_STORAGE_SUBDIR=audit is set.
- *
- * with YAML frontmatter carrying the score + P0/P1/P2/P3 counts.
+ * Each run of aposd critique writes a per-target snapshot to
+ *   .aposd/critique/<timestamp>__<slug>.md
+ * with a small YAML frontmatter carrying the score + P0/P1/P2/P3 counts.
  *
  * The slug is derived mechanically from the resolved target file path,
  * never from the user's natural-language phrasing. Slug stability across
@@ -24,33 +21,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-const APOSD_DIR = '.aposd';
 const SLUG_MAX = 50;
+const CRITIQUE_DIR = '.aposd/critique';
 
-function findRepoRoot(startDir) {
-  let dir = path.resolve(startDir);
-  while (true) {
-    if (
-      fs.existsSync(path.join(dir, '.git')) ||
-      fs.existsSync(path.join(dir, '.gitignore')) ||
-      fs.existsSync(path.join(dir, 'CLAUDE.md')) ||
-      fs.existsSync(path.join(dir, 'package.json'))
-    ) {
-      return dir;
-    }
-    const parent = path.dirname(dir);
-    if (parent === dir) {
-      break;
-    }
-    dir = parent;
-  }
-  return startDir;
-}
-
-function getStorageDir(cwd) {
-  const subdir = process.env.APOSD_STORAGE_SUBDIR || 'critique';
-  const repoRoot = findRepoRoot(cwd);
-  return path.join(repoRoot, APOSD_DIR, subdir);
+function getCritiqueDir(cwd) {
+  return path.resolve(cwd, CRITIQUE_DIR);
 }
 
 function kebab(s) {
@@ -76,9 +51,8 @@ export function slugFromTarget(resolved, { cwd = process.cwd() } = {}) {
     return kebab(hostPath);
   }
 
-  const repoRoot = findRepoRoot(cwd);
   const abs = path.isAbsolute(trimmed) ? trimmed : path.resolve(cwd, trimmed);
-  let rel = path.relative(repoRoot, abs);
+  let rel = path.relative(cwd, abs);
   if (rel.startsWith('..') || path.isAbsolute(rel)) {
     rel = path.basename(abs);
   }
@@ -124,7 +98,7 @@ function parseFrontmatter(text) {
 
 export function writeSnapshot({ slug, meta, body, cwd = process.cwd(), now = new Date() }) {
   if (!slug) throw new Error('writeSnapshot requires a slug');
-  const dir = getStorageDir(cwd);
+  const dir = getCritiqueDir(cwd);
   fs.mkdirSync(dir, { recursive: true });
   const timestamp = nowFilenameStamp(now);
   const filePath = path.join(dir, `${timestamp}__${slug}.md`);
@@ -134,7 +108,7 @@ export function writeSnapshot({ slug, meta, body, cwd = process.cwd(), now = new
 }
 
 function listSnapshotsForSlug(slug, cwd) {
-  const dir = getStorageDir(cwd);
+  const dir = getCritiqueDir(cwd);
   if (!fs.existsSync(dir)) return [];
   const suffix = `__${slug}.md`;
   return fs.readdirSync(dir)

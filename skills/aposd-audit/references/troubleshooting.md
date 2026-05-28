@@ -5,34 +5,15 @@
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | Target has 200+ files | Large scan area | Use sub-agents to parallelize across directory groups. Report total files scanned. |
-| Script dependency fails (`scripts/critique-storage.mjs` not found) | Skill is symlinked without the scripts directory | Skip persistence. Report "Snapshot skipped (scripts not available)". Continue the audit. |
 | All dimensions score 0 | Either the codebase is critically broken, or the audit is measuring the wrong thing | Re-check the calibration examples. If the codebase truly has zero pass-throughs, zero duplication, etc., that's a valid audit result. |
 | User asks for a code review, not an audit | The two are confused | Audit measures design metrics (countable). Code review finds bugs and style issues. Redirect to the appropriate tool. |
-| Snapshot persistence fails | Missing `.aposd/audit/` directory or permissions | Create the directory, or skip persistence and document: "Snapshot skipped (write failed)" |
-| Trend shows regression | Score dropped since last run | Check which dimension(s) regressed. Focus fixes on those dimensions first. |
 | Audit times out on large codebase | Scanning 500+ files sequentially | Use sub-agents to parallelize across directory groups. If sub-agents unavailable, scan fewer dimensions per pass and combine results. |
 | All findings tagged P0 | Scope creep in severity classification | Re-read: P0 = blocks task completion. If everything blocks, your threshold is too broad. Demote most to P1/P2. |
 | Dimension feels inapplicable | Target is very small or homogeneous | Score based on actual count. Zero pass-throughs in 50 lines is valid 4/4. Document "Scored based on actual count of 0." |
-| Same finding reported across multiple runs | Snapshot persistence failed silently | Verify `.aposd/audit/` exists and is writable. Run slug command manually to debug. |
 | Finding appears in every file | Pattern is systemic, not isolated | Cluster as one systemic pattern with total count, not N scattered findings. |
 | Conflicting audit results | Different auditor interpreted rubrics differently | Re-calibrate: both auditors must use the same count thresholds and calibration examples. |
 
 ## Recovery Procedures
-
-### Persistence Failure Recovery
-
-If snapshot persistence fails mid-audit:
-
-```bash
-# Manually create storage directory
-mkdir -p .aposd/audit
-
-# Compute slug manually
-APOSD_STORAGE_SUBDIR=audit node scripts/critique-storage.mjs slug "<target>"
-
-# If slug script is unavailable, compute a simple slug:
-echo "<target>" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//'
-```
 
 ### Partial Audit Recovery
 
@@ -64,12 +45,10 @@ If scores drift up or down over time without code changes:
 
 | Failure Mode | Behavior | Recovery Action |
 |-------------|----------|-----------------|
-| Script not found (`scripts/critique-storage.mjs`) | Skip persistence, continue audit | Report "Snapshot skipped (scripts not available)". Manual fallback: create `.aposd/audit/<slug>.md` with the report body. |
 | Target path doesn't exist | Default to workspace root | Report "Target not found — auditing workspace root instead." |
 | Permission denied on source file | Skip file, continue audit | Document "Skipped `<path>` (permission denied)." Include it in total files count. |
 | Binary file encountered | Skip silently | Document "Excluded `<n>` binary files." Do not count them as undocumented. |
 | Audit interrupted mid-run (timeout) | Partial results | Score only completed dimensions. Report "Audit interrupted — dimensions X-Y scored from partial scan." |
-| Trend data unavailable | First run for this slug | Print "First run for this target, no trend yet." |
 
 All failures print an error message and continue. The audit never blocks on non-critical errors.
 
