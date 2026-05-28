@@ -4,7 +4,7 @@ Real-world code examples demonstrating each APOSD principle. Each example shows 
 
 *Format inspired by [andrej-karpathy-skills/EXAMPLES.md](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/EXAMPLES.md).*
 
-**Related docs:** [Principles](reference/principles.md) | [Red Flags](reference/red-flags.md) | [Personas](reference/personas.md) | [Scoring](reference/scoring.md) *(used by `aposd audit`)*
+**Related docs:** [Principles](skills/aposd/references/principles.md) | [Red Flags](skills/aposd-critique/references/red-flags.md) | [Personas](skills/aposd-critique/references/personas.md) | [Scoring](skills/aposd/references/scoring.md) *(used by `aposd audit`)*
 
 ---
 

@@ -294,6 +294,8 @@ After presenting, tell the user:
 > To fix using APOSD design principles, load the `aposd` skill. It applies the 15 APOSD behavioral rules during implementation. Address findings in the priority order above.
 >
 > Re-run `aposd critique` after fixes to see your assessment improve.
+>
+> To suppress recurring or irrelevant findings, add them to `.aposd/critique/ignore.md` (one file:line per line). Future critiques will skip them silently.
 
 ### Troubleshooting
 

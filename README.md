@@ -46,8 +46,10 @@ Plus two on-demand analysis commands:
 
 | Command | Purpose |
 |---------|---------|
-| `aposd critique [target]` | Evaluate design against principles + tactical vs strategic assessment |
-| `aposd audit [target]` | Comprehensive design audit with severity scoring + tactical tornado detection |
+| `aposd critique [target]` | Evaluate design against 18 principles + dual-persona assessment (Strategic Thinker + Tactical Tornado). P0–P3 severity tagging. Results saved to `.aposd/critique/` for trend tracking. Suppress recurring findings in `.aposd/critique/ignore.md`. |
+| `aposd audit [target]` | Countable design audit: 5 dimensions scored 0–4, total /20. Tactical Tornado risk assessment. P0–P3 severity tagging. |
+
+See [docs/output-interpretation.md](docs/output-interpretation.md) for how to interpret scoring, severity, personas, and snapshot persistence.
 
 ## Install
 
